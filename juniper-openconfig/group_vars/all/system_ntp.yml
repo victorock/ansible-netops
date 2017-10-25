@@ -1,0 +1,10 @@
+#######################
+## OpenConfig         #
+#######################
+system:
+  ntp:
+    enabled: yes
+    servers:
+      - address: 0.europe.pool.ntp.org
+      - address: 1.europe.pool.ntp.org
+      - address: 2.europe.pool.ntp.org

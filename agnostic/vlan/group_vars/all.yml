@@ -1,0 +1,6 @@
+---
+#vlans:
+#  - vlanid: "{{ vlandid | default(true) }}"
+#    state: "{{ state | default(omit) }}"
+#    vni: "{{ vni | default(omit) }}"
+save_config: true

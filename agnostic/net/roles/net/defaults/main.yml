@@ -1,0 +1,127 @@
+---
+## net_user
+net_user_state: absent
+net_user_aggregate:
+  - name: ansible
+    privilege: 15
+    configured_password: ansible
+    sshkey: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  - name: netconf
+    privilege: 15
+    configured_password: ansible
+    sshkey: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+## net_system
+net_system_state: absent
+net_system_hostname: switchname
+net_system_domain_name: acme.com
+net_system_domain_search:
+  - ansible.com
+  - redhat.com
+net_system_name_servers:
+  - 8.8.8.8
+  - 8.8.4.4
+
+## net_ping
+net_ping_count: 0
+net_ping_dest: 127.0.0.1
+net_ping_source: 127.0.0.1
+net_ping_vrf: management
+
+## net_logging
+net_logging_aggregate:
+  - dest: host
+    name: 1.1.1.1
+    facility: kernel
+    level: critical
+  - dest: host
+    name: 1.1.1.2
+    facility: kernel
+    level: warning
+net_logging_purge: false
+net_logging_state: absent
+
+## net_banner
+net_banner_state: absent
+net_banner_banner: motd
+net_banner_text: "This system is managed through automation"
+
+## net_static_route
+net_static_route_state: absent
+net_static_route_purge: no
+net_static_route_aggregate:
+  - prefix: 2.2.2.2
+    mask: 255.255.255.0
+    next_hop: 1.1.1.1
+    admin_distance: 1
+
+## net_l2_interface
+net_l2_interface_state: absent
+net_l2_interface_aggregate:
+  - name: ethernet99/0
+    mode: access
+    access_vlan: 99
+  - name: ethernet99/0
+    mode: trunk
+    native_vlan: 99
+    trunk_vlans:
+      - 90
+      - 91
+      - 92
+    trunk_allowed_vlans:
+      - 90
+      - 91
+      - 92
+
+## net_vlan
+net_vlan_state: absent
+net_vlan_purge: no
+net_vlan_aggregate:
+  - name: ANSIBLEVLAN10
+    state: absent
+    vlan_id: 10
+    interfaces:
+      - ethernet1/0
+
+## net_l3_interface
+net_l3_interface_state: absent
+net_l3_interface_purge: false
+net_l3_interface_aggregate:
+  - name: ethernet99/0
+    ipv4: 127.0.0.1/32
+
+## net_vrf
+net_vrf_state: absent
+net_vrf_purge: no
+net_vrf_aggregate:
+  - name: internet
+    rd: "1:204"
+    interfaces:
+      - ethernet1/0
+
+## net_interface
+net_interface_state: absent
+net_interface_purge: no
+net_interface_aggregate:
+  - name: ethernet99/0
+    description: interface description
+    enabled: yes
+    mtu: 2000
+    speed: 10g
+
+## net_linkagg
+net_linkagg_state: absent
+net_linkagg_purge: no
+net_linkagg_aggregate:
+  - name: group0
+    members:
+      - ethernet99/0
+      - ethernet99/1
+    mode: active
+    min_links: 1
+
+## net_lldp_interface
+net_lldp_interface_state: absent
+net_lldp_interface_purge: no
+net_lldp_interface_aggregate:
+  - { name: ethernet99/0 }

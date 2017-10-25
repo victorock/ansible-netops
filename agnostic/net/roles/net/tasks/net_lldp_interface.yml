@@ -1,0 +1,8 @@
+---
+- name: "Ensure lldp is configured in the interface as {{ net_lldp_interface_state }}"
+  net_lldp_interface:
+    aggregate: "{{ net_lldp_interface_aggregate }}"
+    state: "{{ net_lldp_interface_state }}"
+    purge: "{{ net_lldp_interface_purge }}"
+  tags:
+    - net_lldp_interface

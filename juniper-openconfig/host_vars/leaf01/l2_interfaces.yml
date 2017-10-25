@@ -1,0 +1,54 @@
+---
+###### L2
+net_l2_interface_state: present
+net_l2_interface_aggregate:
+#####################################################
+# Cisco NXOS Template
+# - name: <ethernet##>
+#   mode: <access|trunk>
+#   access_vlan: <vlans>
+#  trunk_vlans:
+#    - <vlanXXX>
+#    - <vlanXXX>
+#  trunk_allowed_vlans:
+#    - <vlanXXX>
+#    - <vlanXXX>
+###
+# Cumulus Template
+# - name: <swp##>
+#   mode: <access|trunk>
+#   access_vlan: <vlans>
+#  trunk_vlans:
+#    - <vlanXXX>
+#    - <vlanXXX>
+#  trunk_allowed_vlans:
+#    - <vlanXXX>
+#    - <vlanXXX>
+###
+# Juniper Template
+# - name: <em##>
+#   mode: <access|trunk>
+#   access_vlan: <vlans>
+#  trunk_vlans:
+#    - <vlanXXX>
+#    - <vlanXXX>
+#  trunk_allowed_vlans:
+#    - <vlanXXX>
+#    - <vlanXXX>
+####################################################
+### em3
+  - name: em3
+    mode: access
+    access_vlan: 100
+### em4
+  - name: em4
+    mode: access
+    access_vlan: 100
+### em5
+  - name: em5
+    mode: trunk
+    native_vlan: 10
+### em6
+  - name: em6
+    mode: trunk
+    native_vlan: 10

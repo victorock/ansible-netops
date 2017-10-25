@@ -1,0 +1,11 @@
+system:
+  hostname: ansible-automated
+  domain-name: victorock.io
+  dns:
+    search:
+      - ansible.com
+      - redhat.com
+      - "{{ systemdomain.domain-name }}"
+    servers:
+      - address: 8.8.8.8
+      - address: 8.8.4.4

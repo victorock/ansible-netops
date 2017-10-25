@@ -1,0 +1,6 @@
+#vrf_state: present
+#vrf_aggregate:
+#  - name: internet
+#    rd: "1:204"
+#    interfaces:
+#      - em0

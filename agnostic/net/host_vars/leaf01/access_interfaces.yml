@@ -1,0 +1,9 @@
+---
+net_l2_interface_state: present
+net_l2_interface_aggregate:
+  - name: ethernet1/5
+    mode: access
+    access_vlan: 100
+  - name: ethernet1/6
+    mode: access
+    access_vlan: 100

@@ -1,0 +1,7 @@
+#######################
+## OpenConfig         #
+#######################
+system:
+  logging:
+    name: 1.1.1.1
+    dest: host

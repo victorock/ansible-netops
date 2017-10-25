@@ -1,0 +1,6 @@
+---
+# Configure the vlans as per vlan items
+- name: Configure VLAN ID and name
+  net_vlan:
+    vlan_id: 20
+    name: test-vlan

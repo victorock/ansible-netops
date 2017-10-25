@@ -1,0 +1,25 @@
+---
+lldp:
+#####################################################
+## Cisco
+### name: <ethernet##>
+##
+## Cumulus
+### name: <swp##>
+##
+## Juniper
+### name: <em##>
+##
+####################################################
+## em1
+  - name: em1
+## em2
+  - name: em2
+## em3
+  - name: em3
+## em4
+  - name: em4
+## em5
+  - name: em5
+## em6
+  - name: em6

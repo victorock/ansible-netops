@@ -1,0 +1,24 @@
+#######################
+## OpenConfig         #
+#######################
+template:
+  lacp:
+    access:
+      lacp-mode: active
+      interval: slow
+      system-priority: 1
+
+    trunk:
+      lacp-mode: active
+      interval: slow
+      system-priority: 1
+
+    interlink:
+      lacp-mode: active
+      interval: slow
+      system-priority: 1
+
+    uplink:
+      lacp-mode: active
+      interval: slow
+      system-priority: 10

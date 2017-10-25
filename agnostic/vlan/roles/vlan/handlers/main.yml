@@ -1,0 +1,9 @@
+---
+- name: save config
+  include: "{{ artifact }}"
+  with_first_found:
+    - files: "{{ device_os }}.yml"
+      skip: true
+      paths: tasks
+  loop_control:
+    loop_var: artifact

@@ -1,0 +1,8 @@
+---
+- name: "Ensure l3_interface is {{ net_l3_interface_state }}"
+  net_l3_interface:
+    aggregate: "{{ net_l3_interface_aggregate }}"
+    state: "{{ net_l3_interface_state }}"
+    purge: "{{ net_l3_interface_purge }}"
+  tags:
+    - net_l3_interface

@@ -1,0 +1,8 @@
+---
+#net_static_route_state: present
+#net_static_route_purge: yes
+#net_static_route_aggregate:
+#  - prefix: 2.2.2.2
+#    mask: 255.255.255.0
+#    next_hop: 1.1.1.1
+#    admin_distance: 1

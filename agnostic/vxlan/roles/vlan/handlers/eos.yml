@@ -1,0 +1,15 @@
+---
+# handlers file
+- name: save config
+  eos_command:
+    commands: 'write memory'
+    provider: "{{ provider|default(omit) }}"
+    auth_pass: "{{ auth_pass|default(omit) }}"
+    authorize: "{{ authorize|default(omit) }}"
+    host: "{{ host|default(omit) }}"
+    password: "{{ password|default(omit) }}"
+    port: "{{ port|default(omit) }}"
+    transport: "{{ transport | default(omit) }}"
+    use_ssl: "{{ use_ssl|default(omit) }}"
+    username: "{{ username|default(omit) }}"
+  when: save_config

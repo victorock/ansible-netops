@@ -1,0 +1,6 @@
+net_banner_state: present
+net_banner_banner: motd
+net_banner_text: |
+  This system is very secure as it is fully managed and automated by Ansible.
+  Every change done directly using the command-line will be lost.
+  Review the process explaining how to pull-request your changes in the internal GIT.

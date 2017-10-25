@@ -1,0 +1,6 @@
+aggregates:
+  ae0:
+    name: ae0
+    lag-type: lacp
+    min-links: 1
+    lacp-mode: active

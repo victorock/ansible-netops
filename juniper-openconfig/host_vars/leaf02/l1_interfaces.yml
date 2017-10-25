@@ -1,0 +1,52 @@
+net_interface_state: present
+net_interface_aggregate:
+#####################################################
+## Cisco Template
+# - name: <ethernet##>
+#   ipv4: <ip/mask>
+###
+## Cumulus Template
+# - name: <swp##>
+#   ipv4: <ip/mask>
+###
+## Juniper Template
+# - name: <em##>
+#   ipv4: <ip/mask>
+###
+####################################################
+## em1
+  - name: em1
+    description: "ISL Spine01"
+    enabled: "{{ interfaces_enabled }}"
+    mtu: "{{ interfaces_mtu }}"
+    speed: "{{ interfaces_speed }}"
+
+  - name: em2
+    description: "ISL Spine02"
+    enabled: "{{ interfaces_enabled }}"
+    mtu: "{{ interfaces_mtu }}"
+    speed: "{{ interfaces_speed }}"
+
+  - name: em3
+    description: "HOST Server01"
+    enabled: "{{ interfaces_enabled }}"
+    mtu: "{{ interfaces_mtu }}"
+    speed: "{{ interfaces_speed }}"
+
+  - name: em4
+    description: "HOST Server02"
+    enabled: "{{ interfaces_enabled }}"
+    mtu: "{{ interfaces_mtu }}"
+    speed: "{{ interfaces_speed }}"
+
+  - name: em5
+    description: "ISL Leaf01"
+    enabled: "{{ interface_enabled }}"
+    mtu: "{{ interface_mtu }}"
+    speed: "{{ interface_speed }}"
+
+  - name: em6
+    description: "ISL Leaf01"
+    enabled: "{{ interface_enabled }}"
+    mtu: "{{ interface_mtu }}"
+    speed: "{{ interface_speed }}"

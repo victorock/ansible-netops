@@ -1,0 +1,4 @@
+- src: https://github.com/victorock/ansible-role-network.git
+  scm: git
+  version: dev
+  name: victorock.network

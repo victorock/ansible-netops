@@ -1,0 +1,26 @@
+---
+net_lldp_interface_state: present
+net_lldp_interface_aggregate:
+#####################################################
+## Cisco Template
+# - name: <ethernet##>
+###
+## Cumulus Template
+# - name: <swp##>
+###
+## Juniper Template
+# - name: <em##>
+###
+####################################################
+## em1
+  - name: em1
+## em2
+  - name: em2
+## em3
+  - name: em3
+## em4
+  - name: em4
+## em5
+  - name: em5
+## em6
+  - name: em6

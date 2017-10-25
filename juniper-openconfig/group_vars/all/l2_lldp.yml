@@ -1,0 +1,8 @@
+#######################
+## OpenConfig        ##
+#######################
+L2:
+  defaults:
+    lldp:
+      name: eth0
+      enabled: yes

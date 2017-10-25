@@ -1,0 +1,4 @@
+net_logging_state: present
+net_logging_aggregate:
+  - dest: host
+    name: 1.1.1.1
