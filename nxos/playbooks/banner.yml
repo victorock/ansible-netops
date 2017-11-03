@@ -1,0 +1,19 @@
+- name: "banner configuration"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    banner: exec
+    text: |
+      this is my exec banner
+      that contains a multiline
+      string
+    state: present
+
+  tasks:
+    - name: "ensure banner is {{ state }}"
+      nxos_banner:
+        banner: "{{ banner }}"
+        text: "{{ text }}"
+        state: "{{ state }}"

@@ -1,0 +1,35 @@
+- name: "Switchport Provisioning"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    system_image_file: nxos.7.0.3.I7.1.bin
+
+  tasks:
+    - name: "Define NXOS SW Version"
+      block:
+        - name: "Install NXOS"
+          nxos_install_os:
+            system_image_file: "{{ system_image_file }}"
+      rescue:
+        - name: "Wait for device to perform checks"
+          wait_for:
+            port: 22
+            state: stopped
+            timeout: 300
+            delay: 60
+        - name: "Wait for device to come back up"
+          wait_for:
+            port: 22
+            state: started
+            timeout: 300
+            delay: 60
+        - name: "Check installed NXOS"
+          nxos_command:
+            commands:
+              - show version
+          register: output
+        - assert:
+            that:
+              - output['stdout'][0]['kickstart_ver_str'] == '7.0(3)I7(1)'

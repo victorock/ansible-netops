@@ -1,0 +1,18 @@
+- name: "NTP Provisioning"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    server: 0.europe.pool.ntp.org
+    prefer: enabled
+    vrf_name: default
+    state: present
+
+  tasks:
+    - name: "Ensure ntp server"
+      nxos_ntp:
+        server: "{{ server }}"
+        prefer: "{{ prefer }}"
+        vrf_name: "{{ vrf_name }}"
+        state: "{{ state }}"

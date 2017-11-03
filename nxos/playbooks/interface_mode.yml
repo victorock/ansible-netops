@@ -1,0 +1,18 @@
+- name: "Interface Provisioning"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    interface: ethernet1/1
+    description: Automated by Ansible
+    mode: layer3
+    state: present
+
+  tasks:
+    - name: "Ensure interface {{ interface }} is {{ mode }}"
+      nxos_interface:
+        interface: "{{ interface }}"
+        description: "{{ description }}"
+        mode: "{{ mode }}"
+        state: "{{ state }}"

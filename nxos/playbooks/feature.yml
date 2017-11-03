@@ -1,0 +1,14 @@
+- name: "Feature Provisioning"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    feature: lacp
+    state: present
+
+  tasks:
+    - name: "Ensure {{ feature }} is enabled"
+      nxos_feature:
+        feature: "{{ feature }}"
+        state: "{{ state }}"

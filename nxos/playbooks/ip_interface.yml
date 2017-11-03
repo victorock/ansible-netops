@@ -1,0 +1,22 @@
+- name: "L3 Interface Provisioning"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    interface: ethernet1/19
+    version: v4
+    tag: 100
+    addr: 1.1.1.1
+    mask: 32
+    state: present
+
+  tasks:
+    - name: "Ensure interface {{ interface }} is {{ state }}"
+      nxos_ip_interface:
+        interface: "{{ interface }}"
+        version: "{{ version }}"
+        state: "{{ state }}"
+        tag: "{{ tag }}"
+        addr: "{{ addr }}"
+        mask: "{{ mask }}"

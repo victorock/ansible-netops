@@ -1,0 +1,19 @@
+- name: "Switchport Provisioning"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    interface: ethernet1/1
+    mode: trunk
+    native_vlan: 15
+    trunk_vlans: 10-20
+    state: present
+
+  tasks:
+    - name: "Ensure vlan exists"
+      nxos_switchport:
+        interface: "{{ interface }}"
+        mode: "{{ mode }}"
+        native_vlan: "{{ native_vlan }}"
+        trunk_vlans: "{{ trunk_vlans }}"
