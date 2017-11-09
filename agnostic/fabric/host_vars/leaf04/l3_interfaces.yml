@@ -6,18 +6,4 @@ net_l3_interface_aggregate:
 #   ipv4: <ip/mask>
 ## Loopback 0
   - name: loopback0
-    ipv4: 1.1.1.14/32
-
-####################################################
-# Cisco Template
-# - name: <vlan##>
-#   ipv4: <ip/mask>
-###
-# Juniper Template
-# - name: <vlan.##>
-#   ipv4: <ip/mask>
-###
-####################################################
-## Vlan 30
-  - name: vlan.31
-    ipv4: 172.16.31.3/24
+    ipv4: 1.1.1.104/32

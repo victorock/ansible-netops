@@ -2,3 +2,8 @@
   scm: git
   version: dev
   name: victorock.network
+
+- src: https://github.com/victorock/ansible-role-fabric.git
+  scm: git
+  version: dev
+  name: victorock.fabric

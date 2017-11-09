@@ -1,8 +1,0 @@
-#linkagg_state: present
-#linkagg_aggregate:
-#  - name: group0
-#    members:
-#      - em5
-#      - em6
-#    mode: active
-#    min_links: 1

@@ -14,39 +14,14 @@ net_interface_aggregate:
 #   ipv4: <ip/mask>
 ###
 ####################################################
-## em1
-  - name: em1
+  - name: ethernet1/1
     description: "ISL Spine01"
     enabled: "{{ interfaces_enabled }}"
     mtu: "{{ interfaces_mtu }}"
     speed: "{{ interfaces_speed }}"
 
-  - name: em2
+  - name: ethernet1/2
     description: "ISL Spine02"
     enabled: "{{ interfaces_enabled }}"
     mtu: "{{ interfaces_mtu }}"
     speed: "{{ interfaces_speed }}"
-
-  - name: em3
-    description: "HOST Server01"
-    enabled: "{{ interfaces_enabled }}"
-    mtu: "{{ interfaces_mtu }}"
-    speed: "{{ interfaces_speed }}"
-
-  - name: em4
-    description: "HOST Server02"
-    enabled: "{{ interfaces_enabled }}"
-    mtu: "{{ interfaces_mtu }}"
-    speed: "{{ interfaces_speed }}"
-
-  - name: em5
-    description: "ISL Leaf02"
-    enabled: "{{ interface_enabled }}"
-    mtu: "{{ interface_mtu }}"
-    speed: "{{ interface_speed }}"
-
-  - name: em6
-    description: "ISL Leaf02"
-    enabled: "{{ interface_enabled }}"
-    mtu: "{{ interface_mtu }}"
-    speed: "{{ interface_speed }}"
