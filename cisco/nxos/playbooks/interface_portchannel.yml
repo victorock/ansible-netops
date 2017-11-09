@@ -1,5 +1,3 @@
-- import_playbook: feature.yml feature="lacp" state="present"
-
 - name: "Portchannel Provisioning"
   hosts: all
   connection: local

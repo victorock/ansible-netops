@@ -1,5 +1,3 @@
-- import_playbook: feature.yml feature="ospf" state="present"
-
 - name: "OSPF Configuration"
   hosts: all
   connection: local

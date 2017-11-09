@@ -5,6 +5,7 @@
 
   vars:
     system_image_file: nxos.7.0.3.I7.1.bin
+    system_version: 7.0(3)I7(1)
 
   tasks:
     - name: "Define NXOS SW Version"
@@ -32,4 +33,4 @@
           register: output
         - assert:
             that:
-              - output['stdout'][0]['kickstart_ver_str'] == '7.0(3)I7(1)'
+              - output['stdout'][0]['kickstart_ver_str'] == system_version

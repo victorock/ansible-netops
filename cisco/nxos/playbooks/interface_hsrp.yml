@@ -1,6 +1,3 @@
-- import_playbook: feature.yml feature="interface-vlan" state="present"
-- import_playbook: feature.yml feature="hsrp" state="present"
-
 - name: "HSRP Configuration"
   hosts: all
   connection: local

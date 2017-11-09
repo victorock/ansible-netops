@@ -1,5 +1,3 @@
-- import_playbook: feature.yml feature="interface-vlan"
-
 - name: "VLAN Provisioning"
   hosts: all
   connection: local

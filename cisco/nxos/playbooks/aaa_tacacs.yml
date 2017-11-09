@@ -1,5 +1,3 @@
-- import_playbook: feature.yml feature="tacacs+"
-
 - name: "TACACS Configuration"
   hosts: all
   connection: local

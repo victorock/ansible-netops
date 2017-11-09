@@ -1,5 +1,3 @@
-- import_playbook: feature.yml feature="vpc"
-
 - name: "VPC Domain Configuration"
   hosts: all
   connection: local

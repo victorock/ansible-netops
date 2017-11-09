@@ -1,6 +1,3 @@
-- import_playbook: feature.yml feature="interface-vlan" state="present"
-- import_playbook: feature.yml feature="vrrp" state="present"
-
 - name: "VRRP Configuration"
   hosts: all
   connection: local
