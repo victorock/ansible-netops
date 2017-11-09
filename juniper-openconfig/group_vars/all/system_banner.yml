@@ -1,8 +1,0 @@
-system:
-  login-banner: |
-      If you are not authorized to access this system, leave now.
-
-  motd-banner: |
-      This system is very secure as it is fully managed and automated by Ansible.
-      Every change through command-line will be lost.
-      Review the process explaining how to pull-request your changes in the internal GIT.

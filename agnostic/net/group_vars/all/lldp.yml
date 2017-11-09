@@ -1,9 +1,0 @@
----
-net_lldp_interface_state: present
-net_lldp_interface_aggregate:
-  - { name: ethernet1/1 }
-  - { name: ethernet1/2 }
-  - { name: ethernet1/3 }
-  - { name: ethernet1/4 }
-  - { name: ethernet1/5 }
-  - { name: ethernet1/6 }

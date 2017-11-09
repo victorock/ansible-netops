@@ -1,0 +1,29 @@
+- import_playbook: feature.yml feature="interface-vlan" state="present"
+- import_playbook: feature.yml feature="hsrp" state="present"
+
+- name: "HSRP Configuration"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    interface: vlan10
+    group: 100
+    vip: 10.1.10.1
+    preempt: false
+    priority: 130
+    auth_string: my_key
+    auth_type: text
+    state: present
+
+  tasks:
+    - name: "Configure HSRP on interface"
+      nxos_hsrp:
+        interface: "{{ interface }}"
+        group: "{{ group }}"
+        vip: "{{ vip }}"
+        preempt: "{{ preempt }}"
+        priority: "{{ priority }}"
+        auth_string: "{{ auth_string }}"
+        auth_type: "{{ auth_type }}"
+        state: "{{ state }}"

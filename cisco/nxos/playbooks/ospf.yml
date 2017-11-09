@@ -1,0 +1,16 @@
+- import_playbook: feature.yml feature="tacacs+"
+
+- name: "OSPF Configuration"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    instance: INSTANCE_1
+    state: present
+
+  tasks:
+    - name: "Ensure OSPF instance exists"
+      nxos_ospf:
+        ospf: "{{ instance }}"
+        state: "{{ state }}"

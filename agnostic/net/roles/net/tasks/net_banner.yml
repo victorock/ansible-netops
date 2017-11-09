@@ -1,8 +1,0 @@
----
-- name: "Ensure banner configuration is {{ net_banner_state }}"
-  net_banner:
-    banner: "{{ net_banner_banner }}"
-    text: "{{ net_banner_text }}"
-    state: "{{ net_banner_state }}"
-  tags:
-    - net_banner

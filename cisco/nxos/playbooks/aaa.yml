@@ -1,0 +1,19 @@
+- name: "AAA Configuration"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    deadtime: 20
+    server_timeout: 9
+    server_type: tacacs
+    global_key: my_key
+
+  tasks:
+    - name: "AAA Server Global Key"
+      nxos_aaa_server:
+        server_type: "{{ server_type }}"
+        encrypt_type: '7'
+        global_key: "{{ global_key }}"
+        server_timeout: "{{ server_timeout }}"
+        deadtime: "{{ deadtime }}"

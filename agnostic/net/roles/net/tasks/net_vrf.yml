@@ -1,8 +1,0 @@
----
-- name: "Ensure vrf is {{ net_vrf_state }}"
-  net_vrf:
-    aggregate: "{{ net_vrf_aggregate }}"
-    state: "{{ net_vrf_state }}"
-    purge: "{{ net_vrf_purge }}"
-  tags:
-    - net_vrf

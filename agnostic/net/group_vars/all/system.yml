@@ -1,9 +1,0 @@
-net_system_state: present
-net_system_domain_name: victorock.io
-net_system_domain_search:
-  - ansible.com
-  - redhat.com
-  - victorock.io
-net_system_name_servers:
-  - 8.8.8.8
-  - 8.8.4.4

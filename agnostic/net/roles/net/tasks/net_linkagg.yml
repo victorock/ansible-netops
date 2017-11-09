@@ -1,8 +1,0 @@
----
-- name: "Ensure link-aggregation is {{ net_linkagg_state }}"
-  net_linkagg:
-    aggregate: "{{ net_linkagg_aggregate }}"
-    state: "{{ net_linkagg_state }}"
-    purge: "{{ net_linkagg_purge }}"
-  tags:
-    - net_linkagg

@@ -1,8 +1,0 @@
----
-# Configure the vlans as per vlan items
-- name: Configure VLAN ID and name
-  net_vlan:
-    vlan_id: "{{ item.id }}"
-    name: "{{ item.name }}"
-  with_items:
-    - "{{ net_vlans }}"

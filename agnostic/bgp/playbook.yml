@@ -1,8 +1,0 @@
----
-- hosts: all
-  roles:
-    - vlan
-
-  vars:
-    vlans: "{{ group_vlans | intersect(host_vlans) }}"
-    save_config: true

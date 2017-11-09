@@ -1,7 +1,0 @@
----
-- name: save config device specific tasks
-  include: "{{ item }}"
-  with_first_found:
-    - files: "{{ device_os }}.yaml"
-      skip: true
-      paths: handlers

@@ -1,0 +1,18 @@
+- name: "ACL Configuration"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    name: MYACL
+    interface: ethernet1/1
+    direction: egress
+    state: present
+
+  tasks:
+    - name: "Configure ACL on interface"
+      nxos_acl_interface:
+        interface: "{{ interface }}"
+        name: "{{ name }}"
+        direction: "{{ direction }}"
+        state: "{{ state }}"

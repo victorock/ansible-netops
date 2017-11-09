@@ -1,7 +1,0 @@
----
-- name: "Ensure l2_interface configuration is {{ net_l2_interface_state }}"
-  net_l2_interface:
-    aggregate: "{{ net_l2_interface_aggregate }}"
-    state: "{{ net_l2_interface_state }}"
-  tags:
-    - net_l2_interface

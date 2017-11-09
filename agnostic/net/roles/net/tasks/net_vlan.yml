@@ -1,8 +1,0 @@
----
-- name: "Ensure vlan is {{ net_vlan_state }}"
-  net_vlan:
-    aggregate: "{{ net_vlan_aggregate }}"
-    state: "{{ net_vlan_state }}"
-    purge: "{{ net_vlan_purge }}"
-  tags:
-    - net_vlan

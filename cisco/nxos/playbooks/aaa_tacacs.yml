@@ -1,0 +1,22 @@
+- import_playbook: feature.yml feature="tacacs+"
+
+- name: "TACACS Configuration"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    address: 2.3.4.5
+    port: 89
+    host_timeout: 10
+    state: present
+
+  tasks:
+
+    - name: "Tacacs Server Host Configuration"
+      nxos_aaa_server_host:
+        state: "{{ state }}"
+        server_type: tacacs
+        tacacs_port: "{{ port }}"
+        host_timeout: "{{ host_timeout }}"
+        address: "{{ address }}"

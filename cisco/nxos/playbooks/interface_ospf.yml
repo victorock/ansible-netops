@@ -1,0 +1,22 @@
+- import_playbook: feature.yml feature="ospf" state="present"
+
+- name: "OSPF Configuration"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    interface: ethernet1/1
+    instance: INSTANCE_1
+    area: 1
+    cost: default
+    state: present
+
+  tasks:
+    - name: "Configure OSPF interface"
+      nxos_interface_ospf:
+        interface: "{{ interface }}"
+        ospf: "{{ instance }}"
+        area: "{{ area }}"
+        cost: "{{ cost }}"
+        state: "{{ state }}"

@@ -1,0 +1,66 @@
+#######################
+## OpenConfig         #
+#######################
+template:
+  interface:
+    access:
+      description: "Automated by Ansible"
+      type: ethernet
+      mtu: 1500
+      enabled: yes
+      ethernet:
+        auto_negotiate: yes
+        duplex_mode: full
+        enable_flow_control: yes
+      switched_vlan:
+        interface_mode: access
+        access_vlan: 101
+
+    trunk:
+      description: "Automated by Ansible"
+      type: ethernet
+      mtu: 1500
+      enabled: yes
+      ethernet:
+        auto_negotiate: yes
+        duplex_mode: full
+        enable_flow_control: yes
+        aggregate_id: ae101
+      switched_vlan:
+        interface_mode: access
+        native_vlan: 10
+        access_vlan: 101
+        trunk_vlans:
+          _ 100
+
+    interlink:
+      description: "Automated by Ansible"
+      type: ethernet
+      mtu: 1500
+      enabled: yes
+      ethernet:
+        auto_negotiate: yes
+        duplex_mode: full
+        enable_flow_control: yes
+        aggregate_id: ae0
+      switched_vlan:
+        interface_mode: trunk
+        native_vlan: 10
+        trunk_vlans:
+          _ 100
+
+    uplink:
+      description: "Automated by Ansible"
+      type: ethernet
+      mtu: 1500
+      enabled: yes
+      ethernet:
+        auto_negotiate: yes
+        duplex_mode: full
+        enable_flow_control: yes
+        aggregate_id: ae1
+      switched_vlan:
+        interface_mode: trunk
+        native_vlan: 10
+        trunk_vlans:
+          _ 100

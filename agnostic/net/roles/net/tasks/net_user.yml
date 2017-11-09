@@ -1,6 +1,0 @@
-- name: "Ensure local users are {{ net_user_state }}"
-  net_user:
-    aggregate: "{{ net_user_aggregate }}"
-    state: "{{ net_user_state }}"
-  tags:
-    - net_user

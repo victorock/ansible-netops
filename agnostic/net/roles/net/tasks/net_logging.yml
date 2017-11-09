@@ -1,8 +1,0 @@
----
-- name: "Ensure logging configuration is {{ net_logging_state }}"
-  net_logging:
-    aggregate: " {{ net_logging_aggregate }}"
-    purge: "{{ net_logging_purge }}"
-    state: "{{ net_logging_state }}"
-  tags:
-    - net_logging

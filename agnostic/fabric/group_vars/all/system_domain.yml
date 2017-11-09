@@ -1,0 +1,11 @@
+system:
+  hostname: ansible-automated
+  domain_name: victorock.io
+  dns:
+    search:
+      - ansible.com
+      - redhat.com
+      - victorock.io
+    servers:
+      - address: 8.8.8.8
+      - address: 8.8.4.4

@@ -1,0 +1,27 @@
+- import_playbook: feature.yml feature="interface-vlan" state="present"
+- import_playbook: feature.yml feature="vrrp" state="present"
+
+- name: "VRRP Configuration"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    interface: vlan10
+    group: 100
+    vipr: 10.1.10.1
+    preempt: false
+    priority: 130
+    authentication: my_key
+    state: present
+
+  tasks:
+    - name: "Configure VRRP on interface"
+      nxos_vrrp:
+        interface: "{{ interface }}"
+        group: "{{ group }}"
+        vip: "{{ vip }}"
+        preempt: "{{ preempt }}"
+        priority: "{{ priority }}"
+        authentication: "{{ authentication }}"
+        state: "{{ state }}"

@@ -1,8 +1,0 @@
----
-- name: "Ensure interface is configured as {{ net_interface_state }}"
-  net_interface:
-    aggregate: "{{ net_interface_aggregate }}"
-    state: "{{ net_interface_state }}"
-    purge: "{{ net_interface_purge }}"
-  tags:
-    - net_interface

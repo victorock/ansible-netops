@@ -1,0 +1,32 @@
+- name: "ACL Configuration"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    name: MYACL
+    seq: 10
+    action: permit
+    proto: any
+    src: any
+    src_port: any
+    src_port_op: any
+    dest: any
+    dest_port: any
+    dest_port_op: any
+    state: present
+
+  tasks:
+    - name: "Configure ACL rule"
+      nxos_acl:
+        name: "{{ name }}"
+        seq: "{{ seq }}"
+        action: "{{ action }}"
+        proto: "{{ proto }}"
+        src: "{{ src }}"
+        src_port1: "{{ src_port }}"
+        src_port_op: "{{ src_port_op }}"
+        dest: "{{ dest }}"
+        dest_port1: "{{ dest_port }}"
+        dest_port_op: "{{ dest_port_op }}"
+        state: "{{ state }}"

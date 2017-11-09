@@ -1,0 +1,26 @@
+- import_playbook: feature.yml feature="vpc"
+
+- name: "VPC Domain Configuration"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    domain: 100
+    role_priority: 1000
+    system_priority: 2000
+    peer_keepalive_dest: 10.1.1.10
+    peer_keepalive_src: 10.1.1.11
+    peer_gateway: true
+    auto_recovery: true
+
+  tasks:
+    - name: "Configure VPC Domain"
+      nxos_vpc:
+        domain: "{{ domain }}"
+        role_priority: "{{ role_priority }}"
+        system_priority: "{{ system_priority }}"
+        pkl_dest: "{{ peer_keepalive_dest }}"
+        pkl_src: "{{ peer_keepalive_src }}"
+        peer_gw: "{{ peer_gateway }}"
+        auto_recovery: "{{ auto_recovery }}"
