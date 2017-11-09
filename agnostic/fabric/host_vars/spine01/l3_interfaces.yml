@@ -8,28 +8,6 @@ net_l3_interface_aggregate:
   - name: loopback0
     ipv4: 1.1.1.11/32
 
-#####################################################
-## Cisco Template
-# - name: <ethernet##>
-#   ipv4: <ip/mask>
-###
-## Cumulus Template
-# - name: <swp##>
-#   ipv4: <ip/mask>
-###
-## Juniper Template
-# - name: <em##>
-#   ipv4: <ip/mask>
-###
-####################################################
-## em0
-  - name: em0
-    ipv4: "{{ l3_links.link1.2 }}/30"
-
-## em1
-  - name: em1
-    ipv4: "{{ l3_links.link2.2 }}/30"
-
 ####################################################
 # Cisco Template
 # - name: <vlan##>
