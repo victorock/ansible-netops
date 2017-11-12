@@ -8,7 +8,6 @@
       - show version
 
   tasks:
-    - name: "Execute ad-hoc commands"
+    - name: "Ad-Hoc commands"
       nxos_command:
-        commands:
-          - "{{ commands }}"
+        commands: "{{ commands }}"
