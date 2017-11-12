@@ -1,0 +1,14 @@
+- name: "NXOS Command"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    commands:
+      - show version
+
+  tasks:
+    - name: "Execute ad-hoc commands"
+      nxos_command:
+        commands:
+          - "{{ commands }}"
