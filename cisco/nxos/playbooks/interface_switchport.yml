@@ -11,7 +11,7 @@
     state: present
 
   tasks:
-    - name: "Ensure vlan exists"
+    - name: "Ensure switchport configuration"
       nxos_switchport:
         interface: "{{ interface }}"
         mode: "{{ mode }}"
