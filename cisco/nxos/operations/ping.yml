@@ -1,0 +1,23 @@
+- name: "NXOS Command"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    peers:
+      - { host: 10.42.0.11, source_interface: "ethernet 1/1", vrf: default, packet_size: 1400, count: 5 }
+      - { host: 10.42.0.12, source_interface: "ethernet 1/1", vrf: default, packet_size: 1400, count: 5 }
+      - { host: 10.42.0.21, source_interface: "ethernet 1/1", vrf: default, packet_size: 1400, count: 5 }
+      - { host: 10.42.0.22, source_interface: "ethernet 1/1", vrf: default, packet_size: 1400, count: 5 }
+      - { host: 10.42.0.23, source_interface: "ethernet 1/1", vrf: default, packet_size: 1400, count: 5 }
+      - { host: 10.42.0.24, source_interface: "ethernet 1/1", vrf: default, packet_size: 1400, count: 5 }
+
+  tasks:
+    - name: "Check ping reachability"
+      nxos_command:
+        commands:
+          - ping {{ ping.host }} source-interface {{ source_interface }} vrf {{ ping.vrf }} count {{ ping.count }} packet-size {{ ping.packet_size }}
+      with_items: "{{ peers }}"
+      loop_control:
+        loop_var: ping
+        label: "{{ ping.host }}"

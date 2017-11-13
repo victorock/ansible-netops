@@ -1,0 +1,9 @@
+- name: "NXOS Backup"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: "Backup Configuration"
+      nxos_config:
+        backup: yes

@@ -1,0 +1,16 @@
+- name: "NXOS Command"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    commands:
+      - terminal length 0
+      - show tech-support all > tech-support-all
+      - show file tech-support-all
+      - gzip bootflash:tech-support-all
+
+  tasks:
+    - name: "Generate Tech-support"
+      nxos_command:
+        commands: "{{ commands }}"

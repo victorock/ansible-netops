@@ -1,0 +1,13 @@
+- name: "NXOS Command"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    commands:
+      - show running-config
+
+  tasks:
+    - name: "show running-config"
+      nxos_command:
+        commands: "{{ commands }}"

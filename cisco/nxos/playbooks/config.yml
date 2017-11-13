@@ -4,6 +4,7 @@
   gather_facts: no
 
   vars:
+    backup: yes
     save_when: always
     replace: block
     match: exact
@@ -19,6 +20,7 @@
   tasks:
     - name: "Ad-Hoc Configuration"
       nxos_config:
+        backup: "{{ backup }}"
         save_when: "{{ save_when }}"
         replace: "{{ replace }}"
         match: "{{ match }}"
