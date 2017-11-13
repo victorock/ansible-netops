@@ -1,0 +1,27 @@
+#### Always get version
+- include_playbook: version.yml
+####
+
+- name: "NXOS Command"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    commands:
+      - terminal length 0
+      - show spanning-tree summary
+      - show spanning-tree active
+      - show spanning-tree blockedports
+      - show spanning-tree inconsistentports
+      - show spanning-tree internal errors
+      - show spanning-tree mst
+      - show spanning-tree pathcost method
+      - show spanning-tree root detail
+      - show spanning-tree bridge detail
+      - show spanning-tree detail
+
+  tasks:
+    - name: "show spanning-tree"
+      nxos_command:
+        commands: "{{ commands }}"
