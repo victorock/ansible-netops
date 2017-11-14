@@ -16,7 +16,7 @@
     - name: "Check ping reachability"
       nxos_command:
         commands: ping {{ ping.host }} source-interface {{ ping.source_interface }} vrf {{ ping.vrf }} count {{ ping.count }} packet-size {{ ping.packet_size }}
-        wait_for: result contains icmp_seq
+      register: r_ping
       with_items: "{{ peers }}"
       loop_control:
         loop_var: ping
