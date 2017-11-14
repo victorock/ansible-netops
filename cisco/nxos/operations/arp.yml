@@ -27,3 +27,4 @@
     - name: "show ip arp"
       nxos_command:
         commands: "{{ commands }}"
+        timeout: 600
