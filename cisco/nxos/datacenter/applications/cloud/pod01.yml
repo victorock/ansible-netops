@@ -72,7 +72,7 @@
         - vpc.peer_link is defined
       loop_control:
         loop_var: vpc
-        label: "vpc{{ portchannel.group }}"
+        label: "vpc{{ vpc.group }}"
 
     - name: "Ensure switchport vlans"
       nxos_switchport:
