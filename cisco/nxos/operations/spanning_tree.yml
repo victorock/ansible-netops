@@ -11,7 +11,6 @@
       - show spanning-tree blockedports
       - show spanning-tree inconsistentports
       - show spanning-tree internal errors
-      - show spanning-tree mst
       - show spanning-tree pathcost method
       - show spanning-tree root detail
       - show spanning-tree bridge detail
