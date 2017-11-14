@@ -1,5 +1,5 @@
 #### Always get version
-- include_playbook: version.yml
+- import_playbook: version.yml
 ####
 
 - name: "NXOS Backup"
