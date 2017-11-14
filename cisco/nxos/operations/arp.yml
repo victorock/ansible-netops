@@ -11,16 +11,7 @@
       - show ip arp static vrf all
       - show ip arp summary vrf all
       - show ip arp detail vrf all
-      - show ip arp tunnel-statistics
       - show ip arp statistics vrf all
-      - show ip arp statistics interface-all vrf all
-      - show ip arp controller-statistics
-      - show ip arp sync-entries vrf all
-      - show ip arp vpc-statistics
-      - show ip arp cache interface
-      - show ip arp cache brief
-      - show ip arp client
-      - show ip arp vaddr
 
   tasks:
     - name: "show ip arp"
