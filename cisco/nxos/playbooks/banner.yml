@@ -4,7 +4,7 @@
   gather_facts: no
 
   vars:
-    banner: exec
+    banner: motd
     text: |
       this is my exec banner
       that contains a multiline
@@ -12,6 +12,11 @@
     state: present
 
   tasks:
+    - name: "Set banner always to motd as exec is not supported in nxos"
+      set_fact:
+        banner: motd
+      when: "'motd' not in banner"
+
     - name: "Ensure banner message state"
       nxos_banner:
         banner: "{{ banner }}"
