@@ -17,7 +17,6 @@
       - show ip arp controller-statistics
       - show ip arp sync-entries vrf all
       - show ip arp vpc-statistics
-      - show ip arp internal errors
       - show ip arp cache interface
       - show ip arp cache brief
       - show ip arp client

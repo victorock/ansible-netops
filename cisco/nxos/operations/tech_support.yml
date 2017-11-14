@@ -7,7 +7,6 @@
     commands:
       - terminal length 0
       - show tech-support > tech-support
-      - show file tech-support
       - gzip bootflash:tech-support
 
   tasks:
