@@ -25,7 +25,7 @@
     - name: "Get entries in mac address-table"
       nxos_command:
         commands:
-          - show mac address-table address {{ mac.address|quote }}
+          - show mac address-table address {{ mac.address }}
       with_items: "{{ macs }}"
       when: macs is defined
       register: r_macs
@@ -45,7 +45,7 @@
     - name: "Get entries in arp table"
       nxos_command:
         commands:
-          - show ip arp {{ arp.host|quote }} vrf {{ arp.vrf|quote }}
+          - show ip arp {{ arp.host }} vrf {{ arp.vrf }}
       with_items: "{{ arps }}"
       when: arps is defined
       register: r_arps
