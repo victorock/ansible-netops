@@ -12,7 +12,7 @@
     state: present
 
   tasks:
-    - name: "ensure banner is {{ state }}"
+    - name: "Ensure banner message state"
       nxos_banner:
         banner: "{{ banner }}"
         text: "{{ text }}"
