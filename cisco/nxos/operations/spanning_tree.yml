@@ -20,3 +20,4 @@
     - name: "show spanning-tree"
       nxos_command:
         commands: "{{ commands }}"
+        timeout: 600
