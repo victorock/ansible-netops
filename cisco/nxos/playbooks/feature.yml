@@ -5,10 +5,20 @@
 
   vars:
     feature: lacp
-    state: enabled
+    state: present
 
   tasks:
+    - name: "set feature_state to enabled when defined present"
+      set_fact:
+        feature_state: enabled
+      when: state == 'present'
+
+    - name: "set feature_state to disabled when defined absent"
+      set_fact:
+        feature_state: disabled
+      when: state == 'absent'
+
     - name: "Ensure {{ feature }} is enabled"
       nxos_feature:
         feature: "{{ feature }}"
-        state: "{{ state }}"
+        state: "{{ feature_state }}"
