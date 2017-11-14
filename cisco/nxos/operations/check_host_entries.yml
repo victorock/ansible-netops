@@ -1,0 +1,67 @@
+#### Always get version
+- import_playbook: version.yml
+####
+
+- name: "NXOS Command"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    arps:
+      - { host: 10.42.0.1, vrf: all }
+      - { host: 10.42.0.11, vrf: all }
+      - { host: 10.42.0.12, vrf: all }
+      - { host: 10.42.0.21, vrf: all }
+      - { host: 10.42.0.22, vrf: all }
+      - { host: 10.42.0.23, vrf: all }
+      - { host: 10.42.0.24, vrf: all }
+      - { host: 10.42.0.42, vrf: all }
+
+    macs:
+      - { address: 0800.2737.a2d8 }
+      - { address: 0800.2756.c35f }
+      - { address: 0800.27ce.8928 }
+      - { address: 0800.2701.5ca0 }
+
+  tasks:
+
+    - name: "Get entries in mac address-table"
+      nxos_command:
+        commands:
+          - show mac address-table address {{ mac.address|quote }}
+      with_items: "{{ macs }}"
+      when: macs is defined
+      register: r_macs
+      loop_control:
+        loop_var: mac
+        label: "{{ mac.address }}"
+
+    - name: "Outputs of mac address-table"
+      debug:
+        msg: "{{ debug_mac.stdout }}"
+      with_items: "{{ r_macs.results }}"
+      when: r_macs is defined
+      loop_control:
+        loop_var: debug_mac
+        label: "{{ debug_mac.stdout }}"
+
+    - name: "Get entries in arp table"
+      nxos_command:
+        commands:
+          - show ip arp {{ arp.host|quote }} vrf {{ arp.vrf|quote }}
+      with_items: "{{ arps }}"
+      when: arps is defined
+      register: r_arps
+      loop_control:
+        loop_var: arp
+        label: "{{ arp.host }}"
+
+    - name: "Outputs of ip arp table"
+      debug:
+        msg: "{{ debug_mac.stdout }}"
+      with_items: "{{ r_macs.results }}"
+      when: r_macs is defined
+      loop_control:
+        loop_var: debug_mac
+        label: "{{ debug_mac.stdout }}"
