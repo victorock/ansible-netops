@@ -14,3 +14,4 @@
     - name: "Generate Tech-support"
       nxos_command:
         commands: "{{ commands }}"
+        timeout: 700
