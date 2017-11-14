@@ -3,7 +3,58 @@
   connection: local
   gather_facts: no
 
+  vars:
+    repo: https://github.com/victorock/network-configs
+    branch: datacenter1
+
   tasks:
-    - name: "Backup Configuration"
+
+    - name: "create temporary directory"
+      tempfile:
+        state: directory
+        suffix: nxos_config
+      register: r_tempfile
+
+    - name: "clone the repository containing configurations"
+      git:
+        repo: "{{ repo }}"
+        dest: "{{ r_tempfile.path }}"
+        version: "{{ branch }}"
+        clone: yes
+
+    - name: "git checkout {{ branch|quote }}"
+      shell: git checkout {{ branch|quote }}
+      args:
+        chdir: "{{ r_tempfile.path }}"
+
+    - name: "fetch network configuration"
       nxos_config:
         backup: yes
+      register: r_nxos_config
+
+    - name: "copy network configuration to repo folder"
+      copy:
+        src: "{{ r_nxos_config.backup_path }}"
+        dest: "{{ r_tempfile.path }}"
+        force: "yes"
+
+    - name: "git commit"
+      shell: git commit -am "Network Backup"
+      args:
+        chdir: "{{ r_tempfile.path }}"
+
+    - name: "git push"
+      shell: git push --force origin {{ branch|quote }}
+      args:
+        chdir: "{{ r_tempfile.path }}"
+
+    - name: "Cleanup generated files/directories"
+      file:
+        path: "{{ cleanup }}"
+        state: absent
+      with_items:
+        - "{{ r_nxos_config.backup_path }}"
+        - "{{ r_tempfile.path }}"
+      loop_control:
+        loop_var: cleanup
+        label: "{{ cleanup }}"
