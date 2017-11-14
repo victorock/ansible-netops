@@ -8,8 +8,7 @@
 
     features:
       - { name: lacp, state: enabled }
-      #- { name: bgp, state: enabled }
-      #- { name: evpn, state: enabled }
+      - { name: port-security, state: enabled }
 
     vnis:
       - { name: tenant01, vni: 10001, state: present }
@@ -22,6 +21,7 @@
       - { name: app04, vlan_id: 104, vlan_state: active, admin_state: up, state: present }
 
     portchannels:
+      - { group: 12, members: ['ethernet1/2'], mode: active, state: present }
       - { group: 13, members: ['ethernet1/3'], mode: active, state: present }
       - { group: 14, members: ['ethernet1/4'], mode: active, state: present }
       - { group: 15, members: ['ethernet1/5'], mode: active, state: present }
@@ -29,6 +29,15 @@
       - { group: 17, members: ['ethernet1/7'], mode: active, state: present }
 
   tasks:
+    - name: "Ensure features are enabled"
+      nxos_feature:
+        feature: "{{ feature.name }}"
+        state: "{{ feature.state }}"
+      with_items: "{{ features }}"
+      loop_control:
+        loop_var: feature
+        label: "feature {{ feature.name }}"
+
     - name: "Ensure vlan exists"
       nxos_vlan:
         name: "{{ vlan.name }}"
@@ -40,15 +49,6 @@
       loop_control:
         loop_var: vlan
         label: "vlan {{ vlan.vlan_name }} id {{ vlan.vlan_id }}"
-
-    - name: "Ensure features are enabled"
-      nxos_feature:
-        feature: "{{ feature.name }}"
-        state: "{{ feature.state }}"
-      with_items: "{{ features }}"
-      loop_control:
-        loop_var: feature
-        label: "feature {{ feature.name }}"
 
     - name: "Ensure portchannels exists"
       nxos_portchannel:
