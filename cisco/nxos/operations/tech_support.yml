@@ -6,12 +6,12 @@
   vars:
     commands:
       - terminal length 0
-      - show tech-support all > tech-support-all
-      - show file tech-support-all
-      - gzip bootflash:tech-support-all
+      - show tech-support > tech-support
+      - show file tech-support
+      - gzip bootflash:tech-support
 
   tasks:
     - name: "Generate Tech-support"
       nxos_command:
         commands: "{{ commands }}"
-        timeout: 700
+        timeout: 900
