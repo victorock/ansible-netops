@@ -12,7 +12,7 @@
     state: present
 
   tasks:
-    - name: "Set banner always to motd as exec is not supported in nxos"
+    - name: "Set banner always to motd as exec is not supported in nxosv"
       set_fact:
         banner: motd
       when: "'motd' not in banner"
