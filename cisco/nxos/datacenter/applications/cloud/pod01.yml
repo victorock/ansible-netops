@@ -21,12 +21,12 @@
       - { name: app04, vlan_id: 104, vlan_state: active, admin_state: up, state: present }
 
     portchannels:
-      - { group: 12, members: ['ethernet1/2'], mode: active, state: present }
-      - { group: 13, members: ['ethernet1/3'], mode: active, state: present }
-      - { group: 14, members: ['ethernet1/4'], mode: active, state: present }
-      - { group: 15, members: ['ethernet1/5'], mode: active, state: present }
-      - { group: 16, members: ['ethernet1/6'], mode: active, state: present }
-      - { group: 17, members: ['ethernet1/7'], mode: active, state: present }
+      - { group: 12, members: ['ethernet1/2'], mode: active, peer_link: false, state: present }
+      - { group: 13, members: ['ethernet1/3'], mode: active, peer_link: false, state: present }
+      - { group: 14, members: ['ethernet1/4'], mode: active, peer_link: false, state: present }
+      - { group: 15, members: ['ethernet1/5'], mode: active, peer_link: false, state: present }
+      - { group: 16, members: ['ethernet1/6'], mode: active, peer_link: false, state: present }
+      - { group: 17, members: ['ethernet1/7'], mode: active, peer_link: false, state: present }
 
   tasks:
     - name: "Ensure features are enabled"
@@ -60,6 +60,17 @@
       loop_control:
         loop_var: portchannel
         label: "port-channel{{ portchannel.group }}"
+
+    - name: "Ensure vpc is configured in portchannels"
+      nxos_vpc_interface:
+        portchannel: "{{ vpc.group }}"
+        vpc: "{{ vpc.group }}"
+        peer_link: "{{ vpc.peer_link }}"
+        state: "{{ vpc.state }}"
+      with_items: "{{ portchannels }}"
+      loop_control:
+        loop_var: vpc
+        label: "vpc{{ portchannel.group }}"
 
     - name: "Ensure switchport vlans"
       nxos_switchport:
