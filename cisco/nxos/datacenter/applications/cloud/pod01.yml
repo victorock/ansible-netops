@@ -81,7 +81,7 @@
         native_vlan: "{{ native_vlan }}"
         trunk_vlans: "{{ switchport.1.vlan_id }}"
         state: "{{ switchport.1.state }}"
-      with_items:
+      with_nested:
         - "{{ portchannels }}"
         - "{{ vlans }}"
       loop_control:
