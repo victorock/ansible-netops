@@ -48,7 +48,7 @@
       with_items: "{{ vlans }}"
       loop_control:
         loop_var: vlan
-        label: "vlan {{ vlan.vlan_name }} id {{ vlan.vlan_id }}"
+        label: "vlan {{ vlan.name }}, id {{ vlan.vlan_id }}"
 
     - name: "Ensure portchannels exists"
       nxos_portchannel:
