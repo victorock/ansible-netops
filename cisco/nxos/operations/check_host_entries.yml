@@ -28,19 +28,9 @@
           - show mac address-table address {{ mac.address }}
       with_items: "{{ macs }}"
       when: macs is defined
-      register: r_macs
       loop_control:
         loop_var: mac
         label: "{{ mac.address }}"
-
-    - name: "Outputs of mac address-table"
-      debug:
-        msg: "{{ debug_mac.stdout }}"
-      with_items: "{{ r_macs.results }}"
-      when: r_macs is defined
-      loop_control:
-        loop_var: debug_mac
-        label: "{{ debug_mac.stdout }}"
 
     - name: "Get entries in arp table"
       nxos_command:
@@ -48,16 +38,6 @@
           - show ip arp {{ arp.host }} vrf {{ arp.vrf }}
       with_items: "{{ arps }}"
       when: arps is defined
-      register: r_arps
       loop_control:
         loop_var: arp
         label: "{{ arp.host }}"
-
-    - name: "Outputs of ip arp table"
-      debug:
-        msg: "{{ debug_mac.stdout }}"
-      with_items: "{{ r_macs.results }}"
-      when: r_macs is defined
-      loop_control:
-        loop_var: debug_mac
-        label: "{{ debug_mac.stdout }}"
