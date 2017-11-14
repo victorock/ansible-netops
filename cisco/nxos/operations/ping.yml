@@ -15,8 +15,10 @@
   tasks:
     - name: "Check ping reachability"
       nxos_command:
-        commands: ping {{ ping.host }} source-interface {{ ping.source_interface }} vrf {{ ping.vrf }} count {{ ping.count }} packet-size {{ ping.packet_size }}
-      register: r_ping
+        commands:
+          - ping {{ ping.host }} source-interface {{ ping.source_interface }} vrf {{ ping.vrf }} count {{ ping.count }} packet-size {{ ping.packet_size }}
+        wait_for:
+          - result[0] contains round-trip
       with_items: "{{ peers }}"
       loop_control:
         loop_var: ping
