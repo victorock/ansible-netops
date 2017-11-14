@@ -1,7 +1,3 @@
-#### Always get version
-- import_playbook: version.yml
-####
-
 - name: "NXOS Backup"
   hosts: all
   connection: local
