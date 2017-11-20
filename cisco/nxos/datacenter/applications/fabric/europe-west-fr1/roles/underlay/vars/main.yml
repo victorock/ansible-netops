@@ -1,0 +1,94 @@
+underlay_states:
+  admin: up
+  state: present
+  shutdown: false
+
+underlay_features:
+  dhcp:
+    name: dhcp
+    states: "{{ underlay_states }}"
+  bgp:
+    name: bgp
+    states: "{{ underlay_states }}"
+  multicast:
+    name: pim
+    states: "{{ underlay_states }}"
+  ospf:
+    name: ospf
+    states: "{{ underlay_states }}"
+  lldp:
+    name: lldp
+    states: "{{ underlay_states }}"
+
+underlay_interfaces:
+  control:
+    description: "{{ description }}"
+    name: loopback0
+    address: "{{ control_plane_id }}"
+    states: "{{ underlay_states }}"
+    vrf: "{{ underlay_vrf.control }}"
+  management:
+    description: "{{ description }}"
+    name: mgmt0
+    states: "{{ underlay_states }}"
+    vrf: "{{ underlay_vrf.management }}"
+  exchange:
+    description: "{{ description }}"
+    name: loopback1
+    address: "{{ exchange_plane_id }}"
+    states: "{{ underlay_states }}"
+    vrf: "{{ underlay_vrf.exchange }}"
+  link:
+    description: "{{ description }}"
+    name: ethernet 1/1
+    address: "{{ underlay_dhcp }}"
+    states: "{{ underlay_states }}"
+    vrf: "{{ underlay_vrf.control }}"
+
+underlay_vrfs:
+  control:
+    description: "{{ description }}"
+    name: control
+    states: "{{ underlay_states }}"
+  management:
+    description: "{{ description }}"
+    name: management
+    states: "{{ underlay_states }}"
+  exchange:
+    description: "{{ description }}"
+    name: control
+    states: "{{ underlay_states }}"
+
+underlay_controller:
+  address: "{{ controller_id }}"
+  vrf: "{{ underlay_vrfs.management }}"
+
+underlay_dhcp:
+  description: "{{ description }}"
+  vrf: "{{ underlay_vrfs.management }}"
+  address: "{{ underlay_controller.address }}"
+  states: "{{ underlay_states }}"
+
+underlay_ospf:
+  description: "{{ description }}"
+  router_id: "{{ underlay_interfaces.control.address }}"
+  vrf: "{{ underlay_vrfs.control }}"
+  name: UNDERLAY_0
+  area: 0
+  states: "{{ underlay_states }}"
+
+underlay_bgp:
+  description: "{{ description }}"
+  router_id: "{{ underlay_interfaces.control.address }}"
+  vrf: "{{ underlay_vrfs.control }}"
+  asn: 65001
+  graceful_restart: true
+  states: "{{ underlay_states }}"
+
+underlay_pim:
+  description: "{{ description }}"
+  vrf: "{{ underlay_vrfs.control }}"
+  source_specific_multicast_range: "232.0.0.0/8"
+  group_ranges:  "225.0.0.0/8"
+  rendezvous_point: "172.16.1.201"
+  states: "{{ underlay_states }}"

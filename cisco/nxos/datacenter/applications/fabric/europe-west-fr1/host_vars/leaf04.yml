@@ -1,0 +1,2 @@
+ansible_network_os: nxos
+underlay_control_plane_id: 10.0.1.104

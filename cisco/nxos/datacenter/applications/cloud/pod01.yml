@@ -8,10 +8,7 @@
 
     features:
       - { name: lacp, state: enabled }
-      #- { name: port-security, state: enabled }
-
-    vnis:
-      - { name: tenant01, vni: 10001, state: present }
+      - { name: vpc, state: enabled }
 
     vlans:
       - { name: pod01, vlan_id: 100, vlan_state: active, admin_state: up, state: present }
@@ -21,15 +18,15 @@
       - { name: app04, vlan_id: 104, vlan_state: active, admin_state: up, state: present }
 
     portchannels:
-      - { group: 12, members: ['ethernet1/2'], mode: active, state: present }
-      - { group: 13, members: ['ethernet1/3'], mode: active, state: present }
-      - { group: 14, members: ['ethernet1/4'], mode: active, state: present }
-      - { group: 15, members: ['ethernet1/5'], mode: active, state: present }
-      - { group: 16, members: ['ethernet1/6'], mode: active, state: present }
-      - { group: 17, members: ['ethernet1/7'], mode: active, state: present }
+      - { group: 12, members: ['ethernet1/2'], mode: active, admin_state: up, state: present }
+      - { group: 13, members: ['ethernet1/3'], mode: active, admin_state: up, state: present }
+      - { group: 14, members: ['ethernet1/4'], mode: active, admin_state: up, state: present }
+      - { group: 15, members: ['ethernet1/5'], mode: active, admin_state: up, state: present }
+      - { group: 16, members: ['ethernet1/6'], mode: active, admin_state: up, state: present }
+      - { group: 17, members: ['ethernet1/7'], mode: active, admin_state: up, state: present }
 
   tasks:
-    - name: "Ensure features are enabled"
+    - name: "Ensure state of features"
       nxos_feature:
         feature: "{{ feature.name }}"
         state: "{{ feature.state }}"
@@ -38,7 +35,7 @@
         loop_var: feature
         label: "feature {{ feature.name }}"
 
-    - name: "Ensure vlan exists"
+    - name: "Ensure state of vlans"
       nxos_vlan:
         name: "{{ vlan.name }}"
         vlan_id: "{{ vlan.vlan_id }}"
@@ -50,40 +47,53 @@
         loop_var: vlan
         label: "vlan {{ vlan.name }}, id {{ vlan.vlan_id }}"
 
-    - name: "Ensure portchannels exists"
+    ## ethernet XX
+    - name: "Ensure state of layer2 interfaces"
+      nxos_interface:
+        interface: "{{ nxos_interface.1 }}"
+        mode: layer2
+        admin_state: "{{ nxos_interface.0.admin_state }}"
+        state: "{{ nxos_interface.0.state }}"
+      with_subelements:
+        - "{{ portchannels }}"
+        - members
+      loop_control:
+        loop_var: nxos_interface
+        label: "interface {{ nxos_interface.1 }}"
+
+    - name: "Ensure state of portchannels"
       nxos_portchannel:
-        group: "{{ portchannel.group }}"
-        members: "{{ portchannel.members }}"
-        mode: "{{ portchannel.mode }}"
-        state: "{{ portchannel.state }}"
+        group: "{{ nxos_portchannel.group }}"
+        members: "{{ nxos_portchannel.members }}"
+        mode: "{{ nxos_portchannel.mode }}"
+        state: "{{ nxos_portchannel.state }}"
       with_items: "{{ portchannels }}"
       loop_control:
-        loop_var: portchannel
-        label: "port-channel{{ portchannel.group }}"
+        loop_var: nxos_portchannel
+        label: "port-channel{{ nxos_portchannel.group }}"
 
-    - name: "Ensure vpc is configured in portchannels"
+    - name: "Ensure state of vpc peer-link on portchannels"
       nxos_vpc_interface:
-        portchannel: "{{ vpc.group }}"
-        vpc: "{{ vpc.group }}"
-        peer_link: "{{ vpc.peer_link }}"
-        state: "{{ vpc.state }}"
+        portchannel: "{{ nxos_vpc_interface.group }}"
+        vpc: "{{ nxos_vpc_interface.group }}"
+        peer_link: "{{ nxos_vpc_interface.peer_link }}"
+        state: "{{ nxos_vpc_interface.state }}"
+      when: "{{ nxos_vpc_interface.peer_link | default('false') }}"
       with_items: "{{ portchannels }}"
-      when:
-        - vpc.peer_link is defined
       loop_control:
-        loop_var: vpc
-        label: "vpc{{ vpc.group }}"
+        loop_var: nxos_vpc_interface
+        label: "vpc{{ nxos_vpc_interface.group }}"
 
-    - name: "Ensure switchport vlans"
+    - name: "Ensure state of vlans on portchannels"
       nxos_switchport:
-        interface: "port-channel {{ switchport.0.group }}"
+        interface: "port-channel {{ nxos_switchport.0.group }}"
         mode: "trunk"
         native_vlan: "{{ native_vlan }}"
-        trunk_vlans: "{{ switchport.1.vlan_id }}"
-        state: "{{ switchport.1.state }}"
+        trunk_vlans: "{{ nxos_switchport.1.vlan_id }}"
+        state: "{{ nxos_switchport.1.state }}"
       with_nested:
         - "{{ portchannels }}"
         - "{{ vlans }}"
       loop_control:
-        loop_var: switchport
-        label: "port-channel{{ switchport.0.group }} add {{ switchport.1.vlan_id }}"
+        loop_var: nxos_switchport
+        label: "port-channel{{ nxos_switchport.0.group }} add {{ nxos_switchport.1.vlan_id }}"

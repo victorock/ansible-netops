@@ -1,0 +1,8 @@
+- name: "Import tasks based on network os"
+  include_tasks: "{{ underlay_task }}"
+  with_first_found:
+    - "{{ ansible_network_os }}/main.yml"
+    - "agnostic/main.yml"
+  loop_control:
+    loop_var: underlay_task
+    label: "tasks from {{ underlay_task }}"
