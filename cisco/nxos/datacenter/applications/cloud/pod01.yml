@@ -16,12 +16,12 @@
       - { name: app04, vlan_id: 104, vlan_state: active, admin_state: up, state: present }
 
     portchannels:
-      - { group: 12, members: ['ethernet1/2'], mode: active, admin_state: up, state: present }
-      - { group: 13, members: ['ethernet1/3'], mode: active, admin_state: up, state: present }
-      - { group: 14, members: ['ethernet1/4'], mode: active, admin_state: up, state: present }
-      - { group: 15, members: ['ethernet1/5'], mode: active, admin_state: up, state: present }
-      - { group: 16, members: ['ethernet1/6'], mode: active, admin_state: up, state: present }
-      - { group: 17, members: ['ethernet1/7'], mode: active, admin_state: up, state: present }
+      - { group: 12, members: ['ethernet1/2'], mode: active, admin_state: up, state: present, force: true }
+      - { group: 13, members: ['ethernet1/3'], mode: active, admin_state: up, state: present, force: true }
+      - { group: 14, members: ['ethernet1/4'], mode: active, admin_state: up, state: present, force: true }
+      - { group: 15, members: ['ethernet1/5'], mode: active, admin_state: up, state: present, force: true }
+      - { group: 16, members: ['ethernet1/6'], mode: active, admin_state: up, state: present, force: true }
+      - { group: 17, members: ['ethernet1/7'], mode: active, admin_state: up, state: present, force: true }
 
     trunks:
       - { interface: port-channel12, native_vlan: 100, admin_state: up, state: present }
@@ -59,6 +59,7 @@
         members: "{{ nxos_portchannel.members }}"
         mode: "{{ nxos_portchannel.mode | default(omit) }}"
         state: "{{ nxos_portchannel.state | default(omit) }}"
+        force: "{{ nxos_portchannel.force | default('true') }}"
       with_items: "{{ portchannels }}"
       loop_control:
         loop_var: nxos_portchannel
