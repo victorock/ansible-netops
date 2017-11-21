@@ -89,7 +89,7 @@
 
     - name: "Ensure state of vlans on trunks"
       nxos_switchport:
-        interface: "interface {{ nxos_switchport.interface }}"
+        interface: "{{ nxos_switchport.interface }}"
         mode: "trunk"
         native_vlan: "{{ nxos_switchport.native_vlan }}"
         trunk_allowed_vlans: "{{ nxos_switchport.allowed_vlans | default(nxos_switchport.native_vlan) }}"
