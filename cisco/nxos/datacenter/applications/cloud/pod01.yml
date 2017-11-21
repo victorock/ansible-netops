@@ -73,7 +73,7 @@
       with_items: "{{ trunks }}"
       loop_control:
         loop_var: nxos_interface
-        label: "interface {{ nxos_interface.portchannel }}"
+        label: "interface {{ nxos_interface.interface }}"
 
     - name: "Ensure state of vpc on portchannels"
       nxos_vpc_interface:
