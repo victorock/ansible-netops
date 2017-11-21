@@ -6,19 +6,24 @@ underlay_states:
 underlay_features:
   dhcp:
     name: dhcp
-    states: "{{ underlay_states }}"
+    states:
+      state: enabled
   bgp:
     name: bgp
-    states: "{{ underlay_states }}"
+    states:
+      state: enabled
   multicast:
     name: pim
-    states: "{{ underlay_states }}"
+    states:
+      state: enabled
   ospf:
     name: ospf
-    states: "{{ underlay_states }}"
+    states:
+      state: enabled
   lldp:
     name: lldp
-    states: "{{ underlay_states }}"
+    states:
+      state: enabled
 
 underlay_interfaces:
   control:
