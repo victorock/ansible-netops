@@ -1,6 +1,6 @@
 - name: "Ensure the state of underlay features"
   nxos_feature:
-    name: "{{ nxos_feature.value.name }}"
+    feature: "{{ nxos_feature.value.name }}"
     state: "{{ nxos_feature.value.states.state }}"
   with_dict: "{{ underlay_features }}"
   loop_control:
