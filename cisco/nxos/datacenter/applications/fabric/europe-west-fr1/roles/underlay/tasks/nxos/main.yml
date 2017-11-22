@@ -34,14 +34,24 @@
       - ip dhcp relay information option vpn
 
 ## ethernet XX
+- name: "Ensure state of vrf on underlay links"
+  nxos_interface:
+    interface: "{{ nxos_interface_underlay_link }}"
+    state: "{{ underlay_interfaces.link.states.state }}"
+    vrf: "{{ underlay_interfaces.link.vrf.name }}"
+  with_items: "{{ underlay_links }}"
+  loop_control:
+    loop_var: nxos_interface_underlay_link
+    label: "nxos_interface_underlay_link {{ nxos_interface_underlay_link }}"
+
+## ethernet XX
 - name: "Ensure state of layer3 on underlay links"
-  nxos_vrf_interface:
+  nxos_interface:
     interface: "{{ nxos_interface_underlay_link }}"
     mode: layer3
     description: "{{ underlay_interfaces.link.description }}"
     admin_state: "{{ underlay_interfaces.link.states.admin }}"
     state: "{{ underlay_interfaces.link.states.state }}"
-    vrf: "{{ underlay_interfaces.link.vrf.name }}"
   with_items: "{{ underlay_links }}"
   loop_control:
     loop_var: nxos_interface_underlay_link
