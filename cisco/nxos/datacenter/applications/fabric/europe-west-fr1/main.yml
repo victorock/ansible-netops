@@ -1,5 +1,5 @@
 - name: "Fabric Configuration"
-  hosts: europe-west-fr1
+  hosts: all
   connection: local
   gather_facts: no
 
