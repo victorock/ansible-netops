@@ -25,31 +25,6 @@ underlay_features:
     states:
       state: enabled
 
-underlay_interfaces:
-  control:
-    description: "{{ description }}"
-    name: loopback0
-    address: "{{ control_plane_id }}"
-    states: "{{ underlay_states }}"
-    vrf: "{{ underlay_vrf.control }}"
-  management:
-    description: "{{ description }}"
-    name: mgmt0
-    states: "{{ underlay_states }}"
-    vrf: "{{ underlay_vrf.management }}"
-  exchange:
-    description: "{{ description }}"
-    name: loopback1
-    address: "{{ exchange_plane_id }}"
-    states: "{{ underlay_states }}"
-    vrf: "{{ underlay_vrf.exchange }}"
-  link:
-    description: "{{ description }}"
-    name: ethernet 1/1
-    address: "{{ underlay_dhcp }}"
-    states: "{{ underlay_states }}"
-    vrf: "{{ underlay_vrf.control }}"
-
 underlay_vrfs:
   control:
     description: "{{ description }}"
@@ -63,6 +38,31 @@ underlay_vrfs:
     description: "{{ description }}"
     name: control
     states: "{{ underlay_states }}"
+
+underlay_interfaces:
+  control:
+    description: "{{ description }}"
+    name: loopback0
+    address: "{{ control_plane_id }}"
+    states: "{{ underlay_states }}"
+    vrf: "{{ underlay_vrfs.control }}"
+  management:
+    description: "{{ description }}"
+    name: mgmt0
+    states: "{{ underlay_states }}"
+    vrf: "{{ underlay_vrfs.management }}"
+  exchange:
+    description: "{{ description }}"
+    name: loopback1
+    address: "{{ exchange_plane_id }}"
+    states: "{{ underlay_states }}"
+    vrf: "{{ underlay_vrfs.exchange }}"
+  link:
+    description: "{{ description }}"
+    name: ethernet 1/1
+    address: "{{ underlay_dhcp }}"
+    states: "{{ underlay_states }}"
+    vrf: "{{ underlay_vrfs.control }}"
 
 underlay_controller:
   address: "{{ controller_id }}"
