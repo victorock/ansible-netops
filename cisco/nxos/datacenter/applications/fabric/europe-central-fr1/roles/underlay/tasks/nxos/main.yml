@@ -104,7 +104,7 @@
     mode: layer3
     admin_state: "{{ nxos_interface_underlay.value.states.admin }}"
     state: "{{ nxos_interface_underlay.value.states.state }}"
-  with_items: "{{ underlay_interface }}"
+  with_items: "{{ underlay_interfaces }}"
   loop_control:
     loop_var: nxos_interface_underlay
     label: "nxos_interface_underlay {{ nxos_interface_underlay }}"
@@ -254,16 +254,16 @@
     ssm_range: "{{ underlay_pim.source_specific_multicast_range }}"
     state: "{{ underlay_pim.state }}"
 
-## ip pim rp-candidate <vars/main.yml:underlay_interface.exchange> group-list <vars/main.yml:underlay_pim.group_list>
+## ip pim rp-candidate <vars/main.yml:underlay_interfaces.exchange> group-list <vars/main.yml:underlay_pim.group_list>
 - name: "nxos_pim_rp_candidate: SPINE: Configure exchange-plane candidature to become rendezvous-point"
   nxos_config:
     save_when: always
     commands:
       - vrf context {{ underlay_pim.vrf }}
-      - ip pim rp-candidate {{ underlay_interface.exchange }} group-list {{ underlay_pim.group_list }}
+      - ip pim rp-candidate {{ underlay_interfaces.exchange }} group-list {{ underlay_pim.group_list }}
   when: inventory_hostname in groups['spine']
 
-## ip pim anycast-rp <vars/main.yml:underlay_interface.exchange> <spines:exchange_plane_id>
+## ip pim anycast-rp <vars/main.yml:underlay_interfaces.exchange> <spines:exchange_plane_id>
 - name: "nxos_pim_anycast_rp: SPINE: Configure anycasp-rp of exchange-plane"
   nxos_config:
     save_when: always
