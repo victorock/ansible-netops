@@ -141,7 +141,6 @@
 - name: "Ensure state of ospf on control and exchange interfaces"
   nxos_interface_ospf:
     interface: "{{ nxos_interface_ospf_control_exchange.name }}"
-    router_id: "{{ underlay_ospf.router_id }}"
     ospf: "{{ underlay_ospf.name }}"
     area: "{{ underlay_ospf.area }}"
     cost: "{{ underlay_ospf.cost }}"
