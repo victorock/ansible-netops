@@ -104,9 +104,9 @@
     description: "{{ nxos_interface_l3_underlay.description }}"
     admin_state: "{{ nxos_interface_l3_underlay.states.admin }}"
     state: "{{ nxos_interface_l3_underlay.states.state }}"
-    with_items:
-      - "{{ underlay_interfaces.control }}"
-      - "{{ underlay_interfaces.exchange }}"
+  with_items:
+    - "{{ underlay_interfaces.control }}"
+    - "{{ underlay_interfaces.exchange }}"
   loop_control:
     loop_var: nxos_interface_l3_underlay
     label: "nxos_interface_l3_underlay {{ nxos_interface_l3_underlay }}"
