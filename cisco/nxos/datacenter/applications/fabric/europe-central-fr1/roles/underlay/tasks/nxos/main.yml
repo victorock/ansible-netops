@@ -71,8 +71,6 @@
     loop_var: nxos_vrf_interface_underlay_link
     label: "nxos_vrf_interface_underlay_link {{ nxos_vrf_interface_underlay_link }}"
 
-
-
 ## where is lldp and dhcp modules for interface?
 - name: "nxos_lldp_interface: Amend layer3 on underlay links"
   nxos_config:
@@ -97,17 +95,6 @@
   loop_control:
     loop_var: nxos_interface_underlay_amend_dhcp
     label: "nxos_interface_underlay_amend_dhcp {{ nxos_interface_underlay_amend_dhcp }}"
-
-- name: "Ensure state as layer3 on underlay interfaces"
-  nxos_interface:
-    interface:  "{{ nxos_interface_underlay.value.name }}"
-    mode: layer3
-    admin_state: "{{ nxos_interface_underlay.value.states.admin }}"
-    state: "{{ nxos_interface_underlay.value.states.state }}"
-  with_items: "{{ underlay_interfaces }}"
-  loop_control:
-    loop_var: nxos_interface_underlay
-    label: "nxos_interface_underlay {{ nxos_interface_underlay }}"
 
 ## Ip of loopback0 and loopback1
 - name: "Ensure state of Layer3 on control's and exchange's underlay interfaces"

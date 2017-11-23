@@ -48,7 +48,8 @@ underlay_interfaces:
     vrf: "{{ underlay_vrfs.control }}"
   management:
     description: "{{ description }}"
-    name: mgmt0
+    name: ethernet 1/1
+    address: "{{ management_plane_id }}"
     states: "{{ underlay_states }}"
     vrf: "{{ underlay_vrfs.management }}"
   exchange:
@@ -59,7 +60,7 @@ underlay_interfaces:
     vrf: "{{ underlay_vrfs.exchange }}"
   link:
     description: "{{ description }}"
-    name: ethernet 1/1
+    name: ethernet 1/2
     address: "{{ underlay_dhcp }}"
     states: "{{ underlay_states }}"
     vrf: "{{ underlay_vrfs.control }}"
