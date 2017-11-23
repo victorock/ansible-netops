@@ -91,7 +91,7 @@
     save_when: always
     commands:
       - interface {{ nxos_interface_underlay_amend_dhcp }}
-      - ip dhcp relay address {{ underlay_dhcp.address }} use-vrf {{ underlay_dhcp.vrf }}
+      - ip dhcp relay address {{ underlay_dhcp.address }} use-vrf {{ underlay_dhcp.vrf.name }}
       - ip address dhcp
   with_items: "{{ underlay_links }}"
   loop_control:
