@@ -111,6 +111,20 @@
     loop_var: nxos_interface_l3_underlay
     label: "nxos_interface_l3_underlay {{ nxos_interface_l3_underlay }}"
 
+## https://github.com/ansible/ansible/issues/33227
+- name: "nxos_vrf_interface: Ensure state of vrf on control and exchange interfaces"
+  nxos_config:
+    save_when: always
+    commands:
+      - interface {{ nxos_vrf_interface_underlay_interface.name }}
+      - vrf member {{ nxos_vrf_interface_underlay_interface.vrf.name }}
+  with_items:
+    - "{{ underlay_interfaces.control }}"
+    - "{{ underlay_interfaces.exchange }}"
+  loop_control:
+    loop_var: nxos_vrf_interface_underlay_interface
+    label: "nxos_vrf_interface_underlay_interface {{ nxos_vrf_interface_underlay_interface }}"
+
 ## Ip of loopback0 and loopback1
 - name: "Ensure state of Layer3 on control's and exchange's underlay interfaces"
   nxos_ip_interface:
@@ -138,14 +152,15 @@
     loop_var: nxos_interface_ospf_underlay_link
     label: "nxos_interface_ospf {{ nxos_interface_ospf_underlay_link }}"
 
-- name: "Ensure state of ospf on control and exchange interfaces"
+## https://github.com/ansible/ansible/issues/33245
+- name: "Ensure state of ospf on control and exchange loopback interfaces"
   nxos_interface_ospf:
     interface: "{{ nxos_interface_ospf_control_exchange.name }}"
     ospf: "{{ underlay_ospf.name }}"
     area: "{{ underlay_ospf.area }}"
     cost: "{{ underlay_ospf.cost }}"
     state: "{{ underlay_ospf.states.state }}"
-    passive_interface: true
+#    passive_interface: true
   with_items:
     - "{{ underlay_interfaces.control }}"
     - "{{ underlay_interfaces.exchange }}"
