@@ -116,6 +116,7 @@
   nxos_config:
     save_when: always
     commands:
+      - show run interface {{ nxos_vrf_interface_underlay_interface.name }}
       - interface {{ nxos_vrf_interface_underlay_interface.name }}
       - vrf member {{ nxos_vrf_interface_underlay_interface.vrf.name }}
   with_items:
@@ -123,7 +124,7 @@
     - "{{ underlay_interfaces.exchange }}"
   loop_control:
     loop_var: nxos_vrf_interface_underlay_interface
-    label: "nxos_vrf_interface_underlay_interface {{ nxos_vrf_interface_underlay_interface }}"
+    label: "nxos_vrf_interface_underlay_interface {{ nxos_vrf_interface_underlay_interface.name }}"
 
 ## Ip of loopback0 and loopback1
 - name: "Ensure state of Layer3 on control's and exchange's underlay interfaces"
