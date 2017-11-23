@@ -109,14 +109,13 @@
     - "{{ underlay_interfaces.exchange }}"
   loop_control:
     loop_var: nxos_interface_l3_underlay
-    label: "nxos_interface_l3_underlay {{ nxos_interface_l3_underlay }}"
+    label: "nxos_interface_l3_underlay {{ nxos_interface_l3_underlay.name }}"
 
 ## https://github.com/ansible/ansible/issues/33227
 - name: "nxos_vrf_interface: Ensure state of vrf on control and exchange interfaces"
   nxos_config:
     save_when: always
     commands:
-      - show run interface {{ nxos_vrf_interface_underlay_interface.name }}
       - interface {{ nxos_vrf_interface_underlay_interface.name }}
       - vrf member {{ nxos_vrf_interface_underlay_interface.vrf.name }}
   with_items:
