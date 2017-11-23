@@ -47,15 +47,33 @@
     label: "nxos_interface_underlay_link {{ nxos_interface_underlay_link }}"
 
 ## ethernet XX
-- name: "Ensure state of vrf on underlay links"
-  nxos_vrf_interface:
-    interface: "{{ nxos_vrf_interface_underlay_link }}"
-    state: "{{ underlay_interfaces.link.states.state }}"
-    vrf: "{{ underlay_interfaces.link.vrf.name }}"
+## https://github.com/ansible/ansible/issues/33227
+#- name: "Ensure state of vrf on underlay links"
+#  nxos_vrf_interface:
+#    interface: "{{ nxos_vrf_interface_underlay_link }}"
+#    state: "{{ underlay_interfaces.link.states.state }}"
+#    vrf: "{{ underlay_interfaces.link.vrf.name }}"
+#  with_items: "{{ underlay_links }}"
+#  loop_control:
+#    loop_var: nxos_vrf_interface_underlay_link
+#    label: "nxos_vrf_interface_underlay_link {{ nxos_vrf_interface_underlay_link }}"
+
+## https://github.com/ansible/ansible/issues/33227
+- name: "nxos_vrf_interface: Ensure state of vrf on underlay links"
+  nxos_config:
+    save_when: always
+    commands:
+      - show run interface {{ nxos_vrf_interface_underlay_link }}
+      - interface {{ nxos_vrf_interface_underlay_link }}
+      - vrf member {{ underlay_interfaces.link.vrf.name }}
+    wait_for:
+      - result[0] contains 'no switchport'
   with_items: "{{ underlay_links }}"
   loop_control:
     loop_var: nxos_vrf_interface_underlay_link
     label: "nxos_vrf_interface_underlay_link {{ nxos_vrf_interface_underlay_link }}"
+
+
 
 ## where is lldp and dhcp modules for interface?
 - name: "nxos_lldp_interface: Amend layer3 on underlay links"
