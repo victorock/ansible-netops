@@ -81,6 +81,7 @@ underlay_ospf:
   vrf: "{{ underlay_vrfs.control }}"
   name: UNDERLAY_0
   area: 0
+  cost: 110
   states: "{{ underlay_states }}"
 
 underlay_bgp:
