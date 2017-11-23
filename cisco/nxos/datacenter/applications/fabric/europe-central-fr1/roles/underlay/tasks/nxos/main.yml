@@ -101,10 +101,7 @@
   nxos_ip_interface:
     interface: "{{ nxos_interface_l3_underlay.name }}"
     addr: "{{ nxos_interface_l3_underlay.address }}"
-    mode: layer3
-    interface_type: loopback
     mask: 32
-    admin_state: "{{ nxos_interface_l3_underlay.states.admin }}"
     state: "{{ nxos_interface_l3_underlay.states.state }}"
   with_items:
     - "{{ underlay_interfaces.control }}"
