@@ -66,8 +66,6 @@
       - show run interface {{ nxos_vrf_interface_underlay_link }}
       - interface {{ nxos_vrf_interface_underlay_link }}
       - vrf member {{ underlay_interfaces.link.vrf.name }}
-    wait_for:
-      - result[0] contains 'no switchport'
   with_items: "{{ underlay_links }}"
   loop_control:
     loop_var: nxos_vrf_interface_underlay_link
