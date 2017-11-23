@@ -96,19 +96,34 @@
     loop_var: nxos_interface_underlay_amend_dhcp
     label: "nxos_interface_underlay_amend_dhcp {{ nxos_interface_underlay_amend_dhcp }}"
 
+## ethernet XX
+- name: "Ensure state as Layer3 on control's and exchange's underlay interfaces"
+  nxos_interface:
+    interface: "{{ nxos_interface_l3_underlay.name }}"
+    mode: layer3
+    description: "{{ nxos_interface_l3_underlay.description }}"
+    admin_state: "{{ nxos_interface_l3_underlay.states.admin }}"
+    state: "{{ nxos_interface_l3_underlay.states.state }}"
+    with_items:
+      - "{{ underlay_interfaces.control }}"
+      - "{{ underlay_interfaces.exchange }}"
+  loop_control:
+    loop_var: nxos_interface_l3_underlay
+    label: "nxos_interface_l3_underlay {{ nxos_interface_l3_underlay }}"
+
 ## Ip of loopback0 and loopback1
 - name: "Ensure state of Layer3 on control's and exchange's underlay interfaces"
   nxos_ip_interface:
-    interface: "{{ nxos_interface_l3_underlay.name }}"
-    addr: "{{ nxos_interface_l3_underlay.address }}"
+    interface: "{{ nxos_ip_interface_l3_underlay.name }}"
+    addr: "{{ nxos_ip_interface_l3_underlay.address }}"
     mask: 32
-    state: "{{ nxos_interface_l3_underlay.states.state }}"
+    state: "{{ nxos_ip_interface_l3_underlay.states.state }}"
   with_items:
     - "{{ underlay_interfaces.control }}"
     - "{{ underlay_interfaces.exchange }}"
   loop_control:
-    loop_var: nxos_interface_l3_underlay
-    label: "nxos_interface_l3_underlay {{ nxos_interface_l3_underlay.name }}"
+    loop_var: nxos_ip_interface_l3_underlay
+    label: "nxos_ip_interface_l3_underlay {{ nxos_ip_interface_l3_underlay.name }}"
 
 - name: "Ensure state of ospf on underlay links"
   nxos_interface_ospf:
