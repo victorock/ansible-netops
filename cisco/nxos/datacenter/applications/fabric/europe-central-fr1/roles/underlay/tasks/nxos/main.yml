@@ -225,7 +225,6 @@
   nxos_pim_rp_address:
     rp_address: "{{ underlay_pim.rendezvous_point }}"
     group_list: "{{ underlay_pim.group_list }}"
-    state: "{{ underlay_pim.states.state }}"
 
 # ip pim ssm range 232.0.0.0/8
 - name: "Ensure state of exchange-plane ssm-range"
