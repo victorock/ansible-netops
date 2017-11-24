@@ -7,16 +7,11 @@
     loop_var: nxos_feature
     label: "nxos_feature {{ nxos_feature.key }}"
 
-- name: "nxos_nv_evpn: Configure dynamic ip allocation requirements"
+- name: "nxos_nv_overlay_epvn: Ensure state of evpn support"
   nxos_config:
     save_when: modified
     lines:
       - nv overlay evpn
-
-- name: "Ensure state of ospf"
-  nxos_ospf:
-    ospf: "{{ underlay_ospf.name }}"
-    state: "{{ underlay_ospf.states.state }}"
 
 - name: "nxos_dhcp: Configure dynamic ip allocation requirements"
   nxos_config:
@@ -77,7 +72,7 @@
     loop_var: nxos_interface_underlay_amend_dhcp
     label: "nxos_interface_underlay_amend_dhcp {{ nxos_interface_underlay_amend_dhcp }}"
 
-## ethernet XX
+##
 - name: "Ensure state as Layer3 on control's and exchange's underlay interfaces"
   nxos_interface:
     interface: "{{ nxos_interface_l3_underlay.name }}"
@@ -105,6 +100,13 @@
   loop_control:
     loop_var: nxos_ip_interface_l3_underlay
     label: "nxos_ip_interface_l3_underlay {{ nxos_ip_interface_l3_underlay.name }}"
+
+####### OSPF
+##
+- name: "Ensure state of ospf"
+  nxos_ospf:
+    ospf: "{{ underlay_ospf.name }}"
+    state: "{{ underlay_ospf.states.state }}"
 
 - name: "Ensure state of ospf on underlay links"
   nxos_interface_ospf:
@@ -135,6 +137,8 @@
     loop_var: nxos_interface_ospf_control_exchange
     label: "nxos_interface_ospf {{ nxos_interface_ospf_control_exchange }}"
 
+###### BGP
+##
 - name: "Ensure state of bgp for control and exchange planes"
   nxos_bgp:
     asn: "{{ underlay_bgp.asn }}"
@@ -158,7 +162,6 @@
     loop_var: nxos_bgp_neighbor_leaf
     label: "nxos_bgp_neighbor_leaf {{ nxos_bgp_neighbor_leaf }}"
 
-## Checkpoint here
 - name: "SPINE: Ensure state of control-plane address-family in neighborship between spines -> leafs"
   nxos_bgp_neighbor_af:
     neighbor: "{{ nxos_bgp_neighbor_af_leaf }}"
@@ -173,7 +176,6 @@
   loop_control:
     loop_var: nxos_bgp_neighbor_af_leaf
     label: "nxos_bgp_neighbor_af_leaf {{ nxos_bgp_neighbor_af_leaf }}"
-
 
 - name: "LEAF: Ensure state of control-plane bgp between leafs -> spines"
   nxos_bgp_neighbor:
@@ -206,7 +208,8 @@
     loop_var: nxos_bgp_neighbor_af_spine
     label: "nxos_bgp_neighbor_af_spine {{ nxos_bgp_neighbor_af_spine }}"
 
-##  interface <underlay.link>
+### MULTICAST
+##  interface <underlay>
 ##    ip pim sparse-mode
 - name: "Ensure state of exchange-plane on underlay links"
   nxos_pim_interface:

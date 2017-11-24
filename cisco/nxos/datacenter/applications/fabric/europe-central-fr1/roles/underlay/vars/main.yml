@@ -88,6 +88,6 @@ underlay_bgp:
 underlay_pim:
   description: "{{ description }}"
   source_specific_multicast_range: "232.0.0.0/8"
-  group_ranges:  "225.0.0.0/8"
+  group_list:  "225.0.0.0/8"
   rendezvous_point: "172.16.1.201"
   states: "{{ underlay_states }}"
