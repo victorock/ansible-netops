@@ -45,40 +45,34 @@ underlay_interfaces:
     name: loopback0
     address: "{{ control_plane_id }}"
     states: "{{ underlay_states }}"
-    vrf: "{{ underlay_vrfs.control }}"
   management:
     description: "{{ description }}"
     name: ethernet 1/1
     address: "{{ management_plane_id }}"
     states: "{{ underlay_states }}"
-    vrf: "{{ underlay_vrfs.management }}"
   exchange:
     description: "{{ description }}"
     name: loopback1
     address: "{{ exchange_plane_id }}"
     states: "{{ underlay_states }}"
-    vrf: "{{ underlay_vrfs.exchange }}"
   link:
     description: "{{ description }}"
     name: ethernet 1/2
     address: "{{ underlay_dhcp }}"
     states: "{{ underlay_states }}"
-    vrf: "{{ underlay_vrfs.control }}"
 
 underlay_controller:
   address: "{{ controller_id }}"
-  vrf: "{{ underlay_vrfs.management }}"
 
 underlay_dhcp:
   description: "{{ description }}"
-  vrf: "{{ underlay_vrfs.management }}"
+  vrf: "management"
   address: "{{ underlay_controller.address }}"
   states: "{{ underlay_states }}"
 
 underlay_ospf:
   description: "{{ description }}"
   router_id: "{{ underlay_interfaces.control.address }}"
-  vrf: "{{ underlay_vrfs.control }}"
   name: UNDERLAY_0
   area: 0
   cost: 110
@@ -87,14 +81,12 @@ underlay_ospf:
 underlay_bgp:
   description: "{{ description }}"
   router_id: "{{ underlay_interfaces.control.address }}"
-  vrf: "{{ underlay_vrfs.control }}"
   asn: 65001
   graceful_restart: true
   states: "{{ underlay_states }}"
 
 underlay_pim:
   description: "{{ description }}"
-  vrf: "{{ underlay_vrfs.control }}"
   source_specific_multicast_range: "232.0.0.0/8"
   group_ranges:  "225.0.0.0/8"
   rendezvous_point: "172.16.1.201"
