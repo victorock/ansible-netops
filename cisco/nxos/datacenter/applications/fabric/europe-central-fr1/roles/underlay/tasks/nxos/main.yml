@@ -171,7 +171,7 @@
   nxos_bgp:
     asn: "{{ underlay_bgp.asn }}"
     router_id: "{{ underlay_bgp.router_id }}"
-    vrf: "{{ underlay_bgp.vrf }}"
+    vrf: "{{ underlay_bgp.vrf.name }}"
     shutdown: "{{ underlay_bgp.states.shutdown }}"
     state: "{{ underlay_bgp.states.state }}"
 
@@ -179,7 +179,7 @@
   nxos_bgp_neighbor:
     neighbor: "{{ nxos_bgp_neighbor_leaf }}"
     asn: "{{ underlay_bgp.asn }}"
-    vrf: "{{ underlay_bgp.vrf }}"
+    vrf: "{{ underlay_bgp.vrf.name }}"
     local_as: "{{ underlay_bgp.asn }}"
     update_source: "{{ underlay_interfaces.control.name }}"
     shutdown: "{{ underlay_bgp.states.shutdown }}"
@@ -196,7 +196,7 @@
   nxos_bgp_neighbor_af:
     neighbor: "{{ nxos_bgp_neighbor_af_leaf }}"
     asn: "{{ underlay_bgp.asn }}"
-    vrf: "{{ underlay_bgp.vrf }}"
+    vrf: "{{ underlay_bgp.vrf.name }}"
     state: "{{ underlay_bgp.states.state }}"
     afi: l2vpn
     safi: evpn
@@ -213,7 +213,7 @@
   nxos_bgp_neighbor:
     neighbor: "{{ nxos_bgp_neighbor_spine }}"
     asn: "{{ underlay_bgp.asn }}"
-    vrf: "{{ underlay_bgp.vrf }}"
+    vrf: "{{ underlay_bgp.vrf.name }}"
     local_as: "{{ underlay_bgp.asn }}"
     update_source: "{{ underlay_interfaces.control.name }}"
     shutdown: "{{ underlay_bgp.states.shutdown }}"
@@ -230,7 +230,7 @@
   nxos_bgp_neighbor_af:
     neighbor: "{{ nxos_bgp_neighbor_af_spine }}"
     asn: "{{ underlay_bgp.asn }}"
-    vrf: "{{ underlay_bgp.vrf }}"
+    vrf: "{{ underlay_bgp.vrf.name }}"
     state: "{{ underlay_bgp.states.state }}"
     afi: l2vpn
     safi: evpn
@@ -246,40 +246,40 @@
 ##    ip pim sparse-mode
 - name: "Ensure state of exchange-plane on underlay links"
   nxos_pim_interface:
-    interface: "{{ nxos_interface_pim.link }}"
+    interface: "{{ nxos_interface_pim }}"
     sparse: true
   with_items: "{{ underlay_links }}"
   loop_control:
     loop_var: nxos_interface_pim
-    label: "nxos_interface_pim {{ nxos_interface_pim.link }}"
+    label: "nxos_interface_pim {{ nxos_interface_pim }}"
 
 ## ip pim rp-address <rendezvous_point> group-list <group_list>
 - name: "Ensure state of exchange-plane rendezvous-point"
   nxos_pim_rp_address:
     rp_address: "{{ underlay_pim.rendezvous_point }}"
     group_list: "{{ underlay_pim.group_list }}"
-    state: "{{ underlay_pim.state }}"
+    state: "{{ underlay_pim.states.state }}"
 
 # ip pim ssm range 232.0.0.0/8
 - name: "Ensure state of exchange-plane ssm-range"
   nxos_pim:
     ssm_range: "{{ underlay_pim.source_specific_multicast_range }}"
-    state: "{{ underlay_pim.state }}"
+    state: "{{ underlay_pim.states.state }}"
 
 ## ip pim rp-candidate <vars/main.yml:underlay_interfaces.exchange> group-list <vars/main.yml:underlay_pim.group_list>
 - name: "nxos_pim_rp_candidate: SPINE: Configure exchange-plane candidature to become rendezvous-point"
   nxos_config:
     save_when: modified
-    parents: vrf context {{ underlay_pim.vrf }}
+    parents: vrf context {{ underlay_pim.vrf.name }}
     lines:
-      - ip pim rp-candidate {{ underlay_interfaces.exchange }} group-list {{ underlay_pim.group_list }}
+      - ip pim rp-candidate {{ underlay_interfaces.exchange.name }} group-list {{ underlay_pim.group_list }}
   when: inventory_hostname in groups['spine']
 
 ## ip pim anycast-rp <vars/main.yml:underlay_interfaces.exchange> <spines:exchange_plane_id>
 - name: "nxos_pim_anycast_rp: SPINE: Configure anycasp-rp of exchange-plane"
   nxos_config:
     save_when: modified
-    parents: vrf context {{ underlay_pim.vrf }}
+    parents: vrf context {{ underlay_pim.vrf.name }}
     lines:
       - ip pim anycast-rp {{ underlay_pim.rendezvous_point }} {{ nxos_pim_anycast_rp }}
   when: inventory_hostname in groups['spine']
