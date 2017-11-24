@@ -25,20 +25,6 @@ underlay_features:
     states:
       state: enabled
 
-underlay_vrfs:
-  control:
-    description: "{{ description }}"
-    name: default
-    states: "{{ underlay_states }}"
-  management:
-    description: "{{ description }}"
-    name: management
-    states: "{{ underlay_states }}"
-  exchange:
-    description: "{{ description }}"
-    name: default
-    states: "{{ underlay_states }}"
-
 underlay_interfaces:
   control:
     description: "{{ description }}"
