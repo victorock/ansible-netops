@@ -7,6 +7,12 @@
     loop_var: nxos_feature
     label: "nxos_feature {{ nxos_feature.key }}"
 
+- name: "nxos_nv_evpn: Configure dynamic ip allocation requirements"
+  nxos_config:
+    save_when: modified
+    lines:
+      - nv overlay evpn
+
 - name: "Ensure the state of underlay vrfs"
   nxos_vrf:
     vrf: "{{ nxos_vrf_underlay.value.name }}"
