@@ -230,7 +230,6 @@
 - name: "Ensure state of exchange-plane ssm-range"
   nxos_pim:
     ssm_range: "{{ underlay_pim.source_specific_multicast_range }}"
-    state: "{{ underlay_pim.states.state }}"
 
 ## ip pim rp-candidate <vars/main.yml:underlay_interfaces.exchange> group-list <vars/main.yml:underlay_pim.group_list>
 - name: "nxos_pim_rp_candidate: SPINE: Configure exchange-plane candidature to become rendezvous-point"
