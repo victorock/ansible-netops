@@ -28,7 +28,7 @@ underlay_features:
 underlay_vrfs:
   control:
     description: "{{ description }}"
-    name: control
+    name: default
     states: "{{ underlay_states }}"
   management:
     description: "{{ description }}"
@@ -36,7 +36,7 @@ underlay_vrfs:
     states: "{{ underlay_states }}"
   exchange:
     description: "{{ description }}"
-    name: control
+    name: default
     states: "{{ underlay_states }}"
 
 underlay_interfaces:

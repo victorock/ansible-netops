@@ -198,6 +198,7 @@
     loop_var: nxos_bgp_neighbor_leaf
     label: "nxos_bgp_neighbor_leaf {{ nxos_bgp_neighbor_leaf }}"
 
+## Checkpoint here
 - name: "SPINE: Ensure state of control-plane address-family in neighborship between spines -> leafs"
   nxos_bgp_neighbor_af:
     neighbor: "{{ nxos_bgp_neighbor_af_leaf }}"
