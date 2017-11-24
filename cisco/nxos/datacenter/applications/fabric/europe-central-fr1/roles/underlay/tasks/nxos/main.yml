@@ -16,7 +16,6 @@
 - name: "Ensure state of ospf"
   nxos_ospf:
     ospf: "{{ underlay_ospf.name }}"
-    log_adjacency: detail
     state: "{{ underlay_ospf.states.state }}"
 
 - name: "nxos_dhcp: Configure dynamic ip allocation requirements"
