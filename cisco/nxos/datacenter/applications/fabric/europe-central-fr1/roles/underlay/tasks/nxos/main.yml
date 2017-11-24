@@ -27,8 +27,8 @@
 
 - name: "nxos_dhcp: Configure dynamic ip allocation requirements"
   nxos_config:
-    save_when: always
-    commands:
+    save_when: modified
+    lines:
       - ip dhcp relay
       - ip dhcp relay information option
       - ip dhcp relay information option vpn
@@ -61,10 +61,9 @@
 ## https://github.com/ansible/ansible/issues/33227
 - name: "nxos_vrf_interface: Ensure state of vrf on underlay links"
   nxos_config:
-    save_when: always
-    commands:
-      - show run interface {{ nxos_vrf_interface_underlay_link }}
-      - interface {{ nxos_vrf_interface_underlay_link }}
+    save_when: modified
+    parents: interface {{ nxos_vrf_interface_underlay_link }}
+    lines:
       - vrf member {{ underlay_interfaces.link.vrf.name }}
   with_items: "{{ underlay_links }}"
   loop_control:
@@ -72,11 +71,11 @@
     label: "nxos_vrf_interface_underlay_link {{ nxos_vrf_interface_underlay_link }}"
 
 ## where is lldp and dhcp modules for interface?
-- name: "nxos_lldp_interface: Amend layer3 on underlay links"
+- name: "nxos_lldp_interface: Ensure state of lldp on underlay links"
   nxos_config:
-    save_when: always
-    commands:
-      - interface {{ nxos_interface_underlay_link_amend_lldp }}
+    save_when: modified
+    parents: interface {{ nxos_interface_underlay_link_amend_lldp }}
+    lines:
       - lldp transmit
       - lldp receive
   with_items: "{{ underlay_links }}"
@@ -84,11 +83,11 @@
     loop_var: nxos_interface_underlay_link_amend_lldp
     label: "nxos_interface_underlay_link_amend_lldp {{ nxos_interface_underlay_link_amend_lldp }}"
 
-- name: "nxos_dhcp_interface: Amend layer3 on underlay links"
+- name: "nxos_dhcp_interface: Ensure state of dhcp on underlay links"
   nxos_config:
-    save_when: always
-    commands:
-      - interface {{ nxos_interface_underlay_amend_dhcp }}
+    save_when: modified
+    parents: interface {{ nxos_interface_underlay_amend_dhcp }}
+    lines:
       - ip dhcp relay address {{ underlay_dhcp.address }} use-vrf {{ underlay_dhcp.vrf.name }}
       - ip address dhcp
   with_items: "{{ underlay_links }}"
@@ -114,9 +113,9 @@
 ## https://github.com/ansible/ansible/issues/33227
 - name: "nxos_vrf_interface: Ensure state of vrf on control and exchange interfaces"
   nxos_config:
-    save_when: always
-    commands:
-      - interface {{ nxos_vrf_interface_underlay_interface.name }}
+    save_when: modified
+    parents: interface {{ nxos_vrf_interface_underlay_interface.name }}
+    lines:
       - vrf member {{ nxos_vrf_interface_underlay_interface.vrf.name }}
   with_items:
     - "{{ underlay_interfaces.control }}"
@@ -270,18 +269,18 @@
 ## ip pim rp-candidate <vars/main.yml:underlay_interfaces.exchange> group-list <vars/main.yml:underlay_pim.group_list>
 - name: "nxos_pim_rp_candidate: SPINE: Configure exchange-plane candidature to become rendezvous-point"
   nxos_config:
-    save_when: always
-    commands:
-      - vrf context {{ underlay_pim.vrf }}
+    save_when: modified
+    parents: vrf context {{ underlay_pim.vrf }}
+    lines:
       - ip pim rp-candidate {{ underlay_interfaces.exchange }} group-list {{ underlay_pim.group_list }}
   when: inventory_hostname in groups['spine']
 
 ## ip pim anycast-rp <vars/main.yml:underlay_interfaces.exchange> <spines:exchange_plane_id>
 - name: "nxos_pim_anycast_rp: SPINE: Configure anycasp-rp of exchange-plane"
   nxos_config:
-    save_when: always
-    commands:
-      - vrf context {{ underlay_pim.vrf }}
+    save_when: modified
+    parents: vrf context {{ underlay_pim.vrf }}
+    lines:
       - ip pim anycast-rp {{ underlay_pim.rendezvous_point }} {{ nxos_pim_anycast_rp }}
   when: inventory_hostname in groups['spine']
   with_items: "{{ groups['spine']|map('extract', hostvars, 'exchange_plane_id')|list }}"
