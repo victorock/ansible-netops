@@ -169,8 +169,8 @@
 
 - name: "Ensure state of bgp for control and exchange planes"
   nxos_bgp:
-    asn: "{{ underlay_bgp }}"
-    router_id: "{{ underlay_ospf.router_id }}"
+    asn: "{{ underlay_bgp.asn }}"
+    router_id: "{{ underlay_bgp.router_id }}"
     vrf: "{{ underlay_bgp.vrf }}"
     shutdown: "{{ underlay_bgp.states.shutdown }}"
     state: "{{ underlay_bgp.states.state }}"
