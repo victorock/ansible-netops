@@ -1,0 +1,20 @@
+- name: "VLAN Provisioning"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    name: management
+    vlan_id: 10
+    vlan_state: active
+    admin_state: up
+    state: present
+
+  tasks:
+    - name: "Ensure vlan exists"
+      nxos_vlan:
+        name: "{{ name }}"
+        vlan_id: "{{ vlan_id }}"
+        vlan_state: "{{ vlan_state }}"
+        admin_state: "{{ admin_state }}"
+        state: "{{ state }}"

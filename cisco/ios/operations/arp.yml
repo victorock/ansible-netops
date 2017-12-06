@@ -1,0 +1,20 @@
+- name: "IOS Command"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    commands:
+      - terminal length 0
+      - show running-config arp
+      - show ip arp vrf all
+      - show ip arp static vrf all
+      - show ip arp summary vrf all
+      - show ip arp detail vrf all
+      - show ip arp statistics vrf all
+
+  tasks:
+    - name: "show ip arp"
+      ios_command:
+        commands: "{{ commands }}"
+        timeout: 600

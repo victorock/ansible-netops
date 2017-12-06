@@ -1,0 +1,29 @@
+- name: "TACACS Configuration"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    group: tacacs-group
+    server: myserver
+    address: 2.3.4.5
+    port: 89
+    timeout: 10
+    key: mykey
+
+  tasks:
+
+    - name: "Tacacs Server Host Configuration"
+      ios_config:
+        parents: tacacs server {{ server }}
+        lines:
+          - address ipv4 {{ address }}
+          - port {{ port }}
+          - timeout {{ host_timeout }}
+          - key 0 {{ key }}
+
+    - name: "Tacacs Group Configuration"
+      ios_config:
+        parents: aaa group server tacacs+ {{ group }}
+        lines:
+          - server {{ address }}

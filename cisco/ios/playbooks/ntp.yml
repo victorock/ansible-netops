@@ -1,0 +1,27 @@
+- name: "NTP Provisioning"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+
+    source_interface: mgmt0
+    servers:
+      - 0.europe.pool.ntp.org
+      - 1.europe.pool.ntp.org
+      - 2.europe.pool.ntp.org
+
+  tasks:
+    - name: "Configure NTP source"
+      ios_config:
+        lines:
+          - ntp source {{ source_interface }}
+
+    - name: "Configure NTP server"
+      ios_config:
+        lines:
+          - ntp server {{ ntp_server }}
+      with_items: "{{ servers | default([]) }}"
+      loop_control:
+        loop_var: ntp_server
+        label: "ntp_server {{ ntp_server }}"

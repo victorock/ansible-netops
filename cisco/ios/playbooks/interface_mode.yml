@@ -1,0 +1,26 @@
+- name: "Interface Mode"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    interface: gig2
+    description: Automated by Ansible
+    mode: layer3
+
+  tasks:
+
+# By default interface will be layer2
+    - set_fact:
+        l2_or_l3: switchport
+
+# Only set as layer3 is it is explicit defined
+    - set_fact:
+        l2_or_l3: no switchport
+      when: mode == 'layer3'
+
+    - name: "Configure interface {{ interface }} as {{ l2_or_l3 }}"
+      ios_config:
+        parents: interface {{ interface }}
+        lines:
+          - "{{ l2_or_l3 }}"

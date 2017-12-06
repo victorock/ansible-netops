@@ -1,0 +1,17 @@
+- name: "OSPF Configuration"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    instance: INSTANCE_1
+    area: 1
+    type: nssa
+
+  tasks:
+    - name: "Configure OSPF area"
+      ios_config:
+        parents: router ospf {{ instance }}
+        lines:
+          - area {{ area }} authentication message-digest
+          - area {{ area }} {{ type }}

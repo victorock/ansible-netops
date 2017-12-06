@@ -1,0 +1,57 @@
+- name: "Ensure the state of overlay features based on device's group membership to leaf or spine)"
+  nxos_feature:
+    name: "{{ nxos_feature.name|default(mandatory) }}"
+    state: "{{ nxos_feature.state|default(omit) }}"
+  with_items: "{{ overlay_nxos_features|default([]) }}"
+  when: inventory_hostname in groups[nxos_feature.group]
+  loop_control:
+    loop_var: nxos_feature
+    label: "nxos_feature {{ nxos_feature.name }}"
+
+- name: "Ensure the state of nv_overlay_evpn"
+  nxos_evpn_global:
+    nv_overlay_evpn: "{{ overlay_nxos_nv_overlay_evpn }}"
+
+- name: "Ensure the state of vnis"
+  nxos_evpn_vni:
+    vni: "{{ nxos_evpn_vni.vni_id|default(mandatory) }}"
+    route_distinguisher: "{{ nxos_evpn_vni.route_distinguisher|default(mandatory) }}"
+    route_target_import: "{{ nxos_evpn_vni.route_target_import|default(omit) }}"
+    route_target_export: "{{ nxos_evpn_vni.route_target_export|default(omit) }}"
+    route_target_both: "{{ nxos_evpn_vni.route_target_both|default(omit) }}"
+    state: "{{ nxos_evpn_vni.state|default('present') }}"
+  with_items: "{{ overlay_nxos|default([]) }}"
+  loop_control:
+    loop_var: nxos_evpn_vni
+    label: "nxos_evpn_vni {{ nxos_evpn_vni.vni }}"
+
+- name: "Ensure the state of vteps in leafs"
+  nxos_vxlan_vtep:
+    interface: "{{ nxos_vxlan_vtep.interface|default(mandatory) }}"
+    description: "{{ nxos_vxlan_vtep.description|default(omit) }}"
+    host_reachability: "{{ nxos_vxlan_vtep.host_reachability|default(omit) }}"
+    source_interface: "{{ nxos_vxlan_vtep.source_interface|default(omit) }}"
+    source_interface_hold_down_time: "{{ nxos_vxlan_vtep.source_interface_hold_down_time|default(omit) }}" }}"
+    shutdown: "{{ nxos_vxlan_vtep.shutdown|default(omit) }}"
+  with_items: "{{ overlay_nxos|default([]) }}"
+  when:
+    - inventory_hostname in groups['leaf']
+    - inventory_hostname in groups[nxos_vxlan_vtep.group]
+  loop_control:
+    loop_var: nxos_vxlan_vtep
+    label: "nxos_vxlan_vtep {{ nxos_vxlan_vtep.interface }}"
+
+- name: "Ensure the state of vxlan_vtep_vni in leafs"
+  nxos_vxlan_vtep_vni:
+    interface: "{{ nxos_vxlan_vtep_vni.interface|default(mandatory) }}"
+    vni: "{{ nxos_vxlan_vtep_vni.vni|default(mandatory) }}"
+    ingress_replication: "{{ nxos_vxlan_vtep_vni.ingress_replication|default(omit) }}"
+    assoc_vrf: "{{ nxos_vxlan_vtep_vni.assoc_vrf|default(omit) }}"
+    multicast_group: "{{ nxos_vxlan_vtep_vni.multicast_group|default(omit) }}"
+    suppress_arp: "{{ nxos_vxlan_vtep_vni.suppress_arp|default(omit) }}"
+    peer_list: "{{ nxos_vxlan_vtep_vni.peer_list|default(omit) }}"
+  with_items: "{{ overlay_nxos|default([]) }}"
+  when: inventory_hostname in groups['leaf']
+  loop_control:
+    loop_var: nxos_vxlan_vtep_vni
+    label: "nxos_vxlan_vtep_vni {{ nxos_vxlan_vtep_vni.interface }}"

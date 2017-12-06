@@ -1,0 +1,8 @@
+overlay:
+  - name: tenant01
+    vni: 10001
+    route_distinguisher: 60:10
+    route_target_import: [ '5000:10', '4100:100' ]
+    route_target_export: auto
+    route_target_both: default
+    state: present

@@ -13,14 +13,6 @@
     lines:
       - nv overlay evpn
 
-- name: "nxos_dhcp: Configure dynamic ip allocation requirements"
-  nxos_config:
-    save_when: modified
-    lines:
-      - ip dhcp relay
-      - ip dhcp relay information option
-      - ip dhcp relay information option vpn
-
 ## ethernet XX
 - name: "Ensure state as layer3 on underlay links"
   nxos_interface:
@@ -45,32 +37,6 @@
 #  loop_control:
 #    loop_var: nxos_vrf_interface_underlay_link
 #    label: "nxos_vrf_interface_underlay_link {{ nxos_vrf_interface_underlay_link }}"
-
-## nxos_lldp_interface
-- name: "nxos_lldp_interface: Ensure state of lldp on underlay links"
-  nxos_config:
-    save_when: modified
-    parents: interface {{ nxos_interface_underlay_link_amend_lldp }}
-    lines:
-      - lldp transmit
-      - lldp receive
-  with_items: "{{ underlay_links }}"
-  loop_control:
-    loop_var: nxos_interface_underlay_link_amend_lldp
-    label: "nxos_interface_underlay_link_amend_lldp {{ nxos_interface_underlay_link_amend_lldp }}"
-
-## nxos_dhcp_interface
-- name: "nxos_dhcp_interface: Ensure state of dhcp on underlay links"
-  nxos_config:
-    save_when: modified
-    parents: interface {{ nxos_interface_underlay_amend_dhcp }}
-    lines:
-      - ip dhcp relay address {{ underlay_dhcp.address }} use-vrf {{ underlay_dhcp.vrf }}
-      - ip address dhcp
-  with_items: "{{ underlay_links }}"
-  loop_control:
-    loop_var: nxos_interface_underlay_amend_dhcp
-    label: "nxos_interface_underlay_amend_dhcp {{ nxos_interface_underlay_amend_dhcp }}"
 
 ##
 - name: "Ensure state as Layer3 on control's and exchange's underlay interfaces"
@@ -101,152 +67,9 @@
     loop_var: nxos_ip_interface_l3_underlay
     label: "nxos_ip_interface_l3_underlay {{ nxos_ip_interface_l3_underlay.name }}"
 
-####### OSPF
-##
-- name: "Ensure state of ospf"
-  nxos_ospf:
-    ospf: "{{ underlay_ospf.name }}"
-    state: "{{ underlay_ospf.states.state }}"
-
-- name: "Ensure state of ospf on underlay links"
-  nxos_interface_ospf:
-    interface: "{{ nxos_interface_ospf_underlay_link }}"
-    ospf: "{{ underlay_ospf.name }}"
-    area: "{{ underlay_ospf.area }}"
-    cost: "{{ underlay_ospf.cost }}"
-    state: "{{ underlay_ospf.states.state }}"
-    passive_interface: false
-  with_items: "{{ underlay_links }}"
+- name: "Import tasks for features"
+  include_tasks: "{{ underlay_feature.value.name }}.yml"
+  with_dict: "{{ underlay_features }}"
   loop_control:
-    loop_var: nxos_interface_ospf_underlay_link
-    label: "nxos_interface_ospf {{ nxos_interface_ospf_underlay_link }}"
-
-## https://github.com/ansible/ansible/issues/33245
-- name: "Ensure state of ospf on control and exchange loopback interfaces"
-  nxos_interface_ospf:
-    interface: "{{ nxos_interface_ospf_control_exchange.name }}"
-    ospf: "{{ underlay_ospf.name }}"
-    area: "{{ underlay_ospf.area }}"
-    cost: "{{ underlay_ospf.cost }}"
-    state: "{{ underlay_ospf.states.state }}"
-#    passive_interface: true
-  with_items:
-    - "{{ underlay_interfaces.control }}"
-    - "{{ underlay_interfaces.exchange }}"
-  loop_control:
-    loop_var: nxos_interface_ospf_control_exchange
-    label: "nxos_interface_ospf {{ nxos_interface_ospf_control_exchange }}"
-
-###### BGP
-##
-- name: "Ensure state of bgp for control and exchange planes"
-  nxos_bgp:
-    asn: "{{ underlay_bgp.asn }}"
-    router_id: "{{ underlay_bgp.router_id }}"
-    shutdown: "{{ underlay_bgp.states.shutdown }}"
-    state: "{{ underlay_bgp.states.state }}"
-
-- name: "SPINE: Ensure state of bgp for control-plane between spines -> leafs"
-  nxos_bgp_neighbor:
-    neighbor: "{{ nxos_bgp_neighbor_leaf }}"
-    asn: "{{ underlay_bgp.asn }}"
-    local_as: "{{ underlay_bgp.asn }}"
-    update_source: "{{ underlay_interfaces.control.name }}"
-    shutdown: "{{ underlay_bgp.states.shutdown }}"
-    description: "{{ underlay_bgp.description }}"
-    remote_as: "{{ underlay_bgp.asn }}"
-    state: "{{ underlay_bgp.states.state }}"
-  with_items: "{{ groups['leaf']|map('extract', hostvars, 'control_plane_id')|list }}"
-  when: inventory_hostname in groups['spine']
-  loop_control:
-    loop_var: nxos_bgp_neighbor_leaf
-    label: "nxos_bgp_neighbor_leaf {{ nxos_bgp_neighbor_leaf }}"
-
-- name: "SPINE: Ensure state of control-plane address-family in neighborship between spines -> leafs"
-  nxos_bgp_neighbor_af:
-    neighbor: "{{ nxos_bgp_neighbor_af_leaf }}"
-    asn: "{{ underlay_bgp.asn }}"
-    state: "{{ underlay_bgp.states.state }}"
-    afi: l2vpn
-    safi: evpn
-    send_community: both
-    route_reflector_client: true
-  with_items: "{{ groups['leaf']|map('extract', hostvars, 'control_plane_id')|list }}"
-  when: inventory_hostname in groups['spine']
-  loop_control:
-    loop_var: nxos_bgp_neighbor_af_leaf
-    label: "nxos_bgp_neighbor_af_leaf {{ nxos_bgp_neighbor_af_leaf }}"
-
-- name: "LEAF: Ensure state of control-plane bgp between leafs -> spines"
-  nxos_bgp_neighbor:
-    neighbor: "{{ nxos_bgp_neighbor_spine }}"
-    asn: "{{ underlay_bgp.asn }}"
-    local_as: "{{ underlay_bgp.asn }}"
-    update_source: "{{ underlay_interfaces.control.name }}"
-    shutdown: "{{ underlay_bgp.states.shutdown }}"
-    description: "{{ underlay_bgp.description }}"
-    remote_as: "{{ underlay_bgp.asn }}"
-    state: "{{ underlay_bgp.states.state }}"
-  with_items: "{{ groups['spine']|map('extract', hostvars, 'control_plane_id')|list }}"
-  when: inventory_hostname in groups['leaf']
-  loop_control:
-    loop_var: nxos_bgp_neighbor_spine
-    label: "nxos_bgp_neighbor_spine {{ nxos_bgp_neighbor_spine }}"
-
-- name: "LEAF: Ensure state of control-plane address-family in neighborship between leafs -> spines"
-  nxos_bgp_neighbor_af:
-    neighbor: "{{ nxos_bgp_neighbor_af_spine }}"
-    asn: "{{ underlay_bgp.asn }}"
-    state: "{{ underlay_bgp.states.state }}"
-    afi: l2vpn
-    safi: evpn
-    send_community: both
-    route_reflector_client: true
-  with_items: "{{ groups['spine']|map('extract', hostvars, 'control_plane_id')|list }}"
-  when: inventory_hostname in groups['leaf']
-  loop_control:
-    loop_var: nxos_bgp_neighbor_af_spine
-    label: "nxos_bgp_neighbor_af_spine {{ nxos_bgp_neighbor_af_spine }}"
-
-### MULTICAST
-##  interface <underlay>
-##    ip pim sparse-mode
-- name: "Ensure state of exchange-plane on underlay links"
-  nxos_pim_interface:
-    interface: "{{ nxos_interface_pim }}"
-    sparse: true
-  with_items: "{{ underlay_links }}"
-  loop_control:
-    loop_var: nxos_interface_pim
-    label: "nxos_interface_pim {{ nxos_interface_pim }}"
-
-## ip pim rp-address <rendezvous_point> group-list <group_list>
-- name: "Ensure state of exchange-plane rendezvous-point"
-  nxos_pim_rp_address:
-    rp_address: "{{ underlay_pim.rendezvous_point }}"
-    group_list: "{{ underlay_pim.group_list }}"
-
-# ip pim ssm range 232.0.0.0/8
-- name: "Ensure state of exchange-plane ssm-range"
-  nxos_pim:
-    ssm_range: "{{ underlay_pim.source_specific_multicast_range }}"
-
-## ip pim rp-candidate <vars/main.yml:underlay_interfaces.exchange> group-list <vars/main.yml:underlay_pim.group_list>
-- name: "nxos_pim_rp_candidate: SPINE: Configure exchange-plane candidature to become rendezvous-point"
-  nxos_config:
-    save_when: modified
-    lines:
-      - ip pim rp-candidate {{ underlay_interfaces.exchange.name }} group-list {{ underlay_pim.group_list }}
-  when: inventory_hostname in groups['spine']
-
-## ip pim anycast-rp <vars/main.yml:underlay_interfaces.exchange> <spines:exchange_plane_id>
-- name: "nxos_pim_anycast_rp: SPINE: Configure anycasp-rp of exchange-plane"
-  nxos_config:
-    save_when: modified
-    lines:
-      - ip pim anycast-rp {{ underlay_pim.rendezvous_point }} {{ nxos_pim_anycast_rp }}
-  when: inventory_hostname in groups['spine']
-  with_items: "{{ groups['spine']|map('extract', hostvars, 'exchange_plane_id')|list }}"
-  loop_control:
-    loop_var: nxos_pim_anycast_rp
-    label: "nxos_pim_anycast_rp {{ nxos_pim_anycast_rp }}"
+    loop_var: underlay_feature
+    label: "tasks from {{ underlay_feature }}"

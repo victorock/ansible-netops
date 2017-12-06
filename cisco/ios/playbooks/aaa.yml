@@ -1,0 +1,16 @@
+- name: "AAA Configuration"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    deadtime: 20
+    server_timeout: 9
+    server_type: tacacs
+    global_key: my_key
+
+  tasks:
+    - name: "AAA new-model"
+      ios_config:
+        lines:
+          - aaa new-model

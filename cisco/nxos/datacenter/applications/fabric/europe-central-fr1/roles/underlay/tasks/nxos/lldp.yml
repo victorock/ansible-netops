@@ -1,0 +1,12 @@
+## nxos_lldp_interface
+- name: "nxos_lldp_interface: Ensure state of lldp on underlay links"
+  nxos_config:
+    save_when: modified
+    parents: interface {{ nxos_interface_underlay_link_amend_lldp }}
+    lines:
+      - lldp transmit
+      - lldp receive
+  with_items: "{{ underlay_links }}"
+  loop_control:
+    loop_var: nxos_interface_underlay_link_amend_lldp
+    label: "nxos_interface_underlay_link_amend_lldp {{ nxos_interface_underlay_link_amend_lldp }}"

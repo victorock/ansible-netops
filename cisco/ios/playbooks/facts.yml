@@ -1,0 +1,10 @@
+- name: "IOS Facts"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+
+  tasks:
+    - name: "Gather Facts"
+      iosos_facts:

@@ -1,0 +1,18 @@
+- name: "IOS Banner"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    banner: motd
+    text: |
+      Automated by Ansible
+    state: present
+
+  tasks:
+
+    - name: "Ensure banner message state"
+      ios_banner:
+        banner: "{{ banner }}"
+        text: "{{ text }}"
+        state: "{{ state }}"

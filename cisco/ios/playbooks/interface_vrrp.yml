@@ -1,0 +1,21 @@
+- name: "HSRP Configuration"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    interface: gig2
+    group: 100
+    vip: 10.1.10.1
+    priority: 130
+    auth_string: my_key
+
+  tasks:
+    - name: "Configure VRRP on interface"
+      ios_config:
+        parents: interface {{ interface }}
+        lines:
+          - vrrp {{ group }} ip {{ vip }}
+          - vrrp {{ group }} preempt
+          - vrrp {{ group }} authentication text {{ auth_string }}
+          - vrrp {{ group }} priority {{ priority }}

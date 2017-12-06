@@ -1,0 +1,16 @@
+- name: "L3 Interface Provisioning"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    interface: gig2
+    address: 1.1.1.1
+    mask: 255.255.255.0
+
+  tasks:
+    - name: "Configure interface {{ interface }} ip"
+      ios_config:
+        parents: interface {{ interface }}
+        lines:
+          - ip address {{ address }} {{ mask }}

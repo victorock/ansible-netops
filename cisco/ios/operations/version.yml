@@ -1,0 +1,13 @@
+- name: "IOS Command"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    commands:
+      - show version
+
+  tasks:
+    - name: "show version"
+      ios_command:
+        commands: "{{ commands }}"

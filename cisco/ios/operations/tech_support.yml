@@ -1,0 +1,15 @@
+- name: "IOS Command"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    commands:
+      - terminal length 0
+      - show tech-support | redirect bootflash:tech-support
+
+  tasks:
+    - name: "Generate Tech-support"
+      ios_command:
+        commands: "{{ commands }}"
+        timeout: 900

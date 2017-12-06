@@ -1,4 +1,4 @@
 ansible_network_os: nxos
 control_plane_id: 10.0.1.202
-exchange_plane_id: 172.16.1.202
+exchange_plane_id: 172.16.1.1
 management_plane_id: 10.42.0.12

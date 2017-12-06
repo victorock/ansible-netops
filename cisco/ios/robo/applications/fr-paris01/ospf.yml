@@ -1,0 +1,58 @@
+- name: "OSPF Configuration"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    instance: 110
+
+    areas:
+      - { area: 1, type: nssa, redistribute: connected }
+      - { area: 1, type: nssa, redistribute: static }
+      - { area: 2, type: nssa, redistribute: connected }
+      - { area: 2, type: nssa, redistribute: static }
+
+    networks:
+      - { area: 1, network: 10.0.0.0, wildcard: 0.0.0.255 }
+      - { area: 2, network: 192.168.0.0, wildcard: 0.0.0.255 }
+      - { area: 2, network: 172.168.0.0, wildcard: 0.0.0.255 }
+
+    interfaces:
+      - { area: 1, interface: GigabitEthernet3, key: mykey, cost: 110 }
+      - { area: 2, interface: GigabitEthernet4, key: mykey, cost: 110 }
+
+  tasks:
+    - name: "Configure OSPF areas"
+      ios_config:
+        parents: router ospf {{ instance }}
+        lines:
+          - area {{ ospf_area.area }} authentication message-digest
+          - area {{ ospf_area.area }} {{ ospf_area.type }}
+          - redistribute {{ ospf_area.redistribute }}
+      with_items: "{{ areas }}"
+      loop_control:
+        loop_var: ospf_area
+        label: "ospf_area {{ ospf_area.area }},{{ ospf_area.type }},{{ ospf_area.redistribute }}"
+
+    - name: "Configure OSPF networks"
+      ios_config:
+        parents: router ospf {{ instance }}
+        lines:
+          - network {{ ospf_network.network }} {{ ospf_network.wildcard }} area {{ ospf_network.area }}
+      with_items: "{{ networks }}"
+      loop_control:
+        loop_var: ospf_network
+        label: "ospf_network {{ ospf_network.network }},{{ ospf_network.area }}"
+
+    - name: "Configure OSPF interfaces"
+      ios_config:
+        parents: interface {{ ospf_interface.interface }}
+        lines:
+          - ip ospf authentication
+          - ip ospf authentication-key {{ ospf_interface.key }}
+          - ip ospf cost {{ ospf_interface.cost }}
+          - ip ospf {{ instance }} area {{ ospf_interface.area }}
+      with_items: "{{ interfaces }}"
+      loop_control:
+        loop_var: ospf_interface
+        label: "ospf_interface {{ ospf_interface.interface }},{{ ospf_interface.area }},{{ ospf_interface.cost }}"

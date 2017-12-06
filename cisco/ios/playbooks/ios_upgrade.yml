@@ -1,0 +1,50 @@
+- name: "Switchport Provisioning"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    system_image_file: c2600-adventerprisek9-mz.124-12.bin
+    system_version: 7.0(3)I7(1)
+
+  tasks:
+    - name: "Define IOS SW Version"
+      block:
+        - name: "Verify IOS"
+          ios_command:
+            commands:
+              - file verify auto
+              - verify flash:{{ system_image_file }}
+            wait_for:
+              - result[0] contains Verified
+
+        - name: "Install IOS"
+          ios_config:
+            lines:
+              - config-register 0x2102
+              - boot system flash:{{ system_image_file }}
+              - reload
+
+      rescue:
+        - name: "Wait for device to perform checks"
+          wait_for:
+            port: 22
+            state: stopped
+            timeout: 300
+            delay: 60
+
+        - name: "Wait for device to come back up"
+          wait_for:
+            port: 22
+            state: started
+            timeout: 300
+            delay: 60
+
+        - name: "Check installed IOS"
+          nxos_command:
+            commands:
+              - show version
+          register: output
+        - assert:
+            that:
+              - output['stdout'][0]['kickstart_ver_str'] == system_version

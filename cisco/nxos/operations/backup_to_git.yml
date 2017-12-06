@@ -1,60 +1,75 @@
-- name: "NXOS Backup"
+- name: "IOS Backup"
   hosts: all
   connection: local
   gather_facts: no
 
   vars:
-    repo: https://github.com/victorock/network-configs
-    branch: datacenter1
+    repo: ssh://git@github.com/victorock/network-configs
+    branch: "europe-central-fr1"
 
   tasks:
 
-    - name: "create temporary directory"
+    - name: "create temporary directory to store configuration"
+      changed_when: False
       tempfile:
         state: directory
         suffix: nxos_config
       register: r_tempfile
 
     - name: "clone the repository containing configurations"
+      changed_when: False
       git:
         repo: "{{ repo }}"
         dest: "{{ r_tempfile.path }}"
         version: "{{ branch }}"
         clone: yes
 
-    - name: "git checkout {{ branch|quote }}"
-      shell: git checkout {{ branch|quote }}
-      args:
-        chdir: "{{ r_tempfile.path }}"
-
     - name: "fetch network configuration"
       nxos_config:
         backup: yes
       register: r_nxos_config
 
+    - name: "ensure network os specific folder exist"
+      file:
+        path: "{{ r_tempfile.path }}/{{ ansible_network_os}}"
+        state: directory
+
     - name: "copy network configuration to repo folder"
       copy:
         src: "{{ r_nxos_config.backup_path }}"
-        dest: "{{ r_tempfile.path }}"
+        dest: "{{ r_tempfile.path }}/{{ ansible_network_os}}/{{ inventory_hostname }}"
         force: "yes"
 
-    - name: "git commit"
-      shell: git commit -am "Network Backup"
+    - name: "git add (untracked files)"
+      changed_when: False
+      shell: git add -A
       args:
         chdir: "{{ r_tempfile.path }}"
 
+    - name: "git commit"
+      block:
+        - name: "Commit if there are any changes"
+          shell: git commit -am "Network Backup"
+          args:
+            chdir: "{{ r_tempfile.path }}"
+      rescue:
+        - debug:
+            msg: "Nothing to commit..."
+
     - name: "git push"
+      changed_when: False
       shell: git push --force origin {{ branch|quote }}
       args:
         chdir: "{{ r_tempfile.path }}"
 
     - name: "Cleanup generated files/directories"
+      changed_when: False
       file:
         path: "{{ cleanup }}"
         state: absent
       with_items:
-        - "{{ r_nxos_config.backup_path }}"
+        - "{{ r_nxos_config.backup_path | dirname }}"
         - "{{ r_tempfile.path }}"
       loop_control:
         loop_var: cleanup
-        label: "{{ cleanup }}"
+        label: "cleanup {{ cleanup }}"

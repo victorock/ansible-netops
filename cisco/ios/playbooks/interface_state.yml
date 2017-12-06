@@ -1,0 +1,26 @@
+- name: "Interface State"
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    interface: gig2
+    description: Automated by Ansible
+    mode: layer3
+    admin_state: up
+
+  tasks:
+    - set_fact:
+        shut_no_shut: no shut
+      when: admin_state == 'up'
+
+    - set_fact:
+        shut_no_shut: shut
+      when: admin_state == 'down'
+
+    - name: "Configure interface {{ interface }} as {{ admin_state }}"
+      ios_config:
+        parents: interface {{ interface }}
+        lines:
+          - description {{ description }}
+          - "{{ shut_no_shut }}"
