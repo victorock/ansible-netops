@@ -1,0 +1,7 @@
+{% for vlan_interface in vlan_interface_aggregate %}
+interface {{ vlan_interface.interface }}
+  switchport
+  switchport mode trunk
+  switchport trunk {{ vlan_interface.allowed_vlans }}
+  switchport trunk native vlan {{ vlan_interface.native_vlan }}
+{% endfor %}

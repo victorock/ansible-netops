@@ -1,0 +1,4 @@
+{% for vpc_interface in vpc_interface_aggregate %}
+interface {{ vpc_interface.interface }}
+  vpc {{ vpc_interface.vpc }}
+{% endfor %}

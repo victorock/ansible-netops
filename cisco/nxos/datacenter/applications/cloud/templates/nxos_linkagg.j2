@@ -1,0 +1,11 @@
+{% for linkagg in linkagg_aggregate %}
+interface port-channel {{ linkagg.group }}
+  description Automated by Ansible
+
+{% for member in linkagg.members %}
+interface {{ member }}
+  channel-group {{ linkagg.group }} mode {{ linkagg.mode }}
+  no shut
+{% endfor %}
+
+{% endfor %}

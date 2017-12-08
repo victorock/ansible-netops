@@ -7,44 +7,69 @@
     instance: 110
 
     areas:
-      - { area: 1, type: nssa, redistribute: connected }
-      - { area: 1, type: nssa, redistribute: static }
-      - { area: 2, type: nssa, redistribute: connected }
-      - { area: 2, type: nssa, redistribute: static }
+      - { area: 1, type: nssa, network: 10.0.0.0, wildcard: 0.0.0.255 }
+      - { area: 1, type: nssa, network: 192.168.0.0, wildcard: 0.0.0.255 }
+      - { area: 2, type: nssa, network: 172.16.0.0, wildcard: 0.0.0.255 }
 
-    networks:
-      - { area: 1, network: 10.0.0.0, wildcard: 0.0.0.255 }
-      - { area: 2, network: 192.168.0.0, wildcard: 0.0.0.255 }
-      - { area: 2, network: 172.168.0.0, wildcard: 0.0.0.255 }
+    redistributes:
+      - { redistribute: static, metric: 210, route_map: STATIC->OSPF }
+      - { redistribute: connected, metric: 200, route_map: CONNECTED->OSPF }
+
+    route_maps:
+      - { route_map: STATIC->OSPF, prefix_list: PERMIT_ALL }
+      - { route_map: CONNECTED->OSPF, prefix_list: PERMIT_ALL }
+
+    prefix_lists:
+      - { prefix_list: PERMIT_ALL, action: permit, network: 0.0.0.0/0, le: 32 }
 
     interfaces:
       - { area: 1, interface: GigabitEthernet3, key: mykey, cost: 110 }
       - { area: 2, interface: GigabitEthernet4, key: mykey, cost: 110 }
 
   tasks:
-    - name: "Configure OSPF areas"
+
+    - name: "OSPF: Configure areas with networks"
       ios_config:
         parents: router ospf {{ instance }}
         lines:
           - area {{ ospf_area.area }} authentication message-digest
           - area {{ ospf_area.area }} {{ ospf_area.type }}
-          - redistribute {{ ospf_area.redistribute }}
+          - network {{ ospf_area.network }} {{ ospf_area.wildcard }} area {{ ospf_area.area }}
       with_items: "{{ areas }}"
       loop_control:
         loop_var: ospf_area
-        label: "ospf_area {{ ospf_area.area }},{{ ospf_area.type }},{{ ospf_area.redistribute }}"
+        label: "ospf_area {{ ospf_area.area }},{{ ospf_area.type }}"
 
-    - name: "Configure OSPF networks"
+    - name: "OSPF: Configure prefix-lists with networks"
+      ios_config:
+        lines:
+          - ip prefix-list {{ ospf_prefix_list.prefix_list }} {{ ospf_prefix_list.action }} {{ ospf_prefix_list.network }} le {{ ospf_prefix_list.le }}
+      with_items: "{{ prefix_lists }}"
+      loop_control:
+        loop_var: ospf_prefix_list
+        label: "ospf_prefix_list {{ ospf_prefix_list.prefix_list }},{{ ospf_prefix_list.action }},{{ ospf_prefix_list.network }}"
+
+    - name: "OSPF: Configure route-maps"
+      ios_config:
+        parents: route-map {{  ospf_route_map.route_map }} permit
+        lines:
+          - match ip address prefix-list {{ ospf_route_map.prefix_list }}
+      with_items: "{{ route_maps }}"
+      loop_control:
+        loop_var: ospf_route_map
+        label: "ospf_route_map {{ ospf_route_map.route_map }},{{ ospf_route_map.prefix_list }}"
+
+    - name: "OSPF: Configure redistributes"
       ios_config:
         parents: router ospf {{ instance }}
         lines:
-          - network {{ ospf_network.network }} {{ ospf_network.wildcard }} area {{ ospf_network.area }}
-      with_items: "{{ networks }}"
+          - redistribute {{ ospf_redistribute.redistribute }} metric {{ ospf_redistribute.metric }} route-map {{ ospf_redistribute.route_map }}
+      with_items: "{{ redistributes }}"
       loop_control:
-        loop_var: ospf_network
-        label: "ospf_network {{ ospf_network.network }},{{ ospf_network.area }}"
+        loop_var: ospf_redistribute
+        label: "ospf_redistribute {{ ospf_redistribute.redistribute }},{{ ospf_redistribute.metric }}"
 
-    - name: "Configure OSPF interfaces"
+    - name: "OSPF: Configure interfaces"
       ios_config:
         parents: interface {{ ospf_interface.interface }}
         lines:
