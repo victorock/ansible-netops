@@ -1,7 +1,0 @@
-system:
-  defaults:
-    vrf:
-      name: internet
-      rd: "1:204"
-      interfaces:
-        - eth0

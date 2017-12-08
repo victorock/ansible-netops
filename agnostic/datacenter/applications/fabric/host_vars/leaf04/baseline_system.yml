@@ -1,1 +1,2 @@
-net_system_hostname: switchname
+ansible_network_os: nxos
+net_system_hostname: leaf04
