@@ -1,0 +1,49 @@
+[europe-central-fr1:children]
+control
+management
+spine
+leaf
+server
+
+[control]
+tower01 ansible_host=10.42.0.9
+
+[management]
+mgmt01 ansible_host=10.42.0.2
+
+[spine]
+spine01 ansible_host=10.42.0.11
+spine02 ansible_host=10.42.0.12
+
+[leaf]
+leaf01 ansible_host=10.42.0.21
+leaf02 ansible_host=10.42.0.22
+leaf03 ansible_host=10.42.0.23
+leaf04 ansible_host=10.42.0.24
+
+[server]
+server01 ansible_host=10.42.0.31
+server02 ansible_host=10.42.0.32
+
+[pod01]
+leaf01 ansible_host=10.42.0.21
+leaf02 ansible_host=10.42.0.22
+server01  ansible_host=10.42.0.31
+
+[pod02]
+leaf03 ansible_host=10.42.0.23
+leaf04 ansible_host=10.42.0.24
+server02  ansible_host=10.42.0.32
+
+[cumulus:children]
+management
+
+[cumulus:vars]
+ ansible_network_os=cumulus
+
+[ios:children]
+spine
+leaf
+
+[ios:vars]
+ ansible_network_os=ios
