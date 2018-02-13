@@ -8,3 +8,6 @@
   tasks:
     - name: "Gather Facts"
       nxos_facts:
+      register: register_nxos_facts
+
+    - debug: var=register_nxos_facts
