@@ -18,20 +18,35 @@ underlay_interfaces:
         leaf01:
           name: leaf01
 
-    ethernet1/2:
-      name: ethernet1/2
+    ethernet1/3:
+      name: ethernet1/3
       lldp_neighbor:
         leaf02:
           name: leaf02
 
-    ethernet1/2:
-      name: ethernet1/2
+    ethernet1/4:
+      name: ethernet1/4
       lldp_neighbor:
         leaf03:
           name: leaf03
 
-    ethernet1/2:
-      name: ethernet1/2
+    ethernet1/5:
+      name: ethernet1/5
       lldp_neighbor:
         leaf04:
           name: leaf04
+
+underlay_bgp:
+  description: "{{ underlay_description }}"
+  router_id: "{{ underlay_control_plane_address | ipaddr('address') }}"
+  asn: 65001
+  graceful_restart: true
+  states: "{{ underlay_states }}"
+
+underlay_multicast:
+  description: "{{ underlay_description }}"
+  router_id: "{{ underlay_control_plane_address | ipaddr('address') }}"
+  source_specific_multicast_range: "232.0.0.0/8"
+  group_list:  "225.0.0.0/8"
+  rendezvous_point: "{{ underlay_exchange_plane_controller_address | ipaddr('address') }}"
+  states: "{{ underlay_states }}"

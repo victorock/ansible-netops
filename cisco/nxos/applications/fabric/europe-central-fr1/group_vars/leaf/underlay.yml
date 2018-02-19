@@ -18,3 +18,18 @@ underlay_interfaces:
       lldp_neighbor:
         spine02:
           name: spine02
+
+underlay_bgp:
+  description: "{{ underlay_description }}"
+  router_id: "{{ underlay_control_plane_address | ipaddr('address') }}"
+  asn: 65001
+  graceful_restart: true
+  states: "{{ underlay_states }}"
+
+underlay_multicast:
+  description: "{{ underlay_description }}"
+  router_id: "{{ underlay_control_plane_address | ipaddr('address') }}"
+  source_specific_multicast_range: "232.0.0.0/8"
+  group_list:  "225.0.0.0/8"
+  rendezvous_point: "{{ underlay_exchange_plane_controller_address | ipaddr('address') }}"
+  states: "{{ underlay_states }}"
