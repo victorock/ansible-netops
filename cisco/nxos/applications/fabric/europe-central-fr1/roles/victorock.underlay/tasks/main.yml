@@ -1,3 +1,10 @@
+---
 - include_role:
-    name: "victorock.underlay-{{ underlay_network_os }}-{{ underlay_role }}"
+      name: "{{ include_underlay_role }}"
+  with_first_found:
+    - "victorock.underlay-{{ underlay_network_os }}-{{ underlay_role }}"
+    - "victorock.underlay-nxos-leaf"
+  loop_control:
+    loop_var: include_underlay_role
+    label: "include_role {{ include_underlay_role }}"
   tags: underlay

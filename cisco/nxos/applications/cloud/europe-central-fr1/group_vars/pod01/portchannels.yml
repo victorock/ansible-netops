@@ -1,7 +1,2 @@
 portchannels:
-  - { group: 12, members: ['ethernet 1/2'], mode: active, admin_state: up, state: present, force: true }
-  - { group: 13, members: ['ethernet 1/3'], mode: active, admin_state: up, state: present, force: true }
-  - { group: 14, members: ['ethernet 1/4'], mode: active, admin_state: up, state: present, force: true }
   - { group: 15, members: ['ethernet 1/5'], mode: active, admin_state: up, state: present, force: true }
-  - { group: 16, members: ['ethernet 1/6'], mode: active, admin_state: up, state: present, force: true }
-  - { group: 17, members: ['ethernet 1/7'], mode: active, admin_state: up, state: present, force: true }
