@@ -24,6 +24,7 @@
 - name: "nxos_pim_rp_address: Ensure state of multicast rendezvous-point"
   nxos_pim_rp_address:
     rp_address: "{{ underlay_multicast.rendezvous_point }}"
+    state: "{{ underlay_multicast.states.state }}"
   tags:
     - multicast
     - underlay_leaf_multicast

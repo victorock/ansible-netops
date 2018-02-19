@@ -1,5 +1,14 @@
-- name: "Underlay Fabric Configuration"
-  hosts: fabric
+- name: "Spine: Underlay Fabric Configuration"
+  hosts: spine
+  connection: network_cli
+
+  tasks:
+    - include_role:
+        name: victorock.underlay
+        tasks_from: run
+
+- name: "Leaf: Underlay Fabric Configuration"
+  hosts: spine
   connection: network_cli
 
   tasks:
