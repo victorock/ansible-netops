@@ -1,0 +1,68 @@
+---
+- name: "Ensure state as layer3 on underlay control and exchange interfaces"
+  nxos_interface:
+    interface: "{{ nxos_interface_underlay_interface.name }}"
+    description: "{{ nxos_interface_underlay_interface.description | default(underlay_description) }}"
+    admin_state: "{{ nxos_interface_underlay_interface.admin | default(underlay_states.admin) }}"
+    state: "{{ nxos_interface_underlay_interface.state | default(underlay_states.state) }}"
+  with_items:
+    - "{{ underlay_interfaces.control }}"
+    - "{{ underlay_interfaces.exchange }}"
+  loop_control:
+    loop_var: nxos_interface_underlay_interface
+    label: "nxos_interface_underlay_interface {{ nxos_interface_underlay_interface.name }}"
+  tags:
+    - l3_interface
+    - underlay_spine_l3_interface
+    - underlay_nxos_spine_l3_interface
+
+- name: "Ensure state of ipv4 on underlay control and exchange interfaces"
+  nxos_ip_interface:
+    interface: "{{ nxos_ip_interface_l3_underlay.name }}"
+    addr: "{{ nxos_ip_interface_l3_underlay.address | ipaddr('address') }}"
+    mask: "{{ nxos_ip_interface_l3_underlay.address | ipaddr('prefix') }}"
+    version: v4
+    state: "{{ nxos_ip_interface_l3_underlay.states.state | default(underlay_states.state) }}"
+  with_items:
+    - "{{ underlay_interfaces.control }}"
+    - "{{ underlay_interfaces.exchange }}"
+  loop_control:
+    loop_var: nxos_ip_interface_l3_underlay
+    label: "nxos_ip_interface_l3_underlay {{ nxos_ip_interface_l3_underlay.name }}"
+  tags:
+    - l3_interface
+    - underlay_spine_l3_interface
+    - underlay_nxos_spine_l3_interface
+
+- name: "Ensure state as layer3 on underlay interfaces"
+  nxos_interface:
+    interface: "{{ nxos_interface_underlay_interface.value.name }}"
+    mode: layer3
+    description: "{{ nxos_interface_underlay_interface.value.description | default(underlay_description) }}"
+    admin_state: "{{ nxos_interface_underlay_interface.value.admin | default(underlay_states.admin) }}"
+    state: "{{ nxos_interface_underlay_interface.value.state | default(underlay_states.state) }}"
+  with_dict: "{{ underlay_interfaces.links }}"
+  loop_control:
+    loop_var: nxos_interface_underlay_interface
+    label: "nxos_interface_underlay_interface {{ nxos_interface_underlay_interface.key }}"
+  tags:
+    - l3_interface
+    - underlay_spine_l3_interface
+    - underlay_nxos_spine_l3_interface
+
+- name: "nxos_l3_interface: Ensure state of ipv4 as unumbered on underlay links"
+  nxos_config:
+    defaults: true
+    replace: block
+    parents: interface {{ nxos_l3_interface.value.name }}
+    lines:
+      - medium p2p
+      - ip unnumbered {{ nxos_l3_interface.value.unnumbered }}
+  with_dict: "{{ underlay_interfaces.links }}"
+  loop_control:
+    loop_var: nxos_l3_interface
+    label: "nxos_l3_interface {{ nxos_l3_interface.value.name }}"
+  tags:
+    - l3_interface
+    - underlay_spine_l3_interface
+    - underlay_nxos_spine_l3_interface

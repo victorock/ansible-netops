@@ -1,0 +1,7 @@
+- name: "Rollback configuration to checkpoint"
+  nxos_rollback:
+    rollback_to: "{{ underlay_rollback.configuration }}"
+  tags:
+    - rollback
+    - underlay_spine_rollback
+    - underlay_nxos_spine_rollback

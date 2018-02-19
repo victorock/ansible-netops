@@ -1,0 +1,2 @@
+underlay_role: leaf
+underlay_network_os: "{{ ansible_network_os | default('nxos') }}"

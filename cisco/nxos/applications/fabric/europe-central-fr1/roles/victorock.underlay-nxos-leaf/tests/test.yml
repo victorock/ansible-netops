@@ -1,0 +1,6 @@
+---
+- hosts: leaf
+  connection: network_cli
+  remote_user: vagrant
+  roles:
+    - victorock.underlay-nxos-leaf

@@ -1,0 +1,64 @@
+---
+- name: "nxos_feature: Ensure the state of BGP feature"
+  nxos_feature:
+    feature: "{{ underlay_features.bgp.name }}"
+    state: "{{ underlay_features.bgp.states.feature }}"
+  tags:
+    - bgp
+    - underlay_spine_bgp
+    - underlay_nxos_spine_bgp
+
+- name: "Ensure the state of BGP AS"
+  nxos_bgp:
+    asn: "{{ underlay_bgp.asn }}"
+    router_id: "{{ underlay_bgp.router_id }}"
+    state: "{{ underlay_bgp.states.state }}"
+  tags:
+    - bgp
+    - underlay_spine_bgp
+    - underlay_nxos_spine_bgp
+
+- name: Ensure the state of BGP AF
+  nxos_bgp_af:
+    asn: "{{ underlay_bgp.asn }}"
+    afi: ipv4
+    safi: unicast
+    state: "{{ underlay_bgp.states.state }}"
+  tags:
+    - bgp
+    - underlay_spine_bgp
+    - underlay_nxos_spine_bgp
+
+- name: Ensure the state of iBGP neighborship
+  nxos_bgp_neighbor:
+    asn: "{{ underlay_bgp.asn }}"
+    neighbor: "{{ nxos_bgp_neighbor.router_id }}"
+    remote_as: "{{ nxos_bgp_neighbor.asn }}"
+    update_source: "{{ underlay_bgp.router_id }}"
+    state: "{{ underlay_bgp.states.state }}"
+  with_items: "{{ groups['leaf'] | map('extract', hostvars, 'underlay_bgp') | list }}"
+  loop_control:
+    loop_var: nxos_bgp_neighbor
+    label: "nxos_bgp_neighbor {{ nxos_bgp_neighbor.router_id }}"
+  tags:
+    - bgp
+    - underlay_spine_bgp
+    - underlay_nxos_spine_bgp
+
+- name: Ensure the state of iBGP neighborship AF
+  nxos_bgp_neighbor_af:
+    asn: "{{ underlay_bgp.asn }}"
+    neighbor: "{{ nxos_bgp_neighbor_af.router_id }}"
+    afi: ipv4
+    safi: unicast
+    route_reflector_client: "true"
+    send_community: both
+    state: "{{ underlay_bgp.states.state }}"
+  with_items: "{{ groups['leaf'] | map('extract', hostvars, 'underlay_bgp') | list }}"
+  loop_control:
+    loop_var: nxos_bgp_neighbor_af
+    label: "nxos_bgp_neighbor {{ nxos_bgp_neighbor_af.router_id }}"
+  tags:
+    - bgp
+    - underlay_spine_bgp
+    - underlay_nxos_spine_bgp

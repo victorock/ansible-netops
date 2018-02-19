@@ -1,0 +1,20 @@
+---
+- name: Configure the F5s
+  hosts: tmos
+  connection: local
+  gather_facts: no
+
+  vars:
+    bigip_hostname_server: "{{ ansible_host }}"
+    bigip_hostname_user: "{{ network_username }}"
+    bigip_hostname_password: "{{ network_password }}"
+    bigip_hostname_hostname: "{{ inventory_hostname }}"
+
+  tasks:
+    - name: Ensure the Hostname on the BIG-IP
+      bigip_hostname:
+        server: "{{ bigip_hostname_server }}"
+        user: "{{ bigip_hostname_user }}"
+        password: "{{ bigip_hostname_password }}"
+        hostname: "{{ bigip_hostname_hostname }}"
+        validate_certs: "no"

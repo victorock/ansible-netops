@@ -1,0 +1,43 @@
+feature bgp
+feature nv overlay
+feature vn-segment-vlan-based
+nv overlay evpn
+feature pim
+!
+router bgp {{ underlay_bgp.asn }}
+  router-id {{ underlay_bgp.router_id }}
+  address-family ipv4 unicast
+  address-family l2vpn evpn
+!
+! Configure bgp neighbors
+{% for spine in groups['spine'] %}
+  neighbor {{ hostvars[spine]['underlay_bgp']['router_id'] }}
+    remote-as {{ hostvars[spine]['underlay_bgp']['asn'] }}
+    update-source {{ underlay_bgp.router_id }}
+    address-family ipv4 unicast
+      send-community both
+    address-family l2vpn evpn
+      send-community both
+!
+{% endfor %}
+!
+interface {{ underlay_interfaces.control.name }}
+  ip address {{ underlay_interfaces.control.address }}
+  ip pim sparse-mode
+  no shut
+!
+interface {{ underlay_interfaces.exchange.name }}
+  ip address {{ underlay_interfaces.exchange.address }}
+  ip pim sparse-mode
+  no shut
+!
+ip pim rp-address {{ underlay_multicast.rendezvous_point }}
+!
+! Enable pim in each interface facing spines
+{% for interface, value in underlay_interfaces.links.iteritems() %}
+interface {{ value.name }}
+  ip unnumbered {{ underlay_interfaces.control.name }}
+  ip pim sparse-mode
+  no shut
+!
+{% endfor %}

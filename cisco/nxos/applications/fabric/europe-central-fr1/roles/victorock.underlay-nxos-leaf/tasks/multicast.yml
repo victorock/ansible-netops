@@ -1,0 +1,27 @@
+- name: nxos_feature: Ensure the state of multicast feature
+  nxos_feature:
+    feature: "{{ underlay_features.multicast.name }}"
+    state: "{{ underlay_states.feature }}"
+  tags:
+    - underlay_leaf_multicast
+    - underlay_nxos_leaf_multicast
+
+- name: "nxos_pim_interface: Ensure state of multicast in interfaces"
+  nxos_pim_interface:
+    interface: "{{ nxos_pim_interface.name }}"
+    sparse: true
+    state: "{{ underlay_states.state }}"
+  with_items: "{{ underlay_interfaces.links }}"
+  loop_control:
+    loop_var: nxos_pim_interface
+    label: "nxos_pim_interface {{ nxos_pim_interface.name }}"
+  tags:
+    - underlay_leaf_multicast
+    - underlay_nxos_leaf_multicast
+
+- name: "nxos_pim_rp_address: Ensure state of multicast rendezvous-point"
+  nxos_pim_rp_address:
+    rp_address: "{{ underlay_multicast.rendezvous_point }}"
+  tags:
+    - underlay_leaf_multicast
+    - underlay_nxos_leaf_multicast

@@ -1,7 +1,0 @@
-underlay_links: []
-description: "Underlay by Ansible"
-control_plane_id: "10.0.1.101"
-exchange_plane_id: "10.0.1.101"
-controller_id: "10.42.0.1"
-management_plane_id: "10.42.0.101"
-ansible_network_os: "nxos"

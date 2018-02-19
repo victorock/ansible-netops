@@ -1,0 +1,4 @@
+- name: Deploy Spine Config
+  nxos_config:
+    src: "roles/victorock.underlay-nxos-spine-jinja2/files/{{inventory_hostname}}.cfg"
+    save_when: modified

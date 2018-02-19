@@ -1,0 +1,35 @@
+underlay_role: leaf
+
+underlay_states:
+  admin: up
+  state: present
+  shutdown: false
+  feature: enabled
+
+underlay_interfaces:
+  control:
+    description: "{{ underlay_description }}"
+    name: loopback0
+    address: "172.16.1.{{ underlay_device_uid }}/32"
+    states: "{{ underlay_states }}"
+  links:
+    ethernet1/2:
+      name: ethernet1/2
+      unnumbered: loopback0
+      lldp_neighbor:
+        spine01:
+          name: spine01
+
+    ethernet1/3:
+      name: ethernet1/3
+      unnumbered: loopback0
+      lldp_neighbor:
+        spine02:
+          name: spine02
+
+underlay_bgp:
+  description: "{{ underlay_description }}"
+  router_id: "172.16.1.{{ underlay_device_uid }}"
+  asn: 65001
+  graceful_restart: true
+  states: "{{ underlay_states }}"

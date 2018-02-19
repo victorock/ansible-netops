@@ -1,0 +1,7 @@
+- name: nxos_feature: Ensure the state of VXLAN feature
+  nxos_feature:
+    feature: "{{ underlay_features.vxlan.name }}"
+    state: "{{ underlay_states.feature }}"
+  tags:
+    - underlay_leaf_vxlan
+    - underlay_nxos_leaf_vxlan

@@ -1,0 +1,62 @@
+underlay_role: spine
+
+underlay_states:
+  admin: up
+  state: present
+  shutdown: false
+  feature: enabled
+
+underlay_interfaces:
+  control:
+    description: "{{ underlay_description }}"
+    name: loopback0
+    address: "172.16.1.{{ underlay_device_uid }}/32"
+    states: "{{ underlay_states }}"
+  exchange:
+    description: "{{ underlay_description }}"
+    name: loopback1
+    address: "192.168.1.1/32"
+    states: "{{ underlay_states }}"
+  links:
+    ethernet1/2:
+      name: ethernet1/2
+      unnumbered: loopback0
+      lldp_neighbor:
+        leaf01:
+          name: leaf01
+
+    ethernet1/3:
+      name: ethernet1/3
+      unnumbered: loopback0
+      lldp_neighbor:
+        leaf02:
+          name: leaf02
+
+    ethernet1/4:
+      name: ethernet1/4
+      unnumbered: loopback0
+      lldp_neighbor:
+        leaf03:
+          name: leaf03
+
+    ethernet1/5:
+      name: ethernet1/5
+      unnumbered: loopback0
+      lldp_neighbor:
+        leaf04:
+          name: leaf04
+
+underlay_bgp:
+  description: "{{ underlay_description }}"
+  router_id: "172.16.1.{{ underlay_device_uid }}"
+  asn: 65001
+  graceful_restart: true
+  states: "{{ underlay_states }}"
+
+underlay_multicast:
+  description: "{{ underlay_description }}"
+  router_id: "172.16.1.{{ underlay_device_uid }}"
+  source_specific_multicast_range: "232.0.0.0/8"
+  group_list:  "225.0.0.0/8"
+  rendezvous_point: "192.168.1.1"
+  states: "{{ underlay_states }}"

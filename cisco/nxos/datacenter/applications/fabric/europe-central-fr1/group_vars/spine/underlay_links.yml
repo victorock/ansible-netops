@@ -1,6 +1,0 @@
-underlay_links:
-  - 'ethernet 1/2'
-  - 'ethernet 1/3'
-  - 'ethernet 1/4'
-  - 'ethernet 1/5'
-  - 'ethernet 1/6'

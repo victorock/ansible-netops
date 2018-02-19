@@ -1,0 +1,61 @@
+underlay_description: "Underlay by Ansible"
+
+underlay_rollback:
+  configuration: "underlay_nxos_leaf.cfg"
+
+underlay_states:
+  admin: up
+  state: present
+  shutdown: false
+  feature: enabled
+
+underlay_features:
+  bgp:
+    name: bgp
+    states: "{{ underlay_states }}"
+  multicast:
+    name: pim
+    states: "{{ underlay_states }}"
+  lldp:
+    name: lldp
+    states: "{{ underlay_states }}"
+  overlay:
+    name: nv overlay
+    states: "{{ underlay_states }}"
+  vxlan:
+    name: vn-segment-vlan-based
+    states: "{{ underlay_states }}"
+
+underlay_interfaces:
+  control:
+    description: "{{ underlay_description }}"
+    name: loopback0
+    address: "192.168.0.{{ underlay_device_uid }}/32"
+    states: "{{ underlay_states }}"
+  exchange:
+    description: "{{ underlay_description }}"
+    name: loopback1
+    address: "192.168.1.1/32"
+    states: "{{ underlay_states }}"
+  links:
+    ethernet1/2:
+      name: ethernet1/2
+      unnumbered: loopback0
+      lldp_neighbor:
+        spine01:
+          name: spine01
+
+underlay_bgp:
+  description: "{{ underlay_description }}"
+  router_id: "{{ underlay_interfaces.control.address | ipaddr('address') }}"
+  asn: 65001
+  graceful_restart: true
+  states: "{{ underlay_states }}"
+
+underlay_multicast:
+  description: "{{ underlay_description }}"
+  router_id: "{{ underlay_interfaces.control.address | ipaddr('address') }}"
+  source_specific_multicast_range: "232.0.0.0/8"
+  group_list:  "225.0.0.0/8"
+  rendezvous_point: "{{ underlay_interfaces.exchange.address | ipaddr('address') }}"
+  states: "{{ underlay_states }}"

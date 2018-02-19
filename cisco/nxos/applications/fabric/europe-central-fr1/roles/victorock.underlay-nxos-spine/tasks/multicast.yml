@@ -1,0 +1,67 @@
+- name: "nxos_feature: Ensure the state of multicast feature"
+  nxos_feature:
+    feature: "{{ underlay_features.multicast.name }}"
+    state: "{{ underlay_states.feature }}"
+  tags:
+    - multicast
+    - underlay_spine_multicast
+    - underlay_nxos_spine_multicast
+
+- name: "nxos_pim_interface: Ensure state of multicast in interfaces"
+  nxos_pim_interface:
+    interface: "{{ nxos_pim_interface.value.name }}"
+    sparse: true
+    state: "{{ nxos_pim_interface.state | default(underlay_states.state) }}"
+  with_dict: "{{ underlay_interfaces.links }}"
+  loop_control:
+    loop_var: nxos_pim_interface
+    label: "nxos_pim_interface {{ nxos_pim_interface.value.name }}"
+  tags:
+    - multicast
+    - underlay_spine_multicast
+    - underlay_nxos_spine_multicast
+
+- name: "nxos_pim_rp_address: Ensure state of exchange-plane rendezvous-point"
+  nxos_pim_rp_address:
+    rp_address: "{{ underlay_multicast.rendezvous_point }}"
+    group_list: "{{ underlay_multicast.group_list }}"
+    state: "{{ underlay_multicast.states.state }}"
+  tags:
+    - multicast
+    - underlay_spine_multicast
+    - underlay_nxos_spine_multicast
+
+- name: "nxos_pim: Ensure state of exchange-plane ssm-range"
+  nxos_pim:
+    ssm_range: "{{ underlay_multicast.source_specific_multicast_range }}"
+  tags:
+    - underlay_spine_multicast
+    - underlay_nxos_spine_multicast
+
+- name: "nxos_pim_rp_candidate: Ensure exchange-plane candidature to become rendezvous-point"
+  nxos_config:
+    defaults: true
+    match: strict
+    replace: block
+    lines:
+      - ip pim rp-candidate {{ underlay_interfaces.exchange.name }} group-list {{ underlay_multicast.group_list }}
+  tags:
+    - multicast
+    - underlay_spine_multicast
+    - underlay_nxos_spine_multicast
+
+- name: "nxos_pim_anycast_rp: Ensure state of multicast anycasp-rp adopting exchange-plane"
+  nxos_config:
+    defaults: true
+    match: strict
+    replace: block
+    lines:
+      - ip pim anycast-rp {{ underlay_multicast.rendezvous_point }} {{ nxos_pim_anycast_rp.router_id }}
+  with_items: "{{ groups['spine'] | map('extract', hostvars, 'underlay_multicast') | list }}"
+  loop_control:
+    loop_var: nxos_pim_anycast_rp
+    label: "nxos_pim_anycast_rp {{ nxos_pim_anycast_rp.router_id }}"
+  tags:
+    - multicast
+    - underlay_spine_multicast
+    - underlay_nxos_spine_multicast

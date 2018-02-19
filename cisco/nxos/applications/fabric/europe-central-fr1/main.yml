@@ -1,0 +1,5 @@
+- name: "Underlay Fabric Configuration"
+  hosts: fabric
+  connection: network_cli
+  roles:
+    - victorock.underlay

@@ -1,7 +1,0 @@
-- name: "Fabric Configuration"
-  hosts: all
-  connection: local
-  gather_facts: no
-
-  roles:
-    - underlay

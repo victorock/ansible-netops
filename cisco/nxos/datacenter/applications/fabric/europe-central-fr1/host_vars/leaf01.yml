@@ -1,3 +1,0 @@
-ansible_network_os: nxos
-control_plane_id: 10.0.1.101
-management_plane_id: 10.42.0.21

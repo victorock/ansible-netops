@@ -1,0 +1,12 @@
+---
+- name: "victorock.underlay-nxos-leaf"
+  block:
+    - include_tasks: checkpoint.yml
+    - include_tasks: bgp.yml
+    - include_tasks: overlay.yml
+    - include_tasks: vxlan.yml
+    - include_tasks: evpn.yml
+    - include_tasks: multicast.yml
+
+  rescue:
+    - include_tasks: rollback.yml

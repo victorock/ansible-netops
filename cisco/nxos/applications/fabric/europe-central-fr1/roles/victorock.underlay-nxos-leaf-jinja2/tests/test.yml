@@ -1,0 +1,6 @@
+---
+- hosts: spine
+  remote_user: vagrant
+  connection: network_cli
+  roles:
+    - victorock.underlay-nxos-spine-jinja2

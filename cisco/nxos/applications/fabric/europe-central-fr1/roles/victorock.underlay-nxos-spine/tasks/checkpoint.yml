@@ -1,0 +1,7 @@
+- name: "Creates configuration checkpoint"
+  nxos_rollback:
+    checkpoint_file: "{{ underlay_rollback.configuration }}"
+  tags:
+    - checkpoint
+    - underlay_spine_checkpoint
+    - underlay_nxos_spine_checkpoint

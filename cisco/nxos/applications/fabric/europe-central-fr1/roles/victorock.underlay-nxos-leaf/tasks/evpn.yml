@@ -1,0 +1,32 @@
+- name: nxos_evpn_global: Ensure the state of evpn feature
+  nxos_evpn_global:
+    nv_overlay_evpn: true
+  tags:
+    - underlay_leaf_evpn
+    - underlay_nxos_leaf_evpn
+
+- name: nxos_bgp_af: Ensure state of BGP EVPN
+  nxos_bgp_af:
+    asn: "{{ underlay_bgp.asn }}"
+    afi: l2vpn
+    safi: evpn
+    state: "{{ underlay_states.state }}"
+  tags:
+    - underlay_leaf_evpn
+    - underlay_nxos_leaf_evpn
+
+- name: nxos_bgp_neighbor_af: Ensure the state of EVPN AF in each iBGP neighborship
+  nxos_bgp_neighbor_af:
+    asn: "{{ underlay_bgp.asn }}"
+    neighbor: "{{ hostvars[nxos_bgp_neighbor_af].underlay_bgp.router_id }}"
+    afi: l2vpn
+    safi: evpn
+    send_community: both
+    state: "{{ underlay_states.state }}"
+  loop: "{{ groups['spine'] | list }}"
+  loop_control:
+    loop_var: nxos_bgp_neighbor_af
+    label: "nxos_bgp_neighbor {{ nxos_bgp_neighbor_af }}"
+  tags:
+    - underlay_leaf_evpn
+    - underlay_nxos_leaf_evpn

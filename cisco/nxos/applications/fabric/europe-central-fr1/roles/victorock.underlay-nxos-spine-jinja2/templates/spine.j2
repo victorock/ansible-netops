@@ -1,0 +1,49 @@
+feature bgp
+feature nv overlay
+feature vn-segment-vlan-based
+nv overlay evpn
+feature pim
+!
+router bgp {{ underlay_bgp.asn }}
+  router-id {{ underlay_bgp.router_id }}
+  address-family ipv4 unicast
+  address-family l2vpn evpn
+    retain route-target all
+!
+! Configure bgp neighbors
+{% for leaf in groups['leaf'] %}
+  neighbor {{ hostvars[leaf]['underlay_bgp']['router_id'] }}
+    remote-as {{ hostvars[leaf]['underlay_bgp']['asn'] }}
+    update-source {{ underlay_bgp.router_id }}
+    address-family ipv4 unicast
+      send-community both
+      route-reflector-client
+    address-family l2vpn evpn
+      send-community both
+      route-reflector-client
+!
+{% endfor %}
+!
+interface {{ underlay_interfaces.control.name }}
+  ip address {{ underlay_interfaces.control.address }}
+  ip pim sparse-mode
+  no shut
+!
+interface {{ underlay_interfaces.exchange.name }}
+  ip address {{ underlay_interfaces.exchange.address }}
+  ip pim sparse-mode
+  no shut
+!
+ip pim rp-address {{ underlay_multicast.rendezvous_point }}
+{% for spine in groups['spine'] %}
+ip pim anycast-rp {{ underlay_multicast.rendezvous_point }} {{ hostvars[spine]['underlay_multicast']['router_id'] }}
+{% endfor %}
+!
+! Enable pim in each interface facing leafs
+{% for interface, value in underlay_interfaces.links.iteritems() %}
+interface {{ value.name }}
+  ip unnumbered {{ underlay_interfaces.control.name }}
+  ip pim sparse-mode
+  no shut
+!
+{% endfor %}
