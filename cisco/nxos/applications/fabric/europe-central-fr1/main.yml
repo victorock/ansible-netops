@@ -1,4 +1,4 @@
-- name: "Underlay Fabric Configuration"
+- name: "Spine: Underlay Fabric Configuration"
   hosts: spine
   connection: network_cli
 
@@ -7,7 +7,7 @@
         name: victorock.underlay-nxos-spine
         tasks_from: run
 
-- name: "Underlay Fabric Configuration"
+- name: "Leaf: Underlay Fabric Configuration"
   hosts: leaf
   connection: network_cli
 
