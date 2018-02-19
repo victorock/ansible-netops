@@ -1,5 +1,8 @@
 - name: "Underlay Fabric Configuration"
   hosts: fabric
   connection: network_cli
-  roles:
-    - victorock.underlay
+
+  tasks:
+    - include_role:
+        name: victorock.underlay
+        tasks_from: run

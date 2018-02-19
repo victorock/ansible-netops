@@ -1,8 +1,17 @@
 ---
 ### This file is empty to avoid automatic execution
 ### Use run.yml
-- debug:
-    msg: |
-      The main.yml by default is empty and does not perform any action.
-      This avoids automatic execution when galaxy satisfies dependencies specified meta/main.yml.
-      To use this role correctly you need to explicitly call run.yml.
+#- name: "victorock.underlay: Use run.yml"
+#  debug:
+#    msg: |
+#      The main.yml by default is empty and does not perform any action.
+#      This avoids automatic execution when galaxy satisfies dependencies specified meta/main.yml.
+#      To use this role correctly you need to explicitly call run.yml.
+
+#- name: "victorock.underlay: Review configuration"
+#  debug:
+#    msg: |
+#      Before calling run.yml consider reviewing the following:
+#        - You need at least 1 leaf and 1 spine with their respective variables defined in host_vars/group_vars.
+#        - The leaf(s) must be member of leaf group in inventory.
+#        - The spine(s) must be member of spine group in inventory.
