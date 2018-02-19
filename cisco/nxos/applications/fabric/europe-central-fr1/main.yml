@@ -1,17 +1,2 @@
-- name: "Spine: Underlay Fabric Configuration"
-  hosts: spine
-  connection: network_cli
-
-  tasks:
-    - include_role:
-        name: victorock.underlay-nxos-spine
-        tasks_from: run
-
-- name: "Leaf: Underlay Fabric Configuration"
-  hosts: leaf
-  connection: network_cli
-
-  tasks:
-    - include_role:
-        name: victorock.underlay-nxos-leaf
-        tasks_from: run
+- import_playbook: spine.yml
+- import_playbook: leaf.yml

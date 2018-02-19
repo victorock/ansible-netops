@@ -30,32 +30,31 @@ underlay_interfaces:
   control:
     description: "{{ underlay_description }}"
     name: loopback0
-    address: "172.16.1.{{ underlay_device_uid }}/32"
+    address: "{{ underlay_control_plane_address | ipaddr('host') }}"
     states: "{{ underlay_states }}"
   exchange:
     description: "{{ underlay_description }}"
     name: loopback1
-    address: "192.168.1.1/32"
+    address: "{{ underlay_exchange_plane_controller_address | ipaddr('host') }}"
     states: "{{ underlay_states }}"
   links:
     ethernet1/2:
       name: ethernet1/2
-      unnumbered: loopback0
       lldp_neighbor:
         spine01:
-          name: spine01
+          name: leaf01
 
 underlay_bgp:
   description: "{{ underlay_description }}"
-  router_id: "{{ underlay_interfaces.control.address | ipaddr('address') }}"
+  router_id: "{{ underlay_control_plane_address | ipaddr('address') }}"
   asn: 65001
   graceful_restart: true
   states: "{{ underlay_states }}"
 
 underlay_multicast:
   description: "{{ underlay_description }}"
-  router_id: "{{ underlay_interfaces.control.address | ipaddr('address') }}"
+  router_id: "{{ underlay_control_plane_address | ipaddr('address') }}"
   source_specific_multicast_range: "232.0.0.0/8"
   group_list:  "225.0.0.0/8"
-  rendezvous_point: "{{ underlay_interfaces.exchange.address | ipaddr('address') }}"
+  rendezvous_point: "{{ underlay_exchange_plane_controller_address | ipaddr('address') }}"
   states: "{{ underlay_states }}"

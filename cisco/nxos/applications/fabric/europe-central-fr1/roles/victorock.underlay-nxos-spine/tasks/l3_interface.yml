@@ -50,14 +50,14 @@
     - underlay_spine_l3_interface
     - underlay_nxos_spine_l3_interface
 
-- name: "nxos_l3_interface: Ensure state of ipv4 as unumbered on underlay links"
+- name: "nxos_l3_interface: Ensure state as unumbered to {{ underlay_interfaces.control.name }} on underlay links"
   nxos_config:
     defaults: true
     replace: block
     parents: interface {{ nxos_l3_interface.value.name }}
     lines:
       - medium p2p
-      - ip unnumbered {{ nxos_l3_interface.value.unnumbered }}
+      - ip unnumbered {{ underlay_interfaces.control.name }}
   with_dict: "{{ underlay_interfaces.links }}"
   loop_control:
     loop_var: nxos_l3_interface
