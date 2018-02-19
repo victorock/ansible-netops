@@ -1,9 +1,8 @@
 ---
-- name: "victorock.underlay-nxos-spine-jinja2"
-  block:
-    - include_tasks: checkpoint.yml
-    - include_tasks: build.yml
-    - include_tasks: deploy.yml
-
-  rescue:
-    - include_tasks: rollback.yml
+### This file is empty to avoid automatic execution
+### Use run.yml
+- debug:
+    msg: |
+      The main.yml by default is empty and does not perform any action.
+      This avoids automatic execution when galaxy satisfies dependencies specified meta/main.yml.
+      To use this role correctly you need to explicitly call run.yml.

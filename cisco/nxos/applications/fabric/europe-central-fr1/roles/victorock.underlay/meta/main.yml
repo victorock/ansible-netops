@@ -16,4 +16,8 @@ galaxy_info:
     - multicast
     - nxos
 
-dependencies: []
+dependencies:
+  - victorock.underlay-nxos-spine
+  - victorock.underlay-nxos-spine-jinja2
+  - victorock.underlay-nxos-leaf
+  - victorock.underlay-nxos-leaf-jinja2

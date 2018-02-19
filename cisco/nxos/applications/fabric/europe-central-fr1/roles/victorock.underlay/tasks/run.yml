@@ -1,0 +1,19 @@
+---
+- name: "victorock.underlay"
+  block:
+    - include_tasks: underlay_role.yml
+      tags:
+        - underlay
+        - underlay_include_role
+
+  rescue:
+    - include_tasks: galaxy.yml
+      tags:
+        - rollback
+        - lldp
+        - l3_interface
+        - bgp
+        - overlay
+        - vxlan
+        - evpn
+        - multicast

@@ -1,2 +1,3 @@
 underlay_role: leaf
 underlay_network_os: "{{ ansible_network_os | default('nxos') }}"
+underlay_include_role: "victorock.underlay-{{ underlay_network_os }}-{{ underlay_role }}"

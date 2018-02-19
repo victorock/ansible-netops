@@ -1,10 +1,8 @@
 ---
-- include_role:
-    name: "{{ include_underlay_role }}"
-  with_first_found:
-    - "roles/victorock.underlay-{{ underlay_network_os }}-{{ underlay_role }}"
-    - "roles/victorock.underlay-nxos-leaf"
-  loop_control:
-    loop_var: include_underlay_role
-    label: "include_role {{ include_underlay_role }}"
-  tags: underlay
+### This file is empty to avoid automatic execution
+### Use run.yml
+- debug:
+    msg: |
+      The main.yml by default is empty and does not perform any action.
+      This avoids automatic execution when galaxy satisfies dependencies specified meta/main.yml.
+      To use this role correctly you need to explicitly call run.yml.

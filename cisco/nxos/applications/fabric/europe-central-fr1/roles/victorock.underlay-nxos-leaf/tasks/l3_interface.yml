@@ -1,5 +1,5 @@
 ---
-- name: "Ensure state as layer3 on underlay control and exchange interfaces"
+- name: "Ensure state as layer3 on underlay control interface"
   nxos_interface:
     interface: "{{ nxos_interface_underlay_interface.name }}"
     description: "{{ nxos_interface_underlay_interface.description | default(underlay_description) }}"
@@ -7,7 +7,6 @@
     state: "{{ nxos_interface_underlay_interface.state | default(underlay_states.state) }}"
   with_items:
     - "{{ underlay_interfaces.control }}"
-    - "{{ underlay_interfaces.exchange }}"
   loop_control:
     loop_var: nxos_interface_underlay_interface
     label: "nxos_interface_underlay_interface {{ nxos_interface_underlay_interface.name }}"
@@ -16,7 +15,7 @@
     - underlay_leaf_l3_interface
     - underlay_nxos_leaf_l3_interface
 
-- name: "Ensure state of ipv4 on underlay control and exchange interfaces"
+- name: "Ensure state of ipv4 on underlay control interface"
   nxos_ip_interface:
     interface: "{{ nxos_ip_interface_l3_underlay.name }}"
     addr: "{{ nxos_ip_interface_l3_underlay.address | ipaddr('address') }}"
@@ -25,7 +24,6 @@
     state: "{{ nxos_ip_interface_l3_underlay.states.state | default(underlay_states.state) }}"
   with_items:
     - "{{ underlay_interfaces.control }}"
-    - "{{ underlay_interfaces.exchange }}"
   loop_control:
     loop_var: nxos_ip_interface_l3_underlay
     label: "nxos_ip_interface_l3_underlay {{ nxos_ip_interface_l3_underlay.name }}"
