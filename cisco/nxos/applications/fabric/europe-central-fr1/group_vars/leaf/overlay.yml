@@ -1,5 +1,5 @@
 overlay_tenants:
-  tenant01:
+  tenant_01:
     name: tenant01
     vni: 10001
     route_distinguisher: 60:10

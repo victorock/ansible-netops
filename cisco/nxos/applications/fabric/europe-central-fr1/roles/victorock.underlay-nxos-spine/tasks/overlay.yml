@@ -3,5 +3,6 @@
     feature: "{{ underlay_features.overlay.name }}"
     state: "{{ underlay_features.overlay.states.feature }}"
   tags:
+    - overlay
     - underlay_spine_overlay
     - underlay_nxos_spine_overlay

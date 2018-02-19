@@ -2,5 +2,6 @@
   nxos_rollback:
     checkpoint_file: "{{ underlay_rollback.configuration }}"
   tags:
+    - checkpoint
     - underlay_leaf_checkpoint
     - underlay_nxos_leaf_checkpoint

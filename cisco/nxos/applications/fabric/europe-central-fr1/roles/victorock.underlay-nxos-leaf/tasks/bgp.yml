@@ -1,39 +1,39 @@
 ---
-- name: nxos_feature: Ensure the state of BGP feature
+- name: "nxos_feature: Ensure the state of BGP feature"
   nxos_feature:
     feature: "{{ underlay_features.bgp.name }}"
-    state: "{{ underlay_states.feature }}"
+    state: "{{ underlay_bgp.states.feature }}"
   tags:
     - underlay_leaf_bgp
     - underlay_nxos_leaf_bgp
 
-- name: nxos_bgp: Ensure the state of BGP AS
+- name: "nxos_bgp: Ensure the state of BGP AS"
   nxos_bgp:
     asn: "{{ underlay_bgp.asn }}"
     router_id: "{{ underlay_bgp.router_id }}"
-    state: "{{ underlay_states.state }}"
+    state: "{{ underlay_bgp.states.state }}"
   tags:
     - underlay_leaf_bgp
     - underlay_nxos_leaf_bgp
 
-- name: nxos_bgp_af: Ensure the state of BGP AF
+- name: "nxos_bgp_af: Ensure the state of BGP AF"
   nxos_bgp_af:
     asn: "{{ underlay_bgp.asn }}"
     afi: ipv4
     safi: unicast
-    state: "{{ underlay_states.state }}"
+    state: "{{ underlay_bgp.states.state }}"
   tags:
     - underlay_leaf_bgp
     - underlay_nxos_leaf_bgp
 
-- name: nxos_bgp_neighbor: Ensure the state of iBGP neighborship
+- name: "nxos_bgp_neighbor: Ensure the state of iBGP neighborship"
   nxos_bgp_neighbor:
     asn: "{{ underlay_bgp.asn }}"
     neighbor: "{{ nxos_bgp_neighbor.router_id }}"
     remote_as: "{{ nxos_bgp_neighbor.asn }}"
     update_source: "{{ underlay_bgp.router_id }}"
-    state: "{{ underlay_states.state }}"
-  loop: "{{ groups['spine'] | map('extract', hostvars, 'underlay_bgp') }}"
+    state: "{{ underlay_bgp.states.state }}"
+  loop: "{{ groups['spine'] | map('extract', hostvars, 'underlay_bgp') | list }}"
   loop_control:
     loop_var: nxos_bgp_neighbor
     label: "nxos_bgp_neighbor {{ nxos_bgp_neighbor }}"
@@ -41,18 +41,18 @@
     - underlay_leaf_bgp
     - underlay_nxos_leaf_bgp
 
-- name: nxos_bgp_neighbor_af: Ensure the state of iBGP neighborship AF
+- name: "nxos_bgp_neighbor_af: Ensure the state of iBGP neighborship AF"
   nxos_bgp_neighbor_af:
     asn: "{{ underlay_bgp.asn }}"
     neighbor: "{{ nxos_bgp_neighbor_af.router_id }}"
     afi: ipv4
     safi: unicast
     send_community: both
-    state: "{{ underlay_states.state }}"
-  loop: "{{ groups['spine'] | map('extract', hostvars, 'underlay_bgp') }}"
+    state: "{{ underlay_bgp.states.state }}"
+  loop: "{{ groups['spine'] | map('extract', hostvars, 'underlay_bgp') | list }}"
   loop_control:
     loop_var: nxos_bgp_neighbor_af
-    label: "nxos_bgp_neighbor {{ nxos_bgp_neighbor_af }}"
+    label: "nxos_bgp_neighbor {{ nxos_bgp_neighbor_af.router_id }}"
   tags:
     - underlay_leaf_bgp
     - underlay_nxos_leaf_bgp

@@ -1,0 +1,28 @@
+---
+- name: "Ensure the state of lldp feature"
+  nxos_feature:
+    feature: "{{ underlay_features.lldp.name }}"
+    state: "{{ underlay_features.lldp.states.feature }}"
+  tags:
+    - lldp
+    - underlay_leaf_lldp
+    - underlay_nxos_leaf_lldp
+
+## nxos_lldp_interface
+- name: "nxos_lldp_interface: Ensure state of lldp on underlay links"
+  nxos_config:
+    defaults: true
+    match: strict
+    replace: block
+    parents: interface {{ nxos_interface_underlay_link_amend_lldp.value.name }}
+    lines:
+      - lldp transmit
+      - lldp receive
+  with_dict: "{{ underlay_interfaces.links }}"
+  loop_control:
+    loop_var: nxos_interface_underlay_link_amend_lldp
+    label: "nxos_interface_underlay_link_amend_lldp {{ nxos_interface_underlay_link_amend_lldp.value.name }}"
+  tags:
+    - lldp
+    - underlay_leaf_lldp
+    - underlay_nxos_leaf_lldp

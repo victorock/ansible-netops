@@ -3,5 +3,6 @@
     feature: "{{ underlay_features.vxlan.name }}"
     state: "{{ underlay_features.vxlan.states.feature }}"
   tags:
+    - vxlan
     - underlay_spine_vxlan
     - underlay_nxos_spine_vxlan

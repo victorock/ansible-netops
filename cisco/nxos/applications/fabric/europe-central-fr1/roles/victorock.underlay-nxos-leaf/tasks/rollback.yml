@@ -2,5 +2,6 @@
   nxos_rollback:
     rollback_to: "{{ underlay_rollback.configuration }}"
   tags:
+    - rollback
     - underlay_leaf_rollback
     - underlay_nxos_leaf_rollback
