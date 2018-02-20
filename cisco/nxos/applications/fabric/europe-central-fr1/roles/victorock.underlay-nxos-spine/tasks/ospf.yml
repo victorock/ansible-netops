@@ -9,7 +9,11 @@
   nxos_ospf:
     ospf: "{{ underlay_ospf.name }}"
     state: "{{ underlay_ospf.states.state }}"
-  tags: underlay_ospf
+  tags:
+    - ospf
+    - underlay_spine_ospf
+    - underlay_nxos_spine_ospf
+
 
 - name: "Ensure state of ospf on control and exchange interfaces"
   nxos_interface_ospf:
@@ -25,7 +29,10 @@
   loop_control:
     loop_var: nxos_interface_ospf_control_exchange
     label: "nxos_interface_ospf {{ nxos_interface_ospf_control_exchange.name }}"
-  tags: underlay_ospf
+  tags:
+    - ospf
+    - underlay_spine_ospf
+    - underlay_nxos_spine_ospf
 
 - name: "Ensure state of ospf on underlay links"
   nxos_interface_ospf:
@@ -39,4 +46,7 @@
   loop_control:
     loop_var: nxos_interface_ospf_underlay_link
     label: "nxos_interface_ospf {{ nxos_interface_ospf_underlay_link.value.name }}"
-  tags: underlay_ospf
+  tags:
+    - ospf
+    - underlay_spine_ospf
+    - underlay_nxos_spine_ospf

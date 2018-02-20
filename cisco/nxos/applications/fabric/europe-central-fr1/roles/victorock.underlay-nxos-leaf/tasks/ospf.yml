@@ -27,7 +27,6 @@
     passive_interface: false
   with_items:
     - "{{ underlay_interfaces.control }}"
-    - "{{ underlay_interfaces.exchange }}"
   loop_control:
     loop_var: nxos_interface_ospf_control_exchange
     label: "nxos_interface_ospf {{ nxos_interface_ospf_control_exchange.name }}"

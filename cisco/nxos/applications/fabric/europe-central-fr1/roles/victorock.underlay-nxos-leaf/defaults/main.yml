@@ -47,6 +47,7 @@ underlay_ospf:
   name: UNDERLAY_0
   area: 0.0.0.1
   cost: 1
+  states: "{{ underlay_states }}"
 
 underlay_bgp:
   description: "{{ underlay_description }}"
