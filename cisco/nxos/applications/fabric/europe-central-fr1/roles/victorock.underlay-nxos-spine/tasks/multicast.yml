@@ -7,15 +7,31 @@
     - underlay_spine_multicast
     - underlay_nxos_spine_multicast
 
-- name: "nxos_pim_interface: Ensure state of multicast in interfaces"
+- name: "nxos_pim_interface: Ensure state of multicast in control and exchange interfaces"
   nxos_pim_interface:
-    interface: "{{ nxos_pim_interface.value.name }}"
+    interface: "{{ nxos_pim_interface.name }}"
     sparse: true
-    state: "{{ nxos_pim_interface.state | default(underlay_states.state) }}"
-  with_dict: "{{ underlay_interfaces.links }}"
+    state: "{{ underlay_multicast.states.state | default(underlay_states.state) }}"
+  loop:
+    - "{{ underlay_interfaces.control }}"
+    - "{{ underlay_interfaces.exchange }}"
   loop_control:
     loop_var: nxos_pim_interface
-    label: "nxos_pim_interface {{ nxos_pim_interface.value.name }}"
+    label: "nxos_pim_interface {{ nxos_pim_interface.name }}"
+  tags:
+    - multicast
+    - underlay_spine_multicast
+    - underlay_nxos_spine_multicast
+
+- name: "nxos_pim_interface: Ensure state of multicast in links interfaces"
+  nxos_pim_interface:
+    interface: "{{ nxos_pim_interface_link.value.name }}"
+    sparse: true
+    state: "{{ underlay_multicast.states.state | default(underlay_states.state) }}"
+  with_dict: "{{ nxos_pim_interface_link.links }}"
+  loop_control:
+    loop_var: nxos_pim_interface_link
+    label: "nxos_pim_interface {{ nxos_pim_interface_link.value.name }}"
   tags:
     - multicast
     - underlay_spine_multicast
