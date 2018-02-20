@@ -3,9 +3,9 @@
   connection: network_cli
 
   tasks:
-#    - include_role:
-#        name: victorock.underlay
-#        tasks_from: run
+    - include_role:
+        name: victorock.underlay
+        tasks_from: run
 
     - include_role:
         name: victorock.overlay
