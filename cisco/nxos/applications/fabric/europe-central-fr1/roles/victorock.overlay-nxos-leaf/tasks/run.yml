@@ -1,0 +1,26 @@
+---
+- name: "victorock.overlay-nxos-leaf"
+  block:
+    - name: "sanity.yml"
+      include_tasks: sanity.yml
+
+    - name: "checkpoint.yml"
+      include_tasks: checkpoint.yml
+
+    - name: "overlay.yml"
+      include_tasks: overlay.yml
+
+    - name: "vxlan.yml"
+      include_tasks: vxlan.yml
+
+    - name: "vni.yml"
+      include_tasks: vni.yml
+
+    - name: "asserts.yml"
+      include_tasks: asserts.yml
+
+  rescue:
+    - name: "rollback.yml"
+      include_tasks: rollback.yml
+
+  when: inventory_hostname in groups['leaf']

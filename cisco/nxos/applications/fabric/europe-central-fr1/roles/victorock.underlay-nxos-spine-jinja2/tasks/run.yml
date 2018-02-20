@@ -7,3 +7,4 @@
 
   rescue:
     - include_tasks: rollback.yml
+  when: inventory_hostname in groups['spine']

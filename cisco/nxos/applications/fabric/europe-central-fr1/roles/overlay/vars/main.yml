@@ -1,7 +1,0 @@
-overlay_nxos_nv_overlay_evpn: true
-overlay_nxos_features:
-  - { name: pim, state: present, group: all }
-  - { name: bgp, state: present, group: all }
-  - { name: ospf, state: present, group: all }
-  - { name: nv overlay, state: present, group: leaf }
-  - { name: vn-segment-vlan-based, state: present, group: leaf }

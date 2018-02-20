@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  remote_user: vagrant
+  connection: network_cli
+  roles:
+    - victorock.overlay-nxos-leaf-vni

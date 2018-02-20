@@ -1,0 +1,8 @@
+- name: "nxos_feature: Ensure the state of Overlay feature"
+  nxos_feature:
+    feature: "{{ overlay_features.overlay.name }}"
+    state: "{{ overlay_features.overlay.states.feature }}"
+  tags:
+    - overlay
+    - overlay_leaf_overlay
+    - overlay_nxos_leaf_overlay

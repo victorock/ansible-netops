@@ -1,11 +1,10 @@
 ---
-- name: "victorock.underlay"
+- name: "victorock.overlay"
   block:
-    - name: "role.yml"
-      include_tasks: role.yml
+    - include_tasks: role.yml
       tags:
-        - underlay
-        - underlay_include_role
+        - overlay
+        - overlay_include_role
         - checkpoint
         - lldp
         - l3_interface
@@ -16,8 +15,7 @@
         - multicast
 
   rescue:
-    - name: "galaxy.yml"
-      include_tasks: galaxy.yml
+    - include_tasks: galaxy.yml
       tags:
         - rollback
         - lldp

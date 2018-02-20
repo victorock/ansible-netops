@@ -79,3 +79,4 @@
         - vxlan
         - evpn
         - multicast
+  when: inventory_hostname in groups['spine']

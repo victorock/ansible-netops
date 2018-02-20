@@ -1,0 +1,160 @@
+---
+- name: "nxos_feature: Ensure the state of SVI feature"
+  nxos_feature:
+    feature: "{{ overlay_features.svi.name }}"
+    state: "{{ overlay_features.svi.states.feature }}"
+
+- name: "Ensure state of mapping between VLAN x VNI"
+  nxos_vlan:
+    vlan_id: "{{ nxos_vlan_vni.value.vlan }}"
+    mapped_vni: "{{ nxos_vlan_vni.value.vni }}"
+    name: "{{ nxos_vlan_vni.value.name }}"
+    state: "{{ nxos_vlan_vni.value.state | default(overlay_states.state) }}"
+    admin_state: "{{ nxos_vlan_vni.value.states.admin | default(overlay_states.admin) }}"
+  with_dict: "{{ overlay_vnis }}"
+  loop_control:
+    loop_var: nxos_vlan_vni
+    label: "nxos_vlan_vni {{ nxos_vlan_vni.value.name }}"
+
+# https://github.com/ansible/ansible/issues/36461
+#- name: "Ensure state of VRF for VNIs"
+#  nxos_vrf:
+#    vrf: "{{ nxos_vrf_vni.value.vrf }}"
+#    rd:  auto
+#    vni: "{{ nxos_vrf_vni.value.vni }}"
+#    state: "{{ nxos_vrf_vni.value.states.state | default(overlay_states.state) }}"
+#    admin_state: "{{ nxos_vrf_vni.value.states.admin | default(overlay_states.admin) }}"
+- name: "nxos_vrf_bug: Ensure state of VRF for VNIs"
+  nxos_config:
+    defaults: true
+    parents: vrf context {{ nxos_vrf_vni.value.vrf }}
+    lines:
+      - vni {{ nxos_vrf_vni.value.vni }}
+      - rd auto
+  with_dict: "{{ overlay_vnis }}"
+  loop_control:
+    loop_var: nxos_vrf_vni
+    label: "nxos_vrf_vni {{ nxos_vrf_vni.value.vrf }}"
+
+- name: "Ensure state of VRF AF for VNIs"
+  nxos_vrf_af:
+    vrf: "{{ nxos_vrf_af_vni.value.vrf }}"
+    route_target_both_auto_evpn: true
+    afi: ipv4
+    safi: unicast
+    state: "{{ nxos_vrf_af_vni.value.states.state | default(overlay_states.state) }}"
+  with_dict: "{{ overlay_vnis }}"
+  loop_control:
+    loop_var: nxos_vrf_af_vni
+    label: "nxos_vrf_af_vni {{ nxos_vrf_af_vni.value.vrf }}"
+
+- name: "Ensure state of Anycast GW"
+  nxos_overlay_global:
+    anycast_gateway_mac: "{{ overlay_global.anycast_gateway_mac }}"
+
+- name: "L2VNI: Ensure state of VNI (SVI)"
+  nxos_interface:
+    interface: "vlan{{ nxos_ip_interface_vni_svi_l2.value.vlan }}"
+    state: "{{ nxos_ip_interface_vni_svi_l2.value.states.state | default(overlay_states.state) }}"
+    admin_state: "{{ nxos_ip_interface_vni_svi_l2.value.states.admin | default(overlay_states.admin) }}"
+  with_dict: "{{ overlay_vnis }}"
+  when: nxos_ip_interface_vni_svi_l2.value.svi is defined
+  loop_control:
+    loop_var: nxos_ip_interface_vni_svi_l2
+    label: "nxos_ip_interface_vni_svi_l2 vlan{{ nxos_ip_interface_vni_svi_l2.value.vlan }}"
+
+- name: "L3VNI: Ensure state of VNI (SVI)"
+  nxos_interface:
+    interface: "vlan{{ nxos_interface_vni_svi_l3.value.vlan }}"
+    state: "{{ nxos_interface_vni_svi_l3.value.states.state | default(overlay_states.state) }}"
+    ip_forward: true
+    admin_state: "{{ nxos_interface_vni_svi_l3.value.states.admin | default(overlay_states.admin) }}"
+  with_dict: "{{ overlay_vnis }}"
+  when: nxos_interface_vni_svi_l3.value.svi is not defined
+  loop_control:
+    loop_var: nxos_interface_vni_svi_l3
+    label: "nxos_interface_vni_svi_l3 vlan{{ nxos_interface_vni_svi_l3.value.vlan }}"
+
+- name: "Ensure state of VNI (SVI) interface as assigned to vrf"
+  nxos_vrf_interface:
+    vrf: "{{ nxos_vrf_interface_vni_svi.value.vrf }}"
+    interface: "vlan{{ nxos_vrf_interface_vni_svi.value.vlan }}"
+    state: "{{ nxos_vrf_interface_vni_svi.value.states.state | default(overlay_states.state) }}"
+  with_dict: "{{ overlay_vnis }}"
+  loop_control:
+    loop_var: nxos_vrf_interface_vni_svi
+    label: "nxos_vrf_interface_vni_svi {{ nxos_vrf_interface_vni_svi.value.vrf }}: vlan{{ nxos_vrf_interface_vni_svi.value.vlan }}"
+
+- name: "L2VNI: Ensure state of svi address in L2VNI (SVI) interface"
+  nxos_ip_interface:
+    interface: "vlan{{ nxos_ip_interface_vni_svi_l2.value.vlan }}"
+    version: v4
+    addr: "{{ nxos_ip_interface_vni_svi_l2.value.svi | ipaddr('address') }}"
+    mask: "{{ nxos_ip_interface_vni_svi_l2.value.svi | ipaddr('prefix') }}"
+    state: "{{ nxos_ip_interface_vni_svi_l2.value.states.state | default(overlay_states.state) }}"
+  with_dict: "{{ overlay_vnis }}"
+  when: nxos_ip_interface_vni_svi_l2.value.svi is defined
+  loop_control:
+    loop_var: nxos_ip_interface_vni_svi_l2
+    label: "nxos_ip_interface_vni_svi_l2 vlan{{ nxos_ip_interface_vni_svi_l2.value.vlan }}: {{ nxos_ip_interface_vni_svi_l2.value.svi }}"
+
+- name: "L2VNI: Ensure state of fabric forwarding in L2VNI (SVI) interface"
+  nxos_interface:
+    interface: "vlan{{ nxos_interface_vni_svi_fabric_forwarding_l2.value.vlan }}"
+    fabric_forwarding_anycast_gateway: true
+    state: "{{ nxos_interface_vni_svi_fabric_forwarding_l2.value.states.state | default(overlay_states.state) }}"
+    description: "{{ overlay_description }}"
+  with_dict: "{{ overlay_vnis }}"
+  when: nxos_interface_vni_svi_fabric_forwarding_l2.value.svi is defined
+  loop_control:
+    loop_var: nxos_interface_vni_svi_fabric_forwarding_l2
+    label: "nxos_interface_vni_svi_fabric_forwarding_l2 vlan{{ nxos_interface_vni_svi_fabric_forwarding_l2.value.vlan }}"
+
+- name: "Ensure state of interface NVE1"
+  nxos_interface:
+    interface: "nve1"
+    state: "{{ overlay_states.state }}"
+    admin_state: "{{ overlay_states.admin }}"
+    description: "{{ overlay_description }}"
+
+- name: "Ensure state of vtep NVE1"
+  nxos_vxlan_vtep:
+    interface: "nve1"
+    description: "{{ overlay_description }}"
+    host_reachability: "true"
+
+- name: "L2VNI: Ensure state of mapping between L2VNI x VTEP"
+  nxos_vxlan_vtep_vni:
+    interface: nve1
+    vni: "{{ nxos_vxlan_vtep_vni_l2.value.vni }}"
+    multicast_group: "{{ nxos_vxlan_vtep_vni_l2.value.multicast.group }}"
+    state: "{{ nxos_vxlan_vtep_vni_l2.value.states.state | default(overlay_states.state) }}"
+  with_dict: "{{ overlay_vnis }}"
+  when: nxos_vxlan_vtep_vni_l2.value.svi is defined
+  loop_control:
+    loop_var: nxos_vxlan_vtep_vni_l2
+    label: "nxos_vxlan_vtep_vni_l2 nve1: {{ nxos_vxlan_vtep_vni_l2.value.vni }},{{ nxos_vxlan_vtep_vni_l2.value.multicast.group }}"
+
+- name: "L3VNI: Ensure state of mapping between L3VNI x VTEP"
+  nxos_vxlan_vtep_vni:
+    interface: nve1
+    vni: "{{ nxos_vxlan_vtep_vni.value.vni }}"
+    assoc_vrf: true
+    state: "{{ nxos_vxlan_vtep_vni_l3.value.states.state | default(overlay_states.state) }}"
+  with_dict: "{{ overlay_vnis }}"
+  when: nxos_vxlan_vtep_vni_l3.value.svi is not defined
+  loop_control:
+    loop_var: nxos_vxlan_vtep_vni_l3
+    label: "nxos_vxlan_vtep_vni_l3 nve1: {{ nxos_vxlan_vtep_vni_l3.value.vni }}"
+
+- name: "L2VNI: Ensure state of EVPN L2VNI Route Distinguiser/Route Target"
+  nxos_evpn_vni:
+    vni: "{{ nxos_evpn_vni_l2.value.vni }}"
+    route_distinguisher: "{{ nxos_evpn_vni_l2.value.route.distinguisher | default('auto') }}"
+    route_target_both: "{{ nxos_evpn_vni_l2.value.route.target_both | default('auto') }}"
+    state: "{{ nxos_evpn_vni_l2.value.states.state | default(overlay_states.state) }}"
+  with_dict: "{{ overlay_vnis }}"
+  when: nxos_evpn_vni_l2.value.svi is defined
+  loop_control:
+    loop_var: nxos_evpn_vni_l2
+    label: "nxos_evpn_vni_l2 {{ nxos_evpn_vni_l2.value.vni }}"

@@ -1,1 +1,2 @@
-overlay_nxos: "{{ overlay|default([]) }}"
+overlay_network_os: "{{ ansible_network_os }}"
+overlay_include_role: "victorock.overlay-{{ overlay_network_os }}-leaf"

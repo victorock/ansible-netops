@@ -12,5 +12,6 @@
 #  debug:
 #    msg: |
 #      Before calling run.yml consider reviewing the following:
-#        - You need at least 1 leaf with their respective variables defined in host_vars/group_vars.
+#        - You need at least 1 leaf and 1 spine with their respective variables defined in host_vars/group_vars.
 #        - The leaf(s) must be member of leaf group in inventory.
+#        - The spine(s) must be member of spine group in inventory.

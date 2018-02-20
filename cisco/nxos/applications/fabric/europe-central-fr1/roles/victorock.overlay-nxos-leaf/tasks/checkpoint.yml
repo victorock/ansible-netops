@@ -1,0 +1,7 @@
+- name: "Creates configuration checkpoint"
+  nxos_rollback:
+    checkpoint_file: "{{ overlay_rollback.configuration }}"
+  tags:
+    - checkpoint
+    - overlay_leaf_checkpoint
+    - overlay_nxos_leaf_checkpoint

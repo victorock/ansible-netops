@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: victorock
-  description: Underlay Network Configuration
+  description: Overlay Network Configuration
   license: "license (BSD, MIT)"
   min_ansible_version: 2.5
   platforms:
@@ -10,9 +10,8 @@ galaxy_info:
         - 7
   galaxy_tags:
     - overlay
-    - vxlan
     - vni
+    - vtep
     - nxos
 
-dependencies:
-  - victorock.overlay
+dependencies: []

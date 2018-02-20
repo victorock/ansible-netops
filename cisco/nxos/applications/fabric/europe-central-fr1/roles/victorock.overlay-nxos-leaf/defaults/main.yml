@@ -1,3 +1,9 @@
+---
+overlay_description: "Overlay by Ansible"
+
+overlay_rollback:
+  configuration: "overlay_nxos_leaf.cfg"
+
 overlay_global:
   anycast_gateway_mac: 0000.1111.2222
 
@@ -7,12 +13,23 @@ overlay_states:
   shutdown: false
   feature: enabled
 
+overlay_features:
+  svi:
+    name: interface-vlan
+    states: "{{ overlay_states }}"
+  overlay:
+    name: nv overlay
+    states: "{{ overlay_states }}"
+  vxlan:
+    name: vn-segment-vlan-based
+    states: "{{ overlay_states }}"
+
 overlay_vnis:
   l2_150_10150:
     name: l2_150_10150
     vrf: tenant01
-    vlan: 150
-    vni: 10150
+    vlan: 200
+    vni: 50200
     svi: 10.1.150.1/24
     multicast:
       group: 239.0.0.150

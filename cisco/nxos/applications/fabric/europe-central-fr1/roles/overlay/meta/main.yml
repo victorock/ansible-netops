@@ -1,16 +1,18 @@
 ---
 galaxy_info:
   author: victorock
-  description: FreeIPA
+  description: Overlay Network Configuration
   license: "license (BSD, MIT)"
-  min_ansible_version: 2.4
+  min_ansible_version: 2.5
   platforms:
-    - name: EL
+    - name: NXOS
       versions:
-        - 6
         - 7
   galaxy_tags:
-    - FreeIPA
+    - overlay
+    - vni
+    - vtep
+    - nxos
 
 dependencies:
-  - role: victorock.linux
+  - victorock.overlay-nxos-leaf

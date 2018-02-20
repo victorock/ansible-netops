@@ -1,0 +1,7 @@
+- fail: |
+    The dependencies required by underlay are not available in roles folders.
+    You can try to fetch them manually with galaxy :
+      ansible-galaxy install "victorock.overlay-{{ overlay_network_os }}-leaf" -p roles/ --force
+  tags:
+    - overlay
+    - overlay_galaxy
