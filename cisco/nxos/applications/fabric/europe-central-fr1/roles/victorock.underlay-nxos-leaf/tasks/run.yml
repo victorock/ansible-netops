@@ -6,6 +6,7 @@
         - checkpoint
         - lldp
         - l3_interface
+        - ospf
         - bgp
         - overlay
         - vxlan
@@ -23,6 +24,12 @@
         - l3_interface
         - underlay_leaf_l3_interface
         - underlay_nxos_leaf_l3_interface
+
+    - include_tasks: ospf.yml
+      tags:
+        - ospf
+        - underlay_leaf_ospf
+        - underlay_nxos_leaf_ospf
 
     - include_tasks: bgp.yml
       tags:
@@ -66,6 +73,7 @@
         - rollback
         - lldp
         - l3_interface
+        - ospf
         - bgp
         - overlay
         - vxlan
