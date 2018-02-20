@@ -1,0 +1,42 @@
+---
+- name: "Ensure the state of ospf feature"
+  nxos_feature:
+    feature: "{{ underlay_features.ospf.name }}"
+    state: "{{ underlay_features.ospf.states.feature }}"
+  tags: underlay_ospf
+
+- name: "Ensure state of ospf"
+  nxos_ospf:
+    ospf: "{{ underlay_ospf.name }}"
+    state: "{{ underlay_ospf.states.state }}"
+  tags: underlay_ospf
+
+- name: "Ensure state of ospf on control and exchange interfaces"
+  nxos_interface_ospf:
+    interface: "{{ nxos_interface_ospf_control_exchange.name }}"
+    ospf: "{{ underlay_ospf.name }}"
+    area: "{{ underlay_ospf.area }}"
+    cost: "{{ underlay_ospf.cost }}"
+    state: "{{ underlay_ospf.states.state }}"
+    passive_interface: false
+  with_items:
+    - "{{ underlay_interfaces.control }}"
+    - "{{ underlay_interfaces.exchange }}"
+  loop_control:
+    loop_var: nxos_interface_ospf_control_exchange
+    label: "nxos_interface_ospf {{ nxos_interface_ospf_control_exchange.name }}"
+  tags: underlay_ospf
+
+- name: "Ensure state of ospf on underlay links"
+  nxos_interface_ospf:
+    interface: "{{ nxos_interface_ospf_underlay_link.value.name }}"
+    ospf: "{{ underlay_ospf.name }}"
+    area: "{{ underlay_ospf.area }}"
+    cost: "{{ underlay_ospf.cost }}"
+    state: "{{ underlay_ospf.states.state }}"
+    passive_interface: false
+  with_dict: "{{ underlay_interfaces.links }}"
+  loop_control:
+    loop_var: nxos_interface_ospf_underlay_link
+    label: "nxos_interface_ospf {{ nxos_interface_ospf_underlay_link.value.name }}"
+  tags: underlay_ospf

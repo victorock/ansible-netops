@@ -1,8 +1,12 @@
+feature ospf
 feature bgp
 feature nv overlay
 feature vn-segment-vlan-based
 nv overlay evpn
 feature pim
+!
+router ospf {{ underlay_ospf.name }}
+  area {{ underlay_ospf.area }} nssa
 !
 router bgp {{ underlay_bgp.asn }}
   router-id {{ underlay_bgp.router_id }}
@@ -23,13 +27,10 @@ router bgp {{ underlay_bgp.asn }}
 !
 interface {{ underlay_interfaces.control.name }}
   ip address {{ underlay_interfaces.control.address }}
+  ip ospf router ospf area {{ underlay_ospf.area }}
   ip pim sparse-mode
   no shut
 !
-interface {{ underlay_interfaces.exchange.name }}
-  ip address {{ underlay_interfaces.exchange.address }}
-  ip pim sparse-mode
-  no shut
 !
 ip pim rp-address {{ underlay_multicast.rendezvous_point }}
 !
@@ -37,6 +38,7 @@ ip pim rp-address {{ underlay_multicast.rendezvous_point }}
 {% for interface, value in underlay_interfaces.links.iteritems() %}
 interface {{ value.name }}
   ip unnumbered {{ underlay_interfaces.control.name }}
+  ip ospf router ospf area {{ underlay_ospf.area }}
   ip pim sparse-mode
   no shut
 !

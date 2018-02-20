@@ -11,6 +11,9 @@ underlay_states:
   feature: enabled
 
 underlay_features:
+  ospf:
+    name: ospf
+    states: "{{ underlay_states }}"
   bgp:
     name: bgp
     states: "{{ underlay_states }}"
@@ -39,6 +42,12 @@ underlay_interfaces:
       lldp_neighbor:
         spine01:
           name: spine01
+
+underlay_ospf:
+  description: "{{ underlay_description }}"
+  name: UNDERLAY_0
+  area: 0.0.0.1
+  cost: 1
 
 underlay_bgp:
   description: "{{ underlay_description }}"
