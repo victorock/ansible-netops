@@ -1,2 +1,2 @@
-- include_playbook: spine.yml
-- include_playbook: leaf.yml
+- import_playbook: spine.yml
+- import_playbook: leaf.yml
