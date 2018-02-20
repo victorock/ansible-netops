@@ -28,10 +28,10 @@
     interface: "{{ nxos_pim_interface_link.value.name }}"
     sparse: true
     state: "{{ underlay_multicast.states.state | default(underlay_states.state) }}"
-  with_dict: "{{ nxos_pim_interface_link.links }}"
+  with_dict: "{{ underlay_interfaces.links }}"
   loop_control:
     loop_var: nxos_pim_interface_link
-    label: "nxos_pim_interface {{ nxos_pim_interface_link.value.name }}"
+    label: "nxos_pim_interface_link {{ nxos_pim_interface_link.value.name }}"
   tags:
     - multicast
     - underlay_spine_multicast
