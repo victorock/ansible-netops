@@ -12,8 +12,6 @@
 - name: "nxos_lldp_interface: Ensure state of lldp on underlay links"
   nxos_config:
     defaults: true
-    match: strict
-    replace: block
     parents: interface {{ nxos_interface_underlay_link_amend_lldp.value.name }}
     lines:
       - lldp transmit

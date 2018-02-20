@@ -3,18 +3,18 @@ underlay_role: leaf
 underlay_interfaces:
   control:
     description: "{{ underlay_description }}"
-    name: loopback0
+    name: loopback 0
     address: "{{ underlay_device_control_plane_address | ipaddr('host') }}"
     states: "{{ underlay_states }}"
   links:
-    ethernet1/2:
-      name: ethernet1/2
+    ethernet 1/2:
+      name: ethernet 1/2
       lldp_neighbor:
         spine01:
           name: spine01
 
-    ethernet1/3:
-      name: ethernet1/3
+    ethernet 1/3:
+      name: ethernet 1/3
       lldp_neighbor:
         spine02:
           name: spine02

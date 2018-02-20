@@ -41,8 +41,6 @@
 - name: "nxos_pim_rp_candidate: Ensure exchange-plane candidature to become rendezvous-point"
   nxos_config:
     defaults: true
-    match: strict
-    replace: block
     lines:
       - ip pim rp-candidate {{ underlay_interfaces.exchange.name }} group-list {{ underlay_multicast.group_list }}
   tags:
@@ -53,8 +51,6 @@
 - name: "nxos_pim_anycast_rp: Ensure state of multicast anycasp-rp adopting exchange-plane"
   nxos_config:
     defaults: true
-    match: strict
-    replace: block
     lines:
       - ip pim anycast-rp {{ underlay_multicast.rendezvous_point }} {{ nxos_pim_anycast_rp.router_id }}
   with_items: "{{ groups['spine'] | map('extract', hostvars, 'underlay_multicast') | list }}"

@@ -51,7 +51,6 @@
 - name: "nxos_l3_interface: Ensure state as unumbered to {{ underlay_interfaces.control.name }} on underlay links"
   nxos_config:
     defaults: true
-    replace: block
     parents: interface {{ nxos_l3_interface.value.name }}
     lines:
       - medium p2p
