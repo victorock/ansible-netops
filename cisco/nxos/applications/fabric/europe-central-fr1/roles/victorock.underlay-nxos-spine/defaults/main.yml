@@ -29,17 +29,17 @@ underlay_features:
 underlay_interfaces:
   control:
     description: "{{ underlay_description }}"
-    name: loopback 0
+    name: loopback0
     address: "{{ underlay_device_control_plane_address | ipaddr('host') }}"
     states: "{{ underlay_states }}"
   exchange:
     description: "{{ underlay_description }}"
-    name: loopback 1
+    name: loopback1
     address: "{{ underlay_fabric_exchange_plane_controller_address | ipaddr('host') }}"
     states: "{{ underlay_states }}"
   links:
-    ethernet 1/2:
-      name: ethernet 1/2
+    Ethernet1/2:
+      name: Ethernet1/2
       lldp_neighbor:
         spine01:
           name: leaf01
