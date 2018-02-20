@@ -18,7 +18,7 @@ router bgp {{ underlay_bgp.asn }}
 {% for leaf in groups['leaf'] %}
   neighbor {{ hostvars[leaf]['underlay_bgp']['router_id'] }}
     remote-as {{ hostvars[leaf]['underlay_bgp']['asn'] }}
-    update-source {{ underlay_bgp.router_id }}
+    update-source {{ underlay_bgp.update_source }}
     address-family ipv4 unicast
       send-community both
       route-reflector-client

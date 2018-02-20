@@ -58,6 +58,7 @@ underlay_ospf:
 underlay_bgp:
   description: "{{ underlay_description }}"
   router_id: "{{ underlay_device_control_plane_address | ipaddr('address') }}"
+  update_source: "{{ nxos_interfaces.control.name }}"
   asn: 65001
   graceful_restart: true
   states: "{{ underlay_states }}"

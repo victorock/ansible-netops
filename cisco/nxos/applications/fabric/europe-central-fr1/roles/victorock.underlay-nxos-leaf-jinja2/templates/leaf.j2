@@ -17,7 +17,7 @@ router bgp {{ underlay_bgp.asn }}
 {% for spine in groups['spine'] %}
   neighbor {{ hostvars[spine]['underlay_bgp']['router_id'] }}
     remote-as {{ hostvars[spine]['underlay_bgp']['asn'] }}
-    update-source {{ underlay_bgp.router_id }}
+    update-source {{ underlay_bgp.update_source }}
     address-family ipv4 unicast
       send-community both
     address-family l2vpn evpn

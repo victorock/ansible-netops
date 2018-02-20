@@ -31,7 +31,7 @@
     asn: "{{ underlay_bgp.asn }}"
     neighbor: "{{ nxos_bgp_neighbor.router_id }}"
     remote_as: "{{ nxos_bgp_neighbor.asn }}"
-    update_source: "{{ underlay_bgp.router_id }}"
+    update_source: "{{ underlay_bgp.update_source }}"
     state: "{{ underlay_bgp.states.state }}"
   loop: "{{ groups['spine'] | map('extract', hostvars, 'underlay_bgp') | list }}"
   loop_control:
