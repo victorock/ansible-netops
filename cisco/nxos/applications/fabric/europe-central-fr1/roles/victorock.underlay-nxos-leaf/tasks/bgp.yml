@@ -36,7 +36,7 @@
   loop: "{{ groups['spine'] | map('extract', hostvars, 'underlay_bgp') | list }}"
   loop_control:
     loop_var: nxos_bgp_neighbor
-    label: "nxos_bgp_neighbor {{ nxos_bgp_neighbor }}"
+    label: "nxos_bgp_neighbor {{ nxos_bgp_neighbor.router_id }}"
   tags:
     - underlay_leaf_bgp
     - underlay_nxos_leaf_bgp
