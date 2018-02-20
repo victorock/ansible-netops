@@ -27,7 +27,7 @@ router bgp {{ underlay_bgp.asn }}
 !
 interface {{ underlay_interfaces.control.name }}
   ip address {{ underlay_interfaces.control.address }}
-  ip ospf router ospf area {{ underlay_ospf.area }}
+  ip router ospf area {{ underlay_ospf.area }}
   ip pim sparse-mode
   no shut
 !
@@ -38,7 +38,7 @@ ip pim rp-address {{ underlay_multicast.rendezvous_point }}
 {% for interface, value in underlay_interfaces.links.iteritems() %}
 interface {{ value.name }}
   ip unnumbered {{ underlay_interfaces.control.name }}
-  ip ospf router ospf area {{ underlay_ospf.area }}
+  ip router ospf area {{ underlay_ospf.area }}
   ip pim sparse-mode
   no shut
 !
