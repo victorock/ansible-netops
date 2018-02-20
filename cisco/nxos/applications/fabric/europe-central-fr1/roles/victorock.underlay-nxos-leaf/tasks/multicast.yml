@@ -12,7 +12,7 @@
     interface: "{{ nxos_pim_interface.value.name }}"
     sparse: true
     state: "{{ underlay_multicast.states.state | default(underlay_states.state) }}"
-  with_dict: "{{ nxos_pim_interface_control.control }}"
+  with_dict: "{{ underlay_interfaces.control }}"
   loop_control:
     loop_var: nxos_pim_interface
     label: "nxos_pim_interface {{ nxos_pim_interface.value.name }}"
