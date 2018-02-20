@@ -5,6 +5,14 @@
       tags:
         - underlay
         - underlay_include_role
+        - checkpoint
+        - lldp
+        - l3_interface
+        - bgp
+        - overlay
+        - vxlan
+        - evpn
+        - multicast
 
   rescue:
     - include_tasks: galaxy.yml

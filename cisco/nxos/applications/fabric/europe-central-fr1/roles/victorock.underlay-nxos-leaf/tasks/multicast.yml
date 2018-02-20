@@ -9,13 +9,14 @@
 
 - name: "nxos_pim_interface: Ensure state of multicast in control interfaces"
   nxos_pim_interface:
-    interface: "{{ nxos_pim_interface.value.name }}"
+    interface: "{{ nxos_pim_interface_control.name }}"
     sparse: true
     state: "{{ underlay_multicast.states.state | default(underlay_states.state) }}"
-  with_dict: "{{ underlay_interfaces.control }}"
+  with_items:
+    - "{{ underlay_interfaces.control }}"
   loop_control:
-    loop_var: nxos_pim_interface
-    label: "nxos_pim_interface {{ nxos_pim_interface.value.name }}"
+    loop_var: nxos_pim_interface_control
+    label: "nxos_pim_interface_control {{ nxos_pim_interface_control.name }}"
   tags:
     - multicast
     - underlay_leaf_multicast
@@ -25,11 +26,11 @@
   nxos_pim_interface:
     interface: "{{ nxos_pim_interface_link.value.name }}"
     sparse: true
-    state: "{{ nxos_pim_interface_link.state | default(underlay_states.state) }}"
+    state: "{{ underlay_multicast.states.state | default(underlay_states.state) }}"
   with_dict: "{{ underlay_interfaces.links }}"
   loop_control:
     loop_var: nxos_pim_interface_link
-    label: "nxos_pim_interface {{ nxos_pim_interface_link.value.name }}"
+    label: "nxos_pim_interface_link {{ nxos_pim_interface_link.value.name }}"
   tags:
     - multicast
     - underlay_leaf_multicast
