@@ -10,7 +10,7 @@
 
 - name: "Ensure state of vlans on trunks"
   net_l2_interface:
-    interface: "{{ nxos_switchport_trunk.interface }}"
+    name: "{{ nxos_switchport_trunk.interface }}"
     mode: "trunk"
     native_vlan: "{{ nxos_switchport_trunk.native_vlan }}"
     trunk_allowed_vlans: "{{ nxos_switchport_trunk.allowed_vlans }}"
@@ -22,7 +22,7 @@
 
 - name: "Ensure state of vlans on access"
   net_l2_interface:
-    interface: "{{ nxos_switchport_access.interface }}"
+    name: "{{ nxos_switchport_access.interface }}"
     mode: "access"
     access_vlan: "{{ nxos_switchport_access.access_vlan }}"
     state: "{{ nxos_switchport.state | default('present') }}"
