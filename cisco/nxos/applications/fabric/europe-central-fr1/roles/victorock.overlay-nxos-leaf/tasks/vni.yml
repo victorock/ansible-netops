@@ -98,7 +98,7 @@
   nxos_interface:
     interface: "vlan{{ nxos_interface_vni_svi_l3.value.l3.vlan }}"
     state: "{{ nxos_interface_vni_svi_l3.value.states.state | default(overlay_states.state) }}"
-    ip_forward: true
+    ip_forward: enable
     admin_state: "{{ nxos_interface_vni_svi_l3.value.states.admin | default(overlay_states.admin) }}"
   with_dict: "{{ overlay_vnis }}"
   loop_control:
