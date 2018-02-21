@@ -84,11 +84,21 @@
     loop_var: nxos_ip_interface_vni_svi_l2
     label: "nxos_ip_interface_vni_svi_l2 vlan{{ nxos_ip_interface_vni_svi_l2.value.l2.vlan }}"
 
+- name: "L2VNI: Ensure state of VNI (SVI) interface as assigned to vrf"
+  nxos_vrf_interface:
+    vrf: "{{ nxos_vrf_interface_vni_svi.value.vrf }}"
+    interface: "vlan{{ nxos_vrf_interface_vni_svi.value.l2.vlan }}"
+    state: "{{ nxos_vrf_interface_vni_svi.value.states.state | default(overlay_states.state) }}"
+  with_dict: "{{ overlay_vnis }}"
+  loop_control:
+    loop_var: nxos_vrf_interface_vni_svi_l2
+    label: "nxos_vrf_interface_vni_svi_l2 {{ nxos_vrf_interface_vni_svi_l2.value.vrf }}: vlan{{ nxos_vrf_interface_vni_svi_l2.value.l3.vlan }}"
+
 - name: "L3VNI: Ensure state of VNI (SVI)"
   nxos_interface:
     interface: "vlan{{ nxos_interface_vni_svi_l3.value.l3.vlan }}"
     state: "{{ nxos_interface_vni_svi_l3.value.states.state | default(overlay_states.state) }}"
-#    ip_forward: true
+    ip_forward: true
     admin_state: "{{ nxos_interface_vni_svi_l3.value.states.admin | default(overlay_states.admin) }}"
   with_dict: "{{ overlay_vnis }}"
   loop_control:
@@ -98,12 +108,23 @@
 - name: "L3VNI: Ensure state of VNI (SVI) interface as assigned to vrf"
   nxos_vrf_interface:
     vrf: "{{ nxos_vrf_interface_vni_svi.value.vrf }}"
-    interface: "vlan{{ nxos_vrf_interface_vni_svi.value.l3.vlan }}"
+    interface: "vlan{{ nxos_vrf_interface_vni_svi_l3.value.l3.vlan }}"
     state: "{{ nxos_vrf_interface_vni_svi.value.states.state | default(overlay_states.state) }}"
   with_dict: "{{ overlay_vnis }}"
   loop_control:
-    loop_var: nxos_vrf_interface_vni_svi
-    label: "nxos_vrf_interface_vni_svi {{ nxos_vrf_interface_vni_svi.value.vrf }}: vlan{{ nxos_vrf_interface_vni_svi.value.l3.vlan }}"
+    loop_var: nxos_vrf_interface_vni_svi_l3
+    label: "nxos_vrf_interface_vni_svi_l3 {{ nxos_vrf_interface_vni_svi_l3.value.vrf }}: vlan{{ nxos_vrf_interface_vni_svi_l3.value.l3.vlan }}"
+
+- name: "L2VNI: Ensure state of fabric forwarding in L2VNI (SVI) interface"
+  nxos_interface:
+    interface: "vlan{{ nxos_interface_vni_svi_fabric_forwarding_l2.value.l2.vlan }}"
+    fabric_forwarding_anycast_gateway: true
+    state: "{{ nxos_interface_vni_svi_fabric_forwarding_l2.value.states.state | default(overlay_states.state) }}"
+    description: "{{ overlay_description }}"
+  with_dict: "{{ overlay_vnis }}"
+  loop_control:
+    loop_var: nxos_interface_vni_svi_fabric_forwarding_l2
+    label: "nxos_interface_vni_svi_fabric_forwarding_l2 vlan{{ nxos_interface_vni_svi_fabric_forwarding_l2.value.l2.vlan }}"
 
 - name: "L2VNI: Ensure state of svi address in L2VNI (SVI) interface"
   nxos_ip_interface:
@@ -116,17 +137,6 @@
   loop_control:
     loop_var: nxos_ip_interface_vni_svi_l2
     label: "nxos_ip_interface_vni_svi_l2 vlan{{ nxos_ip_interface_vni_svi_l2.value.l2.vlan }}: {{ nxos_ip_interface_vni_svi_l2.value.l2.svi }}"
-
-- name: "L2VNI: Ensure state of fabric forwarding in L2VNI (SVI) interface"
-  nxos_interface:
-    interface: "vlan{{ nxos_interface_vni_svi_fabric_forwarding_l2.value.l2.vlan }}"
-    fabric_forwarding_anycast_gateway: true
-    state: "{{ nxos_interface_vni_svi_fabric_forwarding_l2.value.states.state | default(overlay_states.state) }}"
-    description: "{{ overlay_description }}"
-  with_dict: "{{ overlay_vnis }}"
-  loop_control:
-    loop_var: nxos_interface_vni_svi_fabric_forwarding_l2
-    label: "nxos_interface_vni_svi_fabric_forwarding_l2 vlan{{ nxos_interface_vni_svi_fabric_forwarding_l2.value.l2.vlan }}"
 
 - name: "Ensure state of vtep interface"
   nxos_interface:
