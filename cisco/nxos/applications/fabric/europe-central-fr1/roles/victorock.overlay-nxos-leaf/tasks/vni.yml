@@ -111,24 +111,25 @@
     loop_var: nxos_interface_vni_svi_fabric_forwarding_l2
     label: "nxos_interface_vni_svi_fabric_forwarding_l2 vlan{{ nxos_interface_vni_svi_fabric_forwarding_l2.value.vlan }}"
 
-- name: "Ensure state of interface NVE1"
+- name: "Ensure state of vtep interface"
   nxos_interface:
-    interface: "nve1"
+    interface: "{{ overlay_interfaces.vtep.name }}"
     state: "{{ overlay_states.state }}"
     admin_state: "{{ overlay_states.admin }}"
     description: "{{ overlay_description }}"
 
-- name: "Ensure state of vtep NVE1"
+- name: "Ensure state of vxlan in vtep interface"
   nxos_vxlan_vtep:
-    interface: "nve1"
+    interface: "{{ overlay_interfaces.vtep.name }}"
     description: "{{ overlay_description }}"
+    source_interface: "{{ overlay_interfaces.control.name }}"
     host_reachability: yes
 
 - name: "L2VNI: Ensure state of mapping between L2VNI x VTEP"
   nxos_vxlan_vtep_vni:
-    interface: nve1
+    interface: "{{ overlay_interfaces.vtep.name }}"
     vni: "{{ nxos_vxlan_vtep_vni_l2.value.vni }}"
-## bug
+## bug https://github.com/ansible/ansible/issues/36499
 #    multicast_group: "{{ nxos_vxlan_vtep_vni_l2.value.multicast.group }}"
 #    suppress_arp: yes
     state: "{{ nxos_vxlan_vtep_vni_l2.value.states.state | default(overlay_states.state) }}"
@@ -140,7 +141,7 @@
 
 - name: "L3VNI: Ensure state of mapping between L3VNI x VTEP"
   nxos_vxlan_vtep_vni:
-    interface: nve1
+    interface: "{{ overlay_interfaces.vtep.name }}"
     vni: "{{ nxos_vxlan_vtep_vni.value.vni }}"
     assoc_vrf: true
     state: "{{ nxos_vxlan_vtep_vni_l3.value.states.state | default(overlay_states.state) }}"

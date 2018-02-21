@@ -24,6 +24,23 @@ overlay_features:
     name: vn-segment-vlan-based
     states: "{{ overlay_states }}"
 
+overlay_interfaces:
+  control:
+    name: loopback0
+    description: "{{ overlay_description }}"
+    states: "{{ overlay_states }}"
+  vtep:
+    name: nve1
+    description: "{{ overlay_description }}"
+    states: "{{ overlay_states }}"
+  links:
+    Ethernet1/4:
+      name: Ethernet1/4
+      mode: access
+      lldp_neighbor:
+        server01:
+          name: server01
+
 overlay_vnis:
   l2_150_10150:
     name: l2_150_10150
@@ -36,4 +53,7 @@ overlay_vnis:
     route:
       distinguisher: auto
       target_both: auto
+    links:
+      Ethernet1/4:
+        name: Ethernet1/4
     states: "{{ overlay_states }}"
