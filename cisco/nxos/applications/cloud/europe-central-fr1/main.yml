@@ -1,9 +1,2 @@
-- name: "Cloud Pod Configuration"
-  hosts: all
-  strategy: free
-  connection: network_cli
-
-  tasks:
-    - include_role:
-        name: "victorock.pod"
-        tasks_from: run
+- include: pod01.yml
+- include: pod02.yml
