@@ -24,9 +24,9 @@
 
   always:
     - include_role:
-        name: "victorock.vlan-{{ network_os }}"
+        name: "victorock.config-{{ network_os }}"
         tasks_from: save
 
     - include_role:
-        name: "victorock.vlan-{{ network_os }}"
+        name: "victorock.config-{{ network_os }}"
         tasks_from: backup
