@@ -1,7 +1,2 @@
 trunks:
-  - { interface: port-channel12, allowed_vlans: 100-104, native_vlan: 100, admin_state: up, state: present }
-  - { interface: port-channel13, allowed_vlans: 100-104, native_vlan: 100, admin_state: up, state: present }
-  - { interface: port-channel14, allowed_vlans: 100-104, native_vlan: 100, admin_state: up, state: present }
   - { interface: port-channel15, allowed_vlans: 100-104, native_vlan: 100, admin_state: up, state: present }
-  - { interface: port-channel16, allowed_vlans: 100-104, native_vlan: 100, admin_state: up, state: present }
-  - { interface: port-channel17, allowed_vlans: 100-104, native_vlan: 100, admin_state: up, state: present }

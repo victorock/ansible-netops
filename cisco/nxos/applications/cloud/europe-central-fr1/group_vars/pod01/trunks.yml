@@ -1,3 +1,2 @@
 trunks:
-  - { interface: ethernet1/4, allowed_vlans: 100-104, native_vlan: 100, admin_state: up, state: present }
   - { interface: port-channel15, allowed_vlans: 100-104, native_vlan: 100, admin_state: up, state: present }

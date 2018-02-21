@@ -1,0 +1,34 @@
+- name: "Ensure state of vlans"
+  nxos_vlan:
+    name: "{{ vlan.name }}"
+    vlan_id: "{{ vlan.vlan_id }}"
+    vlan_state: "{{ vlan.vlan_state | default(omit) }}"
+    admin_state: "{{ vlan.admin_state | default(omit) }}"
+    state: "{{ vlan.state | default(omit) }}"
+  with_items: "{{ vlans }}"
+  loop_control:
+    loop_var: vlan
+    label: "vlan {{ vlan.vlan_id }},{{ vlan.name }}"
+
+- name: "Ensure state of vlans on trunks"
+  nxos_switchport:
+    interface: "{{ nxos_switchport_trunk.interface }}"
+    mode: "trunk"
+    native_vlan: "{{ nxos_switchport_trunk.native_vlan }}"
+    trunk_allowed_vlans: "{{ nxos_switchport_trunk.allowed_vlans }}"
+    state: "{{ nxos_switchport_trunk.state | default('present') }}"
+  with_items: "{{ trunks }}"
+  loop_control:
+    loop_var: nxos_switchport_trunk
+    label: "trunk {{ nxos_switchport_trunk.interface }},{{ nxos_switchport_trunk.allowed_vlans }}"
+
+- name: "Ensure state of vlans on access"
+  nxos_switchport:
+    interface: "{{ nxos_switchport_access.interface }}"
+    mode: "access"
+    access_vlan: "{{ nxos_switchport_access.access_vlan }}"
+    state: "{{ nxos_switchport.state | default('present') }}"
+  with_items: "{{ access }}"
+  loop_control:
+    loop_var: nxos_switchport_access
+    label: "access {{ nxos_switchport_access.interface }},{{ nxos_switchport_access.access_vlan }}"

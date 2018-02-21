@@ -1,0 +1,32 @@
+- name: "Ensure state of portchannels"
+  nxos_config:
+    lines:
+      - interface port-channel{{ nxos_portchannel.group }}
+  with_items: "{{ portchannels }}"
+  loop_control:
+    loop_var: nxos_portchannel
+    label: "port-channel {{ nxos_portchannel.group }}"
+
+- name: "Ensure state of portchannel's members"
+  nxos_config:
+    parents: interface {{ nxos_portchannel_member.1 }}
+    lines:
+      - channel-group {{ nxos_portchannel_member.0.group }} mode {{ nxos_portchannel_member.0.mode }}
+  with_subelements:
+    - "{{ portchannels }}"
+    - members
+  loop_control:
+    loop_var: nxos_portchannel_member
+    label: "member {{ nxos_portchannel_member.1 }},{{ nxos_portchannel_member.0.group }}"
+
+- name: "Ensure state of vpc on portchannels"
+  nxos_vpc_interface:
+    portchannel: "{{ nxos_vpc_interface.group }}"
+    vpc: "{{ nxos_vpc_interface.group }}"
+    peer_link: "{{ nxos_vpc_interface.peer_link }}"
+    state: "{{ nxos_vpc_interface.state | default(omit) }}"
+  when: nxos_vpc_interface.peer_link is defined
+  with_items: "{{ portchannels }}"
+  loop_control:
+    loop_var: nxos_vpc_interface
+    label: "port-channel {{ nxos_vpc_interface.group }},{{ nxos_vpc_interface.group }}"

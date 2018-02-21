@@ -1,0 +1,3 @@
+- name: "Save configuration"
+  nxos_config:
+    save_when: always

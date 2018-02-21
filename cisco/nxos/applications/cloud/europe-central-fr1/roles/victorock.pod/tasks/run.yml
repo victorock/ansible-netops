@@ -1,0 +1,32 @@
+---
+- name: "victorock.pod"
+  block:
+    - include_role:
+        name: "victorock.config-{{ network_os }}"
+        tasks_from: checkpoint
+
+    - include_role:
+        name: "victorock.feature-{{ network_os }}"
+        tasks_from: run
+
+    - include_role:
+        name: "victorock.portchannel-{{ network_os }}"
+        tasks_from: run
+
+    - include_role:
+        name: "victorock.vlan-{{ network_os }}"
+        tasks_from: run
+
+  rescue:
+    - include_role:
+        name: "victorock.config-{{ network_os }}"
+        tasks_from: rollback
+
+  always:
+    - include_role:
+        name: "victorock.vlan-{{ network_os }}"
+        tasks_from: save
+
+    - include_role:
+        name: "victorock.vlan-{{ network_os }}"
+        tasks_from: backup
