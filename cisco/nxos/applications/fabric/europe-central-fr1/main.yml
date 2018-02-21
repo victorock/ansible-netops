@@ -1,2 +1,2 @@
-#- include: spine.yml
+- include: spine.yml
 - include: leaf.yml
