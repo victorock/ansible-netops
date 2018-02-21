@@ -4,17 +4,29 @@
     feature: "{{ overlay_features.svi.name }}"
     state: "{{ overlay_features.svi.states.feature }}"
 
-- name: "Ensure state of mapping between VLAN x VNI"
+- name: "L2VNI: Ensure state of mapping between VLAN x VNI"
   nxos_vlan:
-    vlan_id: "{{ nxos_vlan_vni.value.vlan }}"
-    mapped_vni: "{{ nxos_vlan_vni.value.vni }}"
-    name: "{{ nxos_vlan_vni.value.name }}"
-    state: "{{ nxos_vlan_vni.value.state | default(overlay_states.state) }}"
-    admin_state: "{{ nxos_vlan_vni.value.states.admin | default(overlay_states.admin) }}"
+    vlan_id: "{{ nxos_vlan_vni_l2.value.l2.vlan }}"
+    mapped_vni: "{{ nxos_vlan_vni_l2.value.l2.vni }}"
+    name: "{{ nxos_vlan_vni_l2.value.name }}"
+    state: "{{ nxos_vlan_vni_l2.value.state | default(overlay_states.state) }}"
+    admin_state: "{{ nxos_vlan_vni_l2.value.states.admin | default(overlay_states.admin) }}"
   with_dict: "{{ overlay_vnis }}"
   loop_control:
-    loop_var: nxos_vlan_vni
-    label: "nxos_vlan_vni {{ nxos_vlan_vni.value.name }}"
+    loop_var: nxos_vlan_vni_l2
+    label: "nxos_vlan_vni_l2 {{ nxos_vlan_vni.value.l2.name }}"
+
+- name: "L3VNI: Ensure state of mapping between VLAN x VNI"
+  nxos_vlan:
+    vlan_id: "{{ nxos_vlan_vni_l3.value.l3.vlan }}"
+    mapped_vni: "{{ nxos_vlan_vni_l3.value.l3.vni }}"
+    name: "{{ nxos_vlan_vni_l3.value.name }}"
+    state: "{{ nxos_vlan_vni_l3.value.state | default(overlay_states.state) }}"
+    admin_state: "{{ nxos_vlan_vni_l3.value.states.admin | default(overlay_states.admin) }}"
+  with_dict: "{{ overlay_vnis }}"
+  loop_control:
+    loop_var: nxos_vlan_vni_l3
+    label: "nxos_vlan_vni_l3 {{ nxos_vlan_vni.value.l3.name }}"
 
 # https://github.com/ansible/ansible/issues/36461
 #- name: "Ensure state of VRF for VNIs"
