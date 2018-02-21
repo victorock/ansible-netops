@@ -107,9 +107,9 @@
 
 - name: "L3VNI: Ensure state of VNI (SVI) interface as assigned to vrf"
   nxos_vrf_interface:
-    vrf: "{{ nxos_vrf_interface_vni_svi.value.vrf }}"
+    vrf: "{{ nxos_vrf_interface_vni_svi_l3.value.vrf }}"
     interface: "vlan{{ nxos_vrf_interface_vni_svi_l3.value.l3.vlan }}"
-    state: "{{ nxos_vrf_interface_vni_svi.value.states.state | default(overlay_states.state) }}"
+    state: "{{ nxos_vrf_interface_vni_svi_l3.value.states.state | default(overlay_states.state) }}"
   with_dict: "{{ overlay_vnis }}"
   loop_control:
     loop_var: nxos_vrf_interface_vni_svi_l3
