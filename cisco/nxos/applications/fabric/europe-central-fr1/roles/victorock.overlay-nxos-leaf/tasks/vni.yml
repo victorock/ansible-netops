@@ -41,7 +41,8 @@
     vrf: "{{ nxos_vrf_af_vni.value.vrf }}"
     route_target_both_auto_evpn: true
     afi: ipv4
-    safi: unicast
+## deprecated
+#    safi: unicast
     state: "{{ nxos_vrf_af_vni.value.states.state | default(overlay_states.state) }}"
   with_dict: "{{ overlay_vnis }}"
   loop_control:
@@ -129,7 +130,7 @@
     vni: "{{ nxos_vxlan_vtep_vni_l2.value.vni }}"
 ## bug
 #    multicast_group: "{{ nxos_vxlan_vtep_vni_l2.value.multicast.group }}"
-    suppress_arp: yes
+#    suppress_arp: yes
     state: "{{ nxos_vxlan_vtep_vni_l2.value.states.state | default(overlay_states.state) }}"
   with_dict: "{{ overlay_vnis }}"
   when: nxos_vxlan_vtep_vni_l2.value.svi is defined
