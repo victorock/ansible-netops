@@ -52,7 +52,8 @@ overlay_vnis:
       group: default
     route:
       distinguisher: auto
-      target_both: auto
+      import: auto
+      export: auto
     links:
       Ethernet1/4:
         name: Ethernet1/4

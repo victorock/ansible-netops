@@ -1,4 +1,4 @@
-- name: "Spine: Underlay Fabric Configuration"
+- name: "Spine: Fabric Configuration"
   hosts: spine
   connection: network_cli
 

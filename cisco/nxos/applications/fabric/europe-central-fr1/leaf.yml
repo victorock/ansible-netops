@@ -1,4 +1,4 @@
-- name: "Leaf: Overlay Fabric Configuration"
+- name: "Leaf: Fabric Configuration"
   hosts: leaf
   connection: network_cli
 
