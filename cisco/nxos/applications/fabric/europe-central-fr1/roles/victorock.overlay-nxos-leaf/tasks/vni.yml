@@ -14,7 +14,7 @@
   with_dict: "{{ overlay_vnis }}"
   loop_control:
     loop_var: nxos_vlan_vni_l2
-    label: "nxos_vlan_vni_l2 {{ nxos_vlan_vni.value.l2.name }}"
+    label: "nxos_vlan_vni_l2 {{ nxos_vlan_vni_l2.value.name }}"
 
 - name: "L3VNI: Ensure state of mapping between VLAN x VNI"
   nxos_vlan:
@@ -26,7 +26,7 @@
   with_dict: "{{ overlay_vnis }}"
   loop_control:
     loop_var: nxos_vlan_vni_l3
-    label: "nxos_vlan_vni_l3 {{ nxos_vlan_vni.value.l3.name }}"
+    label: "nxos_vlan_vni_l3 {{ nxos_vlan_vni_l3.value.name }}"
 
 # https://github.com/ansible/ansible/issues/36461
 #- name: "Ensure state of VRF for VNIs"
@@ -157,7 +157,7 @@
 - name: "L3VNI: Ensure state of mapping between L3VNI x VTEP"
   nxos_vxlan_vtep_vni:
     interface: "{{ overlay_interfaces.vtep.name }}"
-    vni: "{{ nxos_vxlan_vtep_vni.value.l3.vni }}"
+    vni: "{{ nxos_vxlan_vtep_vni_l3.value.l3.vni }}"
     assoc_vrf: true
     state: "{{ nxos_vxlan_vtep_vni_l3.value.states.state | default(overlay_states.state) }}"
   with_dict: "{{ overlay_vnis }}"
