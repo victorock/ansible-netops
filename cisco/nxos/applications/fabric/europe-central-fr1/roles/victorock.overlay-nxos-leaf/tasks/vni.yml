@@ -121,13 +121,16 @@
   nxos_vxlan_vtep:
     interface: "nve1"
     description: "{{ overlay_description }}"
-    host_reachability: "true"
+    host_reachability: yes
+    ingress_replication: bgp
+    suppress_arp: yes
 
 - name: "L2VNI: Ensure state of mapping between L2VNI x VTEP"
   nxos_vxlan_vtep_vni:
     interface: nve1
     vni: "{{ nxos_vxlan_vtep_vni_l2.value.vni }}"
-    multicast_group: "{{ nxos_vxlan_vtep_vni_l2.value.multicast.group }}"
+## bug
+#    multicast_group: "{{ nxos_vxlan_vtep_vni_l2.value.multicast.group }}"
     state: "{{ nxos_vxlan_vtep_vni_l2.value.states.state | default(overlay_states.state) }}"
   with_dict: "{{ overlay_vnis }}"
   when: nxos_vxlan_vtep_vni_l2.value.svi is defined

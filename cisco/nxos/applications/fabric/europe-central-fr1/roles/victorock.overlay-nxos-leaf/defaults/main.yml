@@ -32,7 +32,7 @@ overlay_vnis:
     vni: 50200
     svi: 10.1.150.1/24
     multicast:
-      group: 239.0.0.150
+      group: default
     route:
       distinguisher: auto
       target_both: auto
