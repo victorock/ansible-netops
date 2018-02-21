@@ -88,7 +88,7 @@
   nxos_vrf_interface:
     vrf: "{{ nxos_vrf_interface_vni_svi_l2.value.vrf }}"
     interface: "vlan{{ nxos_vrf_interface_vni_svi_l2.value.l2.vlan }}"
-    state: "{{ nxos_vrf_interface_vni_svi.value.states.state | default(overlay_states.state) }}"
+    state: "{{ nxos_vrf_interface_vni_svi_l2.value.states.state | default(overlay_states.state) }}"
   with_dict: "{{ overlay_vnis }}"
   loop_control:
     loop_var: nxos_vrf_interface_vni_svi_l2
