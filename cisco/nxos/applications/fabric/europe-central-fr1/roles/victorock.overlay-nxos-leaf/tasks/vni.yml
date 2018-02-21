@@ -157,8 +157,8 @@
     interface: "{{ overlay_interfaces.vtep.name }}"
     vni: "{{ nxos_vxlan_vtep_vni_l2.value.l2.vni }}"
 ## bug https://github.com/ansible/ansible/issues/36499
-#    multicast_group: "{{ nxos_vxlan_vtep_vni_l2.value.multicast.group }}"
-#    suppress_arp: yes
+    multicast_group: "{{ nxos_vxlan_vtep_vni_l2.value.multicast.group }}"
+    suppress_arp: yes
     state: "{{ nxos_vxlan_vtep_vni_l2.value.states.state | default(overlay_states.state) }}"
   with_dict: "{{ overlay_vnis }}"
   loop_control:

@@ -54,7 +54,7 @@ overlay_vnis:
       vni: 101150
       svi: 10.1.150.1/24
     multicast:
-      group: default
+      group: 225.4.0.1
     route:
       distinguisher: auto
       import: auto
