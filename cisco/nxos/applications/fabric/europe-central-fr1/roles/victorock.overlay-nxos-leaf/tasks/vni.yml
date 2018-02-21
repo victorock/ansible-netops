@@ -39,12 +39,13 @@
 - name: "nxos_vrf_bug: Ensure state of VRF for VNIs"
   nxos_config:
     defaults: true
+    replace: block
     parents: vrf context {{ nxos_vrf_vni.value.vrf }}
     lines:
       - vni {{ nxos_vrf_vni.value.l3.vni }}
       - rd auto
       - address-family ipv4 unicast
-      - route-target both auto
+      -   route-target both auto
   with_dict: "{{ overlay_vnis }}"
   loop_control:
     loop_var: nxos_vrf_vni
