@@ -26,8 +26,8 @@
       nxos_command:
         commands:
           - show mac address-table address {{ mac.address }}
-        wait_for:
-         - result[0] contains mac.address
+#        wait_for:
+#         - result[0] contains mac.address
       with_items: "{{ macs }}"
       when: macs is defined
       loop_control:
@@ -38,8 +38,8 @@
       nxos_command:
         commands:
           - show ip arp {{ arp.host }} vrf {{ arp.vrf }}
-        wait_for:
-         - result[0] contains arp.host          
+#        wait_for:
+#         - result[0] contains arp.host
       with_items: "{{ arps }}"
       when: arps is defined
       loop_control:
