@@ -25,7 +25,7 @@
     name: "{{ nxos_switchport_access.interface }}"
     mode: "access"
     access_vlan: "{{ nxos_switchport_access.access_vlan }}"
-    state: "{{ nxos_switchport.state | default('present') }}"
+    state: "{{ nxos_switchport_access.state | default('present') }}"
   with_items: "{{ access }}"
   loop_control:
     loop_var: nxos_switchport_access
