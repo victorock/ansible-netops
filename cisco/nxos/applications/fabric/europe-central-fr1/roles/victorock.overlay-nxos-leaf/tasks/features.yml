@@ -1,0 +1,8 @@
+- name: "feature.yml"
+  include_tasks: feature.yml
+  vars:
+    feature: "{{ feature_dict.value }}"
+  with_dict: "{{ features }}"
+  loop_control:
+    loop_var: feature_dict
+    label: "feature {{ feature_dict.value.name }}"

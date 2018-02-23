@@ -7,14 +7,25 @@
     - name: "checkpoint.yml"
       include_tasks: checkpoint.yml
 
+    - name: "features.yml"
+      include_tasks: features.yml
+      vars:
+        features: "{{ overlay_features }}"
+
     - name: "overlay.yml"
       include_tasks: overlay.yml
+      vars:
+        overlay: "{{ overlay_global }}"
 
-    - name: "vxlan.yml"
-      include_tasks: vxlan.yml
+    - name: "vtep.yml"
+      include_tasks: vtep.yml
+      vars:
+        vtep: "{{ overlay_interfaces.vtep }}"
 
-    - name: "vni.yml"
-      include_tasks: vni.yml
+    - name: "vnis.yml"
+      include_tasks: vnis.yml
+      vars:
+        vnis: "{{ overlay_vnis }}"
 
     - name: "asserts.yml"
       include_tasks: asserts.yml

@@ -1,0 +1,4 @@
+- name: "feature: Ensure the state of feature [ {{ feature.name }} ]"
+  nxos_feature:
+    feature: "{{ feature.name }}"
+    state: "{{ feature.states.feature }}"

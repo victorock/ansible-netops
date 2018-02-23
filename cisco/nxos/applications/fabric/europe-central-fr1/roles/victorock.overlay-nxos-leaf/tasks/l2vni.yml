@@ -1,0 +1,52 @@
+---
+- name: "l2vni: Ensure state of mapping between VLAN:VNI [ {{ vni.l2.vlan }}:{{ vni.l2.vni }} ]"
+  nxos_vlan:
+    vlan_id: "{{ vni.l2.vlan }}"
+    mapped_vni: "{{ vni.l2.vni }}"
+    name: "{{ vni.name }}"
+    state: "{{ vni.states.state | default(overlay_states.state) }}"
+    admin_state: "{{ vni.states.admin | default(overlay_states.admin) }}"
+
+- name: "l2vni: Ensure state of SVI [ vlan{{ vni.l2.vlan }} ] as existant"
+  nxos_interface:
+    interface: "vlan{{ vni.l2.vlan }}"
+    state: "{{ vni.states.state | default(overlay_states.state) }}"
+    admin_state: "{{ vni.states.admin | default(overlay_states.admin) }}"
+
+- name: "l2vni: Ensure state of fabric-forwarding anycast gateway in SVI [ vlan{{ vni.l2.vlan }} ]"
+  nxos_interface:
+    interface: "vlan{{ vni.l2.vlan }}"
+    fabric_forwarding_anycast_gateway: true
+    state: "{{ vni.states.state | default(overlay_states.state) }}"
+    admin_state: "{{ vni.states.admin | default(overlay_states.admin) }}"
+
+- name: "l2vni: Ensure state of SVI [ vlan{{ vni.l2.vlan }} ] as assigned to VRF [ {{ vni.vrf }} ]"
+  nxos_vrf_interface:
+    vrf: "{{ vni.vrf }}"
+    interface: "vlan{{ vni.l2.vlan }}"
+    state: "{{ vni.states.state | default(overlay_states.state) }}"
+
+- name: "l2vni: Ensure state of SVI [ vlan{{ vni.l2.vlan }} ] with address [ {{ vni.l2.svi }} ]"
+  nxos_ip_interface:
+    interface: "vlan{{ vni.l2.vlan }}"
+    version: v4
+    addr: "{{ vni.l2.svi | ipaddr('address') }}"
+    mask: "{{ vni.l2.svi | ipaddr('prefix') }}"
+    state: "{{ vni.states.state | default(overlay_states.state) }}"
+
+- name: "l2vni: Ensure state of EVPN's VNI [ {{ vni.l2.vni }} ] with RD and ROUTE-TARGET IMPORT/EXPORT"
+  nxos_evpn_vni:
+    vni: "{{ vni.l2.vni }}"
+    route_distinguisher: "{{ vni.route.distinguisher | default('auto') }}"
+    route_target_import: "{{ vni.route.export | default('auto') }}"
+    route_target_export: "{{ vni.route.import | default('auto') }}"
+    state: "{{ vni.states.state | default(overlay_states.state) }}"
+
+- name: "l2vni: Ensure state of vxlan's VNI [ {{ vni.l2.vni }} ] mapping to VTEP [ {{ overlay_interfaces.vtep.name }} ]"
+  nxos_vxlan_vtep_vni:
+    interface: "{{ overlay_interfaces.vtep.name }}"
+    vni: "{{ vni.l2.vni }}"
+## bug https://github.com/ansible/ansible/issues/36499
+    multicast_group: "{{ vni.multicast.group | default(mandatory) }}"
+    suppress_arp: "{{ vni.l2.supress_arp | default('true') }}"
+    state: "{{ vni.states.state | default(overlay_states.state) }}"

@@ -1,0 +1,30 @@
+---
+- name: "vrf: Ensure state of VRF as existant"
+  nxos_vrf:
+    vrf: "{{ vni.vrf }}"
+    state: "{{ vni.states.state | default(overlay_states.state) }}"
+    admin_state: "{{ vni.states.admin | default(overlay_states.admin) }}"
+
+- name: "vrf: Ensure state of VRF with RD"
+  nxos_vrf:
+    vrf: "{{ vni.vrf }}"
+    rd:  auto
+    state: "{{ vni.states.state | default(overlay_states.state) }}"
+    admin_state: "{{ vni.states.admin | default(overlay_states.admin) }}"
+
+#- name: "vrf: Ensure state of VRF with RD and address-family for VNI's Tenant"
+#  nxos_config:
+#    defaults: true
+#    replace: block
+#    parents: vrf context {{ vni.vrf }}
+#    lines:
+#      - rd auto
+#      - address-family ipv4 unicast
+#      -    route-target both auto
+
+- name: "vrf: Ensure state of vrf address-family evpn with route-target auto import/export"
+  nxos_vrf_af:
+    vrf: "{{ vni.vrf }}"
+    route_target_both_auto_evpn: true
+    afi: ipv4
+    state: "{{ vni.states.state | default(overlay_states.state) }}"

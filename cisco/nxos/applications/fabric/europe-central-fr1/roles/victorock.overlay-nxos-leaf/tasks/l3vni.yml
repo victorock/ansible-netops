@@ -1,0 +1,50 @@
+---
+- name: "l3vni: Ensure state of mapping between VLAN:VNI [ {{ vni.l3.vlan }}:{{ vni.l3.vni }} ]"
+  nxos_vlan:
+    vlan_id: "{{ vni.l3.vlan }}"
+    mapped_vni: "{{ vni.l3.vni }}"
+    name: "{{ vni.name }}"
+    state: "{{ vni.states.state | default(overlay_states.state) }}"
+    admin_state: "{{ vni.states.admin | default(overlay_states.admin) }}"
+
+# https://github.com/ansible/ansible/issues/36461
+- name: "l3vni: Ensure state of VNI [ {{ vni.l3.vni }} ] mapping to VRF [ {{ vni.vrf }} ]"
+  nxos_vrf:
+    vrf: "{{ vni.vrf }}"
+    rd:  auto
+    vni: "{{ vni.l3.vni }}"
+    state: "{{ vni.states.state | default(overlay_states.state) }}"
+    admin_state: "{{ vni.states.admin | default(overlay_states.admin) }}"
+
+#- name: "l3vni: Ensure state of VNI [ {{ vni.l3.vni }} ] mapping to VRF [ {{ vni.vrf }} ]"
+#  nxos_config:
+#    defaults: true
+#    parents: vrf context {{ vni.vrf }}
+#    lines:
+#      - vni {{ vni.l3.vni }}
+
+- name: "l3vni: Ensure state of SVI [ vlan{{ vni.l3.vlan }} ] as existant"
+  nxos_interface:
+    interface: "vlan{{ vni.l3.vlan }}"
+    state: "{{ vni.states.state | default(overlay_states.state) }}"
+    admin_state: "{{ vni.states.admin | default(overlay_states.admin) }}"
+
+- name: "l3vni: Ensure state of ip-forward in SVI [ vlan{{ vni.l3.vlan }} ]"
+  nxos_interface:
+    interface: "vlan{{ vni.l3.vlan }}"
+    ip_forward: "{{ vni.l3.ip_forward | default('enable') }}"
+    state: "{{ vni.states.state | default(overlay_states.state) }}"
+    admin_state: "{{ vni.states.admin | default(overlay_states.admin) }}"
+
+- name: "l3vni: Ensure state of SVI [ vlan{{ vni.l3.vlan }} ] as assigned to VRF [ {{ vni.vrf }} ]"
+  nxos_vrf_interface:
+    vrf: "{{ vni.vrf }}"
+    interface: "vlan{{ vni.l3.vlan }}"
+    state: "{{ vni.states.state | default(overlay_states.state) }}"
+
+- name: "l3vni: Ensure state of vxlan mapping between L3VNI and VTEP interface"
+  nxos_vxlan_vtep_vni:
+    interface: "{{ overlay_interfaces.vtep.name }}"
+    vni: "{{ vni.l3.vni }}"
+    assoc_vrf: "{{ vni.l3.assoc_vrf | default('true') }}"
+    state: "{{ vni.states.state | default(overlay_states.state) }}"

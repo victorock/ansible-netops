@@ -1,0 +1,13 @@
+- name: "VXLAN: Ensure state of vtep interface"
+  nxos_interface:
+    interface: "{{ vtep.name }}"
+    description: "{{ vtep.description }}"
+    state: "{{ vtep.states.state }}"
+    admin_state: "{{ vtep.states.admin }}"
+
+- name: "VXLAN: Ensure state of vxlan in vtep interface"
+  nxos_vxlan_vtep:
+    interface: "{{ vtep.name }}"
+    description: "{{ vtep.description }}"
+    source_interface: "{{ vtep.source_interface }}"
+    host_reachability: "{{ vtep.host_reachability }}"

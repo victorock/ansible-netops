@@ -7,42 +7,32 @@ overlay_states:
   shutdown: false
   feature: enabled
 
-overlay_interfaces:
-  control:
-    name: loopback0
-    description: "{{ overlay_description }}"
-    states: "{{ overlay_states }}"
+interfaces:
   vtep:
     name: nve1
     description: "{{ overlay_description }}"
+    source_interface: loopback0
+    host_reachability: yes
     states: "{{ overlay_states }}"
-  links:
-    Ethernet1/4:
-      name: Ethernet1/4
-      mode: access
-      lldp_neighbor:
-        server01:
-          name: server01
 
-overlay_vnis:
-  150_10150:
-    name: 150_10150
-    vrf: tenant01
-    l2:
-      vlan: 150
-      vni: 10150
-      svi: 10.0.150.1/24
-    l3:
-      vlan: 1150
-      vni: 101150
-      svi: 10.1.150.1/24
-    multicast:
-      group: 225.4.0.1
-    route:
-      distinguisher: auto
-      import: auto
-      export: auto
-    links:
-      Ethernet1/4:
-        name: Ethernet1/4
-    states: "{{ overlay_states }}"
+tenants:
+  vnis:
+    150_10150:
+      name: 150_10150
+      vrf: tenant01
+      l3:
+        vlan: 150
+        vni: 10150
+        assoc_vrf: yes
+      l2:
+        vlan: 1150
+        vni: 101150
+        svi: 10.1.150.1/24
+        suppress_arp: yes
+      multicast:
+        group: 225.4.0.1
+      route:
+        distinguisher: auto
+        import: auto
+        export: auto
+      states: "{{ overlay_states }}"

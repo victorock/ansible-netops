@@ -1,0 +1,8 @@
+- name: "vni.yml"
+  include_tasks: vni.yml
+  vars:
+    vni: "{{ vni_dict.value }}"
+  with_dict: "{{ vnis }}"
+  loop_control:
+    loop_var: vni_dict
+    label: "vni {{ vni_dict.value.name }}"

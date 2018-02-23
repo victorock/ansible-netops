@@ -1,8 +1,10 @@
-- name: "nxos_feature: Ensure the state of Overlay feature"
-  nxos_feature:
-    feature: "{{ overlay_features.overlay.name }}"
-    state: "{{ overlay_features.overlay.states.feature }}"
-  tags:
-    - overlay
-    - overlay_leaf_overlay
-    - overlay_nxos_leaf_overlay
+---
+- name: "overlay: Configure ACL TCAM region for ARP suppression"
+  nxos_config:
+    defaults: true
+    lines:
+      - hardware access-list tcam region arp-ether 256 double-wide
+
+- name: "overlay: Ensure state of Anycast GW"
+  nxos_overlay_global:
+    anycast_gateway_mac: "{{ overlay.anycast_gateway_mac }}"
