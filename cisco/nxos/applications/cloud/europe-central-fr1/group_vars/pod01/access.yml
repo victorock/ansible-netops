@@ -1,2 +1,0 @@
-access:
-  - { interface: ethernet1/4, access_vlan: 150, admin_state: up, state: present }

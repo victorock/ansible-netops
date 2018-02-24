@@ -1,2 +1,2 @@
 ansible_user: vagrant
-ansible_network_os: nxos
+ansible_password: vagrant

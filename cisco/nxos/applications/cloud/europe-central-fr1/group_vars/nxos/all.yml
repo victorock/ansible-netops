@@ -1,0 +1,8 @@
+ansible_network_os: nxos
+provider:
+  transport: nxapi
+  host: "{{ ansible_host }}"
+  username: "{{ ansible_user | default('vagrant') }}"
+  password: "{{ ansible_password | default('vagrant') }}"
+  port: "{{ nxapi_port | default('443') }}"
+  use_ssl: yes

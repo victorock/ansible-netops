@@ -1,0 +1,2 @@
+accesses:
+  - { interface: ethernet1/4, access_vlan: 1150, state: present }

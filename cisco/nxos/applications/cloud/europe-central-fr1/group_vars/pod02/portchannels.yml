@@ -1,2 +1,2 @@
 portchannels:
-  - { group: 15, members: ['ethernet 1/5'], mode: active, admin_state: up, state: present, force: true }
+  - { group: 15, members: ['ethernet 1/5'], mode: active, state: present, force: true }

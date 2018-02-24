@@ -7,7 +7,7 @@ overlay_states:
   shutdown: false
   feature: enabled
 
-interfaces:
+overlay_interfaces:
   vtep:
     name: nve1
     description: "{{ overlay_description }}"
@@ -15,24 +15,23 @@ interfaces:
     host_reachability: yes
     states: "{{ overlay_states }}"
 
-tenants:
-  vnis:
-    150_10150:
-      name: 150_10150
-      vrf: tenant01
-      l3:
-        vlan: 150
-        vni: 10150
-        assoc_vrf: yes
-      l2:
-        vlan: 1150
-        vni: 101150
-        svi: 10.1.150.1/24
-        suppress_arp: yes
-      multicast:
-        group: 225.4.0.1
-      route:
-        distinguisher: auto
-        import: auto
-        export: auto
-      states: "{{ overlay_states }}"
+overlay_vnis:
+  150_10150:
+    name: 150_10150
+    vrf: tenant01
+    l3:
+      vlan: 150
+      vni: 10150
+      assoc_vrf: yes
+    l2:
+      vlan: 1150
+      vni: 101150
+      svi: 10.1.150.1/24
+      suppress_arp: yes
+    multicast:
+      group: 225.4.0.1
+    route:
+      distinguisher: auto
+      import: auto
+      export: auto
+    states: "{{ overlay_states }}"

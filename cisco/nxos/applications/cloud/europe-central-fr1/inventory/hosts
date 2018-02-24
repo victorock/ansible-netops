@@ -5,13 +5,23 @@ fabric
 spine
 leaf
 
-[pod01:children]
-leaf01
-leaf02
+[nxos]
+spine01   ansible_host=127.0.0.1 ansible_port=11022 nxapi_port=11443 mgmt_ip=10.42.0.11
+spine02   ansible_host=127.0.0.1 ansible_port=12022 nxapi_port=12443 mgmt_ip=10.42.0.12
+leaf01    ansible_host=127.0.0.1 ansible_port=13022 nxapi_port=13443 mgmt_ip=10.42.0.21
+leaf02    ansible_host=127.0.0.1 ansible_port=14022 nxapi_port=14443 mgmt_ip=10.42.0.22
+leaf03    ansible_host=127.0.0.1 ansible_port=15022 nxapi_port=15443 mgmt_ip=10.42.0.23
+leaf04    ansible_host=127.0.0.1 ansible_port=16022 nxapi_port=16443 mgmt_ip=10.42.0.24
 
-[pod02:children]
-leaf03
-leaf04
+[pod01]
+leaf01    ansible_host=127.0.0.1 ansible_port=13022 mgmt_ip=10.42.0.21
+leaf02    ansible_host=127.0.0.1 ansible_port=14022 mgmt_ip=10.42.0.22
+server01  ansible_host=127.0.0.1 ansible_port=21022 mgmt_ip=10.42.0.31
+
+[pod02]
+leaf03    ansible_host=127.0.0.1 ansible_port=15022 mgmt_ip=10.42.0.23
+leaf04    ansible_host=127.0.0.1 ansible_port=16022 mgmt_ip=10.42.0.24
+server02  ansible_host=127.0.0.1 ansible_port=22022 mgmt_ip=10.42.0.32
 
 [spine]
 spine01   ansible_host=127.0.0.1 ansible_port=11022 mgmt_ip=10.42.0.11
