@@ -1,7 +1,6 @@
 - name: "NXOS Command"
   hosts: all
-  connection: local
-  gather_facts: no
+  connection: network_cli
 
   vars:
     commands:
@@ -18,3 +17,6 @@
       nxos_command:
         commands: "{{ commands }}"
         timeout: 600
+      register: show_ip_arp
+
+    - debug: var=show_ip_arp.stdout_lines

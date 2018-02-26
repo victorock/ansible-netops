@@ -1,7 +1,6 @@
 - name: "NXOS Facts"
   hosts: all
-  connection: local
-  gather_facts: no
+  connection: network_cli
 
   tasks:
     - name: "Gather Facts"

@@ -1,7 +1,6 @@
 - name: "AAA Configuration"
   hosts: all
-  connection: local
-  gather_facts: no
+  connection: network_cli
 
   vars:
     deadtime: 20

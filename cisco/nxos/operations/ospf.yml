@@ -1,7 +1,6 @@
 - name: "NXOS Command"
   hosts: all
-  connection: local
-  gather_facts: no
+  connection: network_cli
 
   vars:
     commands:
@@ -16,3 +15,6 @@
     - name: "show ip ospf"
       nxos_command:
         commands: "{{ commands }}"
+      register: show_ospf
+
+    - debug: var=show_ospf.stdout_lines

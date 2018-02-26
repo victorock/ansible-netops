@@ -1,7 +1,6 @@
 - name: "Feature Provisioning"
   hosts: all
-  connection: local
-  gather_facts: no
+  connection: network_cli
 
   vars:
     feature: lacp

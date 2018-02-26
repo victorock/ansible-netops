@@ -1,7 +1,6 @@
 - name: "HSRP Configuration"
   hosts: all
-  connection: local
-  gather_facts: no
+  connection: network_cli
 
   vars:
     interface: vlan10

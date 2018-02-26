@@ -1,7 +1,6 @@
 - name: "TACACS Configuration"
   hosts: all
-  connection: local
-  gather_facts: no
+  connection: network_cli
 
   vars:
     address: 2.3.4.5

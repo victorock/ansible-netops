@@ -1,47 +1,59 @@
 - name: "NXOS Command"
   hosts: all
-  connection: local
+  connection: network_cli
   gather_facts: no
 
   vars:
-    arps:
-      - { host: 10.42.0.1, vrf: all }
-      - { host: 10.42.0.11, vrf: all }
-      - { host: 10.42.0.12, vrf: all }
-      - { host: 10.42.0.21, vrf: all }
-      - { host: 10.42.0.22, vrf: all }
-      - { host: 10.42.0.23, vrf: all }
-      - { host: 10.42.0.24, vrf: all }
-      - { host: 10.42.0.42, vrf: all }
+    ips:
+      - 10.42.0.1
+      - 10.42.0.11
+      - 10.42.0.12
+      - 10.42.0.21
+      - 10.42.0.22
+      - 10.42.0.23
+      - 10.42.0.24
+      - 10.42.0.42
 
     macs:
-      - { address: 0800.2737.a2d8 }
-      - { address: 0800.2756.c35f }
-      - { address: 0800.27ce.8928 }
-      - { address: 0800.2701.5ca0 }
+      - 0800.2737.a2d8
+      - 0800.2756.c35f
+      - 0800.27ce.8928
+      - 0800.2701.5ca0
 
   tasks:
 
     - name: "Get entries in mac address-table"
       nxos_command:
         commands:
-          - show mac address-table address {{ mac.address }}
-#        wait_for:
-#         - result[0] contains mac.address
-      with_items: "{{ macs }}"
-      when: macs is defined
-      loop_control:
-        loop_var: mac
-        label: "{{ mac.address }}"
+          - show mac address-table
+      register: show_mac_address_table
 
     - name: "Get entries in arp table"
       nxos_command:
         commands:
-          - show ip arp {{ arp.host }} vrf {{ arp.vrf }}
-#        wait_for:
-#         - result[0] contains arp.host
-      with_items: "{{ arps }}"
-      when: arps is defined
+          - show ip arp vrf all
+      register: show_ip_arp_vrf_all
+
+    - name: "Output show_ip_arp_vrf_all"
+      debug: var=show_ip_arp_vrf_all.stdout_lines
+
+    - name: "Output show_mac_address_table"
+      debug: var=show_mac_address_table.stdout_lines
+
+    - name: "Check mac entry in show_mac_address_table"
+      assert:
+        that:
+          - ip in show_ip_arp_vrf_all.stdout_lines
+      loop: "{{ ips }}"
       loop_control:
-        loop_var: arp
-        label: "{{ arp.host }}"
+        loop_var: ip
+        label: "ip: {{ ip }}"
+
+    - name: "Check mac entry in show_mac_address_table"
+      assert:
+        that:
+          - mac in show_mac_address_table.stdout_lines
+      loop: "{{ macs }}"
+      loop_control:
+        loop_var: mac
+        label: "mac: {{ mac }}"

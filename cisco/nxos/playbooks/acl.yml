@@ -1,32 +1,33 @@
 - name: "ACL Configuration"
   hosts: all
-  connection: local
-  gather_facts: no
+  connection: network_cli
 
   vars:
-    name: MYACL
-    seq: 10
-    action: permit
-    proto: any
-    src: any
-    src_port: any
-    src_port_op: any
-    dest: any
-    dest_port: any
-    dest_port_op: any
-    state: present
+    acls:
+      permit:
+        - seq: 10
+          name: SSH
+          proto: tcp
+          src: any
+          dest: any
+          dest_port: 22
+          description: INC#XXXX, CR#YYYYY
+          state: present
 
   tasks:
-    - name: "Configure ACL rule"
+    - name: "Configure ACL permit rules"
       nxos_acl:
-        name: "{{ name }}"
-        seq: "{{ seq }}"
-        action: "{{ action }}"
-        proto: "{{ proto }}"
-        src: "{{ src }}"
-        src_port1: "{{ src_port }}"
-        src_port_op: "{{ src_port_op }}"
-        dest: "{{ dest }}"
-        dest_port1: "{{ dest_port }}"
-        dest_port_op: "{{ dest_port_op }}"
-        state: "{{ state }}"
+        action: "permit"
+        name: "{{ acl.name }}"
+        seq: "{{ acl.seq }}"
+        proto: "{{ acl.proto }}"
+        src: "{{ acl.src }}"
+        src_port1: "{{ acl.src_port | default(omit) }}"
+        src_port_op: "{{ acl.src_port_op | default(omit) }}"
+        dest: "{{ acl.dest }}"
+        dest_port1: "{{ acl.dest_port | default('any') }}"
+        dest_port_op: "{{ acl.dest_port_op | default('eq') }}"
+        state: "{{ acl.state | default(omit) }}"
+      loop: "{{ acls.permit }}"
+      loop_control:
+        loop_var: acl

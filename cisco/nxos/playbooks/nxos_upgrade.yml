@@ -1,7 +1,6 @@
 - name: "Switchport Provisioning"
   hosts: all
-  connection: local
-  gather_facts: no
+  connection: network_cli
 
   vars:
     system_image_file: nxos.7.0.3.I7.1.bin

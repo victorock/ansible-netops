@@ -1,7 +1,6 @@
 - name: "NXOS Command"
   hosts: all
-  connection: local
-  gather_facts: no
+  connection: network_cli
 
   vars:
     commands:
@@ -11,3 +10,6 @@
     - name: "show running-config"
       nxos_command:
         commands: "{{ commands }}"
+      register: show_running_config
+
+    - debug: var=show_running_config.stdout_lines
