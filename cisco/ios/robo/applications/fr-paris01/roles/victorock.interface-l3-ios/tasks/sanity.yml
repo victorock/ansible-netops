@@ -1,10 +1,10 @@
 - name: "Ensure state of directory structure"
   file:
-    path: "{{ interface_config[ config_key ].path | quote }}"
+    path: "{{ interface_config[ config_key ].path }}"
     state: directory
   loop:
     - build
     - cfg
   loop_control:
     loop_var: config_key
-    label: "directory: {{ interface_config[config_key] }}"
+    label: "directory: {{ interface_config[config_key].path }}"

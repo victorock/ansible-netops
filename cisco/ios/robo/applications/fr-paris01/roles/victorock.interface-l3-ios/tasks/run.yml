@@ -1,30 +1,38 @@
 ---
 - name: "victorock.interfaces-ios"
   block:
-    - include_tasks: sanity.yml
+    - name: "sanity"
+      include_tasks: sanity.yml
 
-    - include_role:
+    - name: "victorock.config-{{ ansible_network_os }}"
+      include_role:
         name: "victorock.config-{{ ansible_network_os }}"
         tasks_from: checkpoint
 
-    - include_tasks: interfaces.yml
+    - name: "interfaces"
+      include_tasks: interfaces.yml
       when: interfaces is defined
 
-    - include_tasks: interface.yml
+    - name: "interface"
+      include_tasks: interface.yml
       when: interface is defined
 
-    - include_tasks: assemble.yml
+    - name: "assemble"
+      include_tasks: assemble.yml
 
-    - include_role:
+    - name: "victorock.config-{{ ansible_network_os }}"
+      include_role:
         name: "victorock.config-{{ ansible_network_os }}"
         tasks_from: push
       vars:
         network_config: "{{ interface_config }}"
 
-    - include_tasks: assert.yml
+    - name: "assert"
+      include_tasks: assert.yml
 
   rescue:
-    - include_role:
+    - name: " /!\\ ROLLBACK /!\\"
+      include_role:
         name: "victorock.config-{{ ansible_network_os }}"
         tasks_from: rollback
 

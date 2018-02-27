@@ -1,3 +1,15 @@
-- name: "Rollback configuration to checkpoint"
+---
+- name: "Gather the most recent rollback configuration"
   ios_command:
-    commands: configure replace {{ network_config.rollback.path }}{{ network_config.rollback.file }} force
+    commands:
+      - show archive | i Most Recent
+  register: archive
+
+- name: "Extract the rollback most recent file"
+  set_fact:
+    archive_config: "{{archive.stdout[0] | regex_replace('^.*(flash:.*\\d).*$', '\\1')}}"
+
+- name: "Configuration Rollback: {{ archive_config }}"
+  ios_command:
+    commands:
+      - config replace "{{ archive_config }}" force
