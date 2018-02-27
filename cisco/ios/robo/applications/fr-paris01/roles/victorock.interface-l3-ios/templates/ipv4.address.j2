@@ -1,0 +1,2 @@
+interface {{ interface.name }}
+  ip address {{ ipv4.address | ipaddr('address') }} {{ ipv4.subnet | ipaddr('netmask')}}

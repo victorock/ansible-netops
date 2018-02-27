@@ -1,0 +1,9 @@
+- name: "Interface Configuration"
+  hosts: all
+  connection: network_cli
+  gather_facts: False
+
+  tasks:
+    - include_role:
+        name: "victorock.interface-l3-ios"
+        tasks_from: run

@@ -1,0 +1,6 @@
+- include_tasks: interface.yml
+  vars:
+    interface: "{{ interface_dict.value }}"
+  with_dict: "{{ interfaces | default({}) }}"
+  loop_control:
+    loop_var: interface_dict

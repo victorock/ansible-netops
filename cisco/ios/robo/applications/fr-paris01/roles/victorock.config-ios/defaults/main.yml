@@ -1,0 +1,7 @@
+network_config:
+  rollback:
+    path: "bootflash:"
+    file: "ansible.cfg"
+  cfg:
+    path: "files/cfg/{{ inventory_hostname }}"
+    file: "{{ inventory_hostname }}.cfg"

@@ -1,0 +1,5 @@
+- name: "ipv4.unnumbered"
+  template:
+    src: ipv4.unnumbered.j2
+    dest: "{{ interface_config.build.path }}/{{ interface.name }}.ipv4.unnumbered"
+  when: ipv4.unnumbered is defined

@@ -1,0 +1,3 @@
+- name: "Rollback configuration to checkpoint"
+  ios_command:
+    commands: configure replace {{ network_config.rollback.path }}{{ network_config.rollback.file }} force

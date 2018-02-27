@@ -1,0 +1,21 @@
+- name: "Device Facts"
+  hosts: all
+  connection: network_cli
+  gather_facts: False
+
+  tasks:
+    - name: Gather ios facts
+      ios_facts:
+
+    - debug:
+        msg: |
+          Serial: {{ ansible_facts.net_serialnum }}
+          Model: {{ ansible_facts.net_model }}
+          Mem (Total): {{ ansible_facts.net_memtotal_mb }}
+          Mem (Free): {{ ansible_facts.net_memfree_mb }}
+
+    - fail:
+        msg: |
+          Low Free Memory, < 512mb
+          For safety reason don't touch the device!!!!
+      when: ansible_facts.net_memfree_mb|int < 512

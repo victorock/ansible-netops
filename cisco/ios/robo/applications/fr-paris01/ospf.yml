@@ -1,7 +1,7 @@
 - name: "OSPF Configuration"
   hosts: all
-  connection: local
-  gather_facts: no
+  connection: network_cli
+  gather_facts: False
 
   vars:
     instance: 110

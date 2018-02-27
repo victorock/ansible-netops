@@ -1,0 +1,11 @@
+- name: "ipv4.address"
+  include_tasks: ipv4.address.yml
+  loop: "{{ interface.ipv4 | default([]) }}"
+  loop_control:
+    loop_var: ipv4
+
+- name: "ipv4.unnumbered"
+  include_tasks: ipv4.unnumbered.yml
+  loop: "{{ interface.ipv4 | default([]) }}"
+  loop_control:
+    loop_var: ipv4

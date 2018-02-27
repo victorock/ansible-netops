@@ -1,0 +1,7 @@
+- name: "ipv4.address"
+  template:
+    src: ipv4.address.j2
+    dest: "{{ interface_config.build.path }}/{{ interface.name }}.ipv4.address"
+  when:
+  - ipv4.address is defined
+  - ipv4.subnet is defined

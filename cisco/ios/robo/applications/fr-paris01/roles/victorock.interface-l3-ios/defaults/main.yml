@@ -1,0 +1,9 @@
+interface_config:
+  rollback:
+    path: "bootflash:"
+    file: "ansible_interfaces.cfg"
+  cfg:
+    path: "files/cfg/{{ inventory_hostname }}"
+    file: "interfaces.cfg"
+  build:
+    path: "files/build/{{ inventory_hostname }}/interfaces"

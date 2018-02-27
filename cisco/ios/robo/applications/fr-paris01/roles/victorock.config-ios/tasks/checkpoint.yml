@@ -1,0 +1,7 @@
+- name: "Creates configuration checkpoint"
+  ios_config:
+    parents: archive
+    lines:
+      - path {{ network_config.rollback.path }}{{ network_config.rollback.file }}
+      - maximum 10
+      - write-memory

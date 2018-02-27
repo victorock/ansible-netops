@@ -1,0 +1,3 @@
+- import_playbook: facts.yml
+- import_playbook: interfaces_role.yml
+- import_playbook: ospf.yml

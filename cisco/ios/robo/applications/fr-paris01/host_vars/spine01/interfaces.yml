@@ -1,0 +1,42 @@
+interfaces:
+  Loopback0:
+    name: Loopback0
+    bandwidth: 8000000
+    description: null
+    duplex: null
+    ipv4:
+      - address: 1.1.1.11
+        subnet: 32
+    lineprotocol: up
+    mediatype: null
+    mtu: 1514
+    operstatus: up
+    type: null
+
+  GigabitEthernet3:
+    name: GigabitEthernet3
+    bandwidth: 1000000
+    description: null
+    duplex: Full
+    medium: p2p
+    ipv4:
+      - unnumbered: Loopback 0
+    lineprotocol: up
+    mediatype: RJ45
+    mtu: 1500
+    operstatus: up
+    type: CSR vNIC
+
+  GigabitEthernet4:
+    name: GigabitEthernet4
+    bandwidth: 1000000
+    description: null
+    duplex: Full
+    medium: p2p
+    ipv4:
+      - unnumbered: Loopback 0
+    lineprotocol: up
+    mediatype: RJ45
+    mtu: 1500
+    operstatus: up
+    type: CSR vNIC

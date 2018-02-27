@@ -1,0 +1,5 @@
+- name: "operstatus"
+  template:
+    src: operstatus.j2
+    dest: "{{ interface_config.build.path }}/{{ interface.name }}.operstatus"
+  when: interface.operstatus is defined

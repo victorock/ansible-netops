@@ -1,4 +1,4 @@
-- name: "NXOS Command"
+- name: "NXOS OSPF Command"
   hosts: all
   connection: network_cli
 

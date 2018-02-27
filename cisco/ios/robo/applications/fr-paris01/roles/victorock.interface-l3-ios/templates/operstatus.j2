@@ -1,0 +1,7 @@
+{% if interface.operstatus == 'up' %}
+interface {{ interface.name }}
+  no shutdown
+{% elif interface.operstatus == 'down' %}
+interface {{ interface.name }}
+  shutdown
+{% endif %}

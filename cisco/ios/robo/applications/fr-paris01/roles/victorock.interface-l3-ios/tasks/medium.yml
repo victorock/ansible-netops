@@ -1,0 +1,5 @@
+- name: "medium"
+  template:
+    src: medium.j2
+    dest: "{{ interface_config.build.path }}/{{ interface.name }}.medium"
+  when: interface.medium is defined

@@ -1,0 +1,3 @@
+- name: "Push configuration"
+  ios_config:
+    src: "{{ network_config.cfg.path }}/{{ network_config.cfg.file }}"

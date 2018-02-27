@@ -1,0 +1,4 @@
+- name: "Assemble interface configurations"
+  assemble:
+    src: "{{ interface_config.build.path }}"
+    dest: "{{ interface_config.cfg.path }}/{{ interface_config.cfg.file }}"
