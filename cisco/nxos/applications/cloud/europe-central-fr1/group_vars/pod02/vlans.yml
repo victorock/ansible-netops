@@ -1,5 +1,5 @@
 vlans:
-  - { name: pod01, vlan_id: 100, interfaces: [ 'Ethernet1/10' ], vlan_state: active, admin_state: up, state: present }
+  - { name: vni10150, vlan_id: 1150, interfaces: [ 'Ethernet1/4' ], vlan_state: active, admin_state: up, state: present }
   - { name: app01, vlan_id: 101, interfaces: [ 'Ethernet1/10' ], vlan_state: active, admin_state: up, state: present }
   - { name: app02, vlan_id: 102, interfaces: [ 'Ethernet1/10' ], vlan_state: active, admin_state: up, state: present }
   - { name: app03, vlan_id: 103, interfaces: [ 'Ethernet1/10' ], vlan_state: active, admin_state: up, state: present }
