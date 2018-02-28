@@ -6,8 +6,8 @@
   vars:
     collect_fabric:
       vlan:
-        - show vlan id 150
         - show vlan id 1150
+        - show spanning-tree vlan 1150
       interface:
         - show ip interface brief
         - show interface nve1
