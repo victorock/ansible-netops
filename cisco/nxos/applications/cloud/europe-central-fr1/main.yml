@@ -1,2 +1,2 @@
-- include: pod01.yml
-- include: pod02.yml
+- import_playbook: pod01.yml
+- import_playbook: pod02.yml
