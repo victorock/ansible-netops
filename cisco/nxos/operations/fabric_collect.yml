@@ -1,0 +1,29 @@
+- name: "NXOS Fabric"
+  hosts: all
+  connection: network_cli
+  gather_facts: no
+
+  vars:
+    collect_fabric:
+      - show vlan id 150
+      - show vlan id 1150
+      - show ip interface brief
+      - show interface nve1
+      - show interface loopback0
+      - show ip ospf neighbor
+      - show ip pim route
+      - show ip bgp summary
+      - show bgp l2vpn evpn
+      - show vxlan
+      - show vxlan interface
+      - show nve vni
+      - show nve peers
+
+  tasks:
+    - name: "Gather Fabric status"
+      nxos_command:
+        commands: "{{ collect_fabric }}"
+      register: show_collect_fabric
+
+    - name: "Output show_collect_fabric"
+      debug: var=show_collect_fabric.stdout_lines
