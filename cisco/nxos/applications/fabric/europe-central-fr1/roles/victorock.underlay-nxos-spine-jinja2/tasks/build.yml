@@ -1,3 +1,8 @@
+- name: Ensure state of directory structure
+  file:
+    path: files
+    state: directory
+    
 - name: Build Spine Config
   template:
     src: spine.j2

@@ -1,3 +1,8 @@
+- name: Ensure state of directory structure
+  file:
+    path: files
+    state: directory
+
 - name: Build Leaf Config
   template:
     src: leaf.j2
