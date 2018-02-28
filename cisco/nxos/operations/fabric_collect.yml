@@ -42,12 +42,3 @@
       nxos_command:
         commands: "{{ collect_fabric.vxlan }}"
       register: show_collect_fabric_vxlan
-
-    - name: "Outputs"
-      debug:
-        var: "{{ item }}"
-      loop:
-        - show_collect_fabric_vlan.stdout_lines
-        - show_collect_fabric_interface.stdout_lines
-        - show_collect_fabric_routing.stdout_lines
-        - show_collect_fabric_vxlan.stdout_lines
