@@ -1,9 +1,9 @@
 - name: Ensure state of directory structure
   file:
-    path: files
+    path: "{{ playbook_dir }}/roles/victorock.underlay-nxos-spine-jinja2/files"
     state: directory
-    
+
 - name: Build Spine Config
   template:
     src: spine.j2
-    dest: "files/{{inventory_hostname}}.cfg"
+    dest: "{{ playbook_dir }}/roles/victorock.underlay-nxos-spine-jinja2/files/{{ inventory_hostname }}.cfg"

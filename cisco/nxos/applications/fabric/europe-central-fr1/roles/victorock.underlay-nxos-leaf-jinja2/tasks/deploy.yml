@@ -1,4 +1,4 @@
 - name: Deploy Leaf Config
   nxos_config:
-    src: "files/{{inventory_hostname}}.cfg"
+    src: "{{ playbook_dir }}/roles/victorock.underlay-nxos-leaf-jinja2/files/{{ inventory_hostname }}.cfg"
     save_when: modified
