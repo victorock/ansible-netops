@@ -28,29 +28,26 @@
         commands: "{{ collect_fabric.vlan }}"
       register: show_collect_fabric_vlan
 
-    - name: "Output show_collect_fabric_vlan"
-      debug: var=show_collect_fabric_vlan.stdout_lines
-
     - name: "Gather Fabric status: interface"
       nxos_command:
         commands: "{{ collect_fabric.interface }}"
       register: show_collect_fabric_interface
-
-    - name: "Output show_collect_fabric_interface"
-      debug: var=show_collect_fabric_interface.stdout_lines
 
     - name: "Gather Fabric status: routing"
       nxos_command:
         commands: "{{ collect_fabric.routing }}"
       register: show_collect_fabric_routing
 
-    - name: "Output show_collect_fabric_routing"
-      debug: var=show_collect_fabric_routing.stdout_lines
-
     - name: "Gather Fabric status: vxlan"
       nxos_command:
         commands: "{{ collect_fabric.vxlan }}"
       register: show_collect_fabric_vxlan
 
-    - name: "Output show_collect_fabric_vxlan"
-      debug: var=show_collect_fabric_vxlan.stdout_lines
+    - name: "Outputs"
+      debug:
+        var: "{{ item }}"
+      loop:
+      - show_collect_fabric_vlan.stdout_lines
+      - show_collect_fabric_interface.stdout_lines
+      - show_collect_fabric_routing.stdout_lines
+      - show_collect_fabric_vxlan.stdout_lines
