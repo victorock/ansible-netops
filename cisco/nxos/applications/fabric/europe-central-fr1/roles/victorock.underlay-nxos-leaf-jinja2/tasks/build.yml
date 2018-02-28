@@ -1,4 +1,4 @@
 - name: Build Leaf Config
   template:
     src: leaf.j2
-    dest: "roles/victorock.underlay-nxos-leaf-jinja2/files/{{inventory_hostname}}.cfg"
+    dest: "files/{{inventory_hostname}}.cfg"

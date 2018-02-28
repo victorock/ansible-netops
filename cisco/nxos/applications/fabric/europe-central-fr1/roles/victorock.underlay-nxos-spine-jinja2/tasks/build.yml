@@ -1,4 +1,4 @@
 - name: Build Spine Config
   template:
     src: spine.j2
-    dest: "roles/victorock.underlay-nxos-spine-jinja2/files/{{inventory_hostname}}.cfg"
+    dest: "files/{{inventory_hostname}}.cfg"
