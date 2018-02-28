@@ -4,11 +4,11 @@
     provider: "{{ provider }}"
 
 - name: "Ensure strict state of vlans in trunk interfaces"
-  net_l2_interface:
+  nxos_l2_interface:
     aggregate: "{{ trunks }}"
     provider: "{{ provider }}"
 
 - name: "Ensure state of vlan in access interfaces"
-  net_l2_interface:
+  nxos_l2_interface:
     aggregate: "{{ accesses }}"
     provider: "{{ provider }}"
