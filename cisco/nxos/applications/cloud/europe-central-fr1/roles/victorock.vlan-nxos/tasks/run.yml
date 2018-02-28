@@ -1,26 +1,4 @@
 - name: "Ensure the state of vlans"
   net_vlan:
-    aggregate: "{{ vlans }}"
+    aggregate: "{{ vlans | default(mandatory) }}"
     provider: "{{ provider }}"
-
-- name: "Ensure state of vlans in access interfaces"
-  nxos_config:
-    parents: interface {{ access.interface }}
-    lines:
-      - switchport access vlan {{ access.access_vlan }}
-    provider: "{{ provider }}"
-  loop: "{{ accesses }}"
-  loop_control:
-    loop_var: access
-
-- name: "Ensure state of vlans in trunk interfaces"
-  nxos_config:
-    parents: interface {{ trunk.interface }}
-    lines:
-      - switchport mode trunk
-      - switchport trunk native vlan {{ trunk.native_vlan }}
-      - switchport trunk allowed vlan {{ trunk.trunk_allowed_vlans }}
-    provider: "{{ provider }}"
-  loop: "{{ trunks }}"
-  loop_control:
-    loop_var: trunk

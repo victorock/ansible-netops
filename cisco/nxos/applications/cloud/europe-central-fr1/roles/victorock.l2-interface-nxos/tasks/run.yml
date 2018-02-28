@@ -1,0 +1,9 @@
+- name: "Ensure state of access interfaces"
+  net_l2_interface:
+    provider: "{{ provider }}"
+    aggregate: "{{ accesses | default(mandatory) }}"
+
+- name: "Ensure state of trunk interfaces"
+  net_l2_interface:
+    provider: "{{ provider }}"
+    aggregate: "{{ trunks | default(mandatory) }}"

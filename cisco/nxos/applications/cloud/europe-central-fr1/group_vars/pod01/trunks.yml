@@ -1,2 +1,2 @@
 trunks:
-  - { interface: port-channel15, trunk_allowed_vlans: "100-104", native_vlan: 100, state: present }
+  - { name: port-channel15, mode: trunk, trunk_allowed_vlans: "100-104", native_vlan: 100, state: present }

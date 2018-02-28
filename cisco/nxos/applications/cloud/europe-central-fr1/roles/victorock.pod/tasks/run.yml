@@ -17,6 +17,10 @@
         name: "victorock.vlan-{{ network_os }}"
         tasks_from: run
 
+    - include_role:
+        name: "victorock.l2-interface-{{ network_os }}"
+        tasks_from: run
+
   rescue:
     - include_role:
         name: "victorock.config-{{ network_os }}"
