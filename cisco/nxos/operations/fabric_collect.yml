@@ -5,25 +5,53 @@
 
   vars:
     collect_fabric:
-      - show vlan id 150
-      - show vlan id 1150
-      - show ip interface brief
-      - show interface nve1
-      - show interface loopback0
-      - show ip ospf neighbor
-      - show ip pim route
-      - show ip bgp summary
-      - show bgp l2vpn evpn
-      - show vxlan
-      - show vxlan interface
-      - show nve vni
-      - show nve peers
+      vlan:
+        - show vlan id 150
+        - show vlan id 1150
+      interface:
+        - show ip interface brief
+        - show interface nve1
+        - show interface loopback0
+      routing:
+        - show ip ospf neighbor
+        - show ip pim route
+        - show ip bgp summary
+        - show bgp l2vpn evpn
+      vxlan:
+        - show vxlan
+        - show vxlan interface
+        - show nve vni
+        - show nve peers
 
   tasks:
-    - name: "Gather Fabric status"
+    - name: "Gather Fabric status: vlan"
       nxos_command:
-        commands: "{{ collect_fabric }}"
-      register: show_collect_fabric
+        commands: "{{ collect_fabric.vlan }}"
+      register: show_collect_fabric_vlan
 
-    - name: "Output show_collect_fabric"
-      debug: var=show_collect_fabric.stdout_lines
+    - name: "Output show_collect_fabric_vlan"
+      debug: var=show_collect_fabric_vlan.stdout_lines
+
+    - name: "Gather Fabric status: interface"
+      nxos_command:
+        commands: "{{ collect_fabric.interface }}"
+      register: show_collect_fabric_interface
+
+    - name: "Output show_collect_fabric_interface"
+      debug: var=show_collect_fabric_interface.stdout_lines
+
+    - name: "Gather Fabric status: routing"
+      nxos_command:
+        commands: "{{ collect_fabric.routing }}"
+      register: show_collect_fabric_routing
+
+    - name: "Output show_collect_fabric_routing"
+      debug: var=show_collect_fabric_routing.stdout_lines
+
+    - name: "Gather Fabric status: vxlan"
+      nxos_command:
+        commands: "{{ collect_fabric.vxlan }}"
+      register: show_collect_fabric_vxlan
+
+    - name: "Output show_collect_fabric_vxlan"
+      debug: var=show_collect_fabric_vxlan.stdout_lines
