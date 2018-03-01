@@ -1,4 +1,4 @@
-underlay_role: leaf-jinja2
+underlay_role: leaf
 
 underlay_interfaces:
   control:
