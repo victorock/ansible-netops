@@ -65,7 +65,7 @@ underlay_bgp:
 underlay_multicast:
   description: "{{ underlay_description }}"
   router_id: "{{ underlay_device_control_plane_address | ipaddr('address') }}"
-  # default = 232.0.0.0/8
+  # default = 224.0.0.0/4
   source_specific_multicast_range: default
   group_list:  "225.0.0.0/8"
   rendezvous_point: "{{ underlay_fabric_exchange_plane_controller_address | ipaddr('address') }}"
