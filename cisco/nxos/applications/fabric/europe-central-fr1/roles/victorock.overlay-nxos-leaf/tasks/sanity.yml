@@ -1,1 +1,5 @@
 ---
+- name: "sanity: Ensure presence of ansible_net_model from hardware facts"
+  nxos_facts:
+    gather_subset: hardware
+  when: ansible_net_model is not defined

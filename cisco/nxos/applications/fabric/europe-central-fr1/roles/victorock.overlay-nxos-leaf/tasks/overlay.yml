@@ -1,9 +1,26 @@
 ---
-- name: "overlay: Configure ACL TCAM region for ARP suppression"
-  nxos_config:
-    defaults: true
-    lines:
-      - hardware access-list tcam region arp-ether 256 double-wide
+- name: "overlay: Handle exceptions when configuring ACL TCAM for ARP supression"
+  block:
+    - name: "overlay: Configure ACL TCAM region for ARP suppression"
+      nxos_config:
+        defaults: true
+        lines:
+          - hardware access-list tcam region arp-ether 256 double-wide
+  rescue:
+    - name: "overlay: TCAM"
+      debug:
+        msg: |
+          /!\       This is a VIRTUAL platform.             /!\
+              You MAY have enough TCAM for ARP supression.
+                        Let's move on...
+      when: "'v Chassis' in ansible_net_model"
+
+    - name: "overlay: TCAM"
+      fail:
+        msg: |
+          (/)       This is a PHYSICAL platform.             (/)
+              You MUST have enough TCAM for ARP supression.
+      when: "'v Chassis' not in ansible_net_model"
 
 - name: "overlay: Ensure state of Anycast GW"
   nxos_overlay_global:
