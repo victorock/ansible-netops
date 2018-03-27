@@ -1,0 +1,6 @@
+- name: security_policies
+  include_tasks: security_policies.yml
+  loop: "{{ security_policies | default([]) }}"
+  loop_control:
+    loop_var: policy
+  when: policy.name is defined

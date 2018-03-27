@@ -1,0 +1,8 @@
+- name: security_zones.interface: Ensure state of inteface objects
+  junos_config:
+    lines:
+      - set security zones security-zone {{ zone.name }} interfaces {{ interface.name }} {{ interface.type }} system-services {{ service.name }}
+  loop: "{{ interface.services | default([]) }}"
+  loop_control:
+    loop_var: service
+  when: service.name is defined

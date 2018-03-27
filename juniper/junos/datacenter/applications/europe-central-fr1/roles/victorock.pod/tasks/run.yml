@@ -6,11 +6,11 @@
         tasks_from: checkpoint
 
     - include_role:
-        name: "victorock.vlan-{{ network_os }}"
+        name: "victorock.interface-{{ network_os }}"
         tasks_from: run
 
     - include_role:
-        name: "victorock.interface-{{ network_os }}"
+        name: "victorock.firewall-{{ network_os }}"
         tasks_from: run
 
   rescue:

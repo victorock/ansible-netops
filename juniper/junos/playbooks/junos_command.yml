@@ -1,0 +1,10 @@
+---
+- name: "Command Junos: run arbitrary commands"
+  hosts: junos
+  connection: network_cli
+  gather_facts: no
+
+  tasks:
+    - name: Ensure state of configuration
+      junos_command:
+        commands: "{{ junos_commands }}"

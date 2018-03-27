@@ -1,0 +1,9 @@
+- name: "Cloud Pod Configuration"
+  hosts: pod01:&junos
+  connection: network_cli
+  gather_facts: no
+
+  tasks:
+    - include_role:
+        name: "victorock.pod"
+        tasks_from: run

@@ -1,0 +1,12 @@
+---
+- name: "Gather Junos: facts"
+  hosts: junos
+  connection: network_cli
+  gather_facts: no
+
+  tasks:
+    - name: Gather facts
+      junos_facts:
+      register: junos_facts
+
+    - debug: var=junos_facts

@@ -1,0 +1,7 @@
+---
+- name: "security_zone"
+  include_tasks: security_zone.yml
+  loop: "{{ security_zones | default([]) }}"
+  loop_control:
+    loop_var: zone
+  when: zone.name is defined

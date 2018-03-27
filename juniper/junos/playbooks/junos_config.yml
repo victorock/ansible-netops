@@ -1,0 +1,10 @@
+---
+- name: "Configure Junos: hostname"
+  hosts: junos
+  connection: network_cli
+  gather_facts: no
+
+  tasks:
+    - name: Ensure state of configuration
+      junos_config:
+        lines: "{{ junos_config }}"

@@ -1,0 +1,11 @@
+- name: security_policy.source_address
+  include_tasks: security_policy.source_addresses.yml
+
+- name: security_policy.destination_addresses
+  include_tasks: security_policy.destination_addresses.yml
+
+- name: security_policy.applications
+  include_tasks: security_policy.applications.yml
+
+- name: security_policy.actions
+  include_tasks: security_policy.actions.yml

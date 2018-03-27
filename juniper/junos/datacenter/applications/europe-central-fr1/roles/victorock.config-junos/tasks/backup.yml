@@ -1,0 +1,4 @@
+---
+- name: "Backup configuration"
+  junos_config:
+    backup: yes

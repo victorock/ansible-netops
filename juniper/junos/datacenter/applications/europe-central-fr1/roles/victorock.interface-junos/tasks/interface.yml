@@ -1,0 +1,4 @@
+- include_tasks: interface.unit.yml
+  loop: "{{ interface.units }}"
+  loop_control:
+    loop_var: unit

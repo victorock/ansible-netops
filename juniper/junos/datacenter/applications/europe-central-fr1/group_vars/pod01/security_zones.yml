@@ -1,0 +1,32 @@
+security_zones:
+  - name: app01
+    interfaces:
+      - name: ge-0/0/1.100
+        type: host-inbound-traffic
+        services:
+          - name: ping
+          - name: telnet
+          - name: snmp
+          - name: https
+          - name: traceroute
+          - name: ssh
+          - name: http
+    address_books:
+      - name: server100
+        ipv4: 10.100.0.20/32
+
+  - name: app02
+    interfaces:
+      - name: ge-0/0/1.200
+        type: host-inbound-traffic
+        services:
+          - name: ping
+          - name: telnet
+          - name: snmp
+          - name: https
+          - name: traceroute
+          - name: ssh
+          - name: http
+    address_books:
+      - name: server200
+        ipv4: 10.200.0.20/32

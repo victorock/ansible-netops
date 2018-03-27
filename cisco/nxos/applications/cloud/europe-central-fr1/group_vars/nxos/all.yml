@@ -1,4 +1,5 @@
 ansible_network_os: nxos
+network_os: "{{ ansible_network_os }}"
 provider:
   transport: nxapi
   host: "{{ ansible_host }}"

@@ -1,0 +1,16 @@
+security_policies:
+  - name: app01_app02
+    from: app01
+    to: app02
+    source_addresses:
+      - name: server100
+    destination_addresses:
+      - name: server200
+    applications:
+      - name: junos-telnet
+      - name: junos-ping
+      - name: junos-http
+    actions:
+      - name: permit
+      - name: log
+        type: session-init
