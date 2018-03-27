@@ -2,4 +2,3 @@
   net_linkagg:
 #    provider: "{{ provider }}"
     aggregate: "{{ portchannels }}"
-#    purge: yes
