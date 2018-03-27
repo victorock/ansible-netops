@@ -1,5 +1,5 @@
 - name: "Ensure strict state of portchannel"
   net_linkagg:
-    provider: "{{ provider }}"
+#    provider: "{{ provider }}"
     aggregate: "{{ portchannels }}"
     purge: yes

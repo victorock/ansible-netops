@@ -1,4 +1,4 @@
 - name: "Ensure the state of vlans"
   net_vlan:
+#    provider: "{{ provider }}"
     aggregate: "{{ vlans | default(mandatory) }}"
-    provider: "{{ provider }}"
