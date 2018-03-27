@@ -1,4 +1,4 @@
-- name: security_zones.interface: Ensure state of inteface objects
+- name: "security_zones.interface: Ensure state of inteface objects"
   junos_config:
     lines:
       - set security zones security-zone {{ zone.name }} interfaces {{ interface.name }} {{ interface.type }} system-services {{ service.name }}

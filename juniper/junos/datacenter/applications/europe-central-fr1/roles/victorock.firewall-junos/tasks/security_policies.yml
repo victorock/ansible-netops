@@ -1,4 +1,4 @@
-- name: security_policies
+- name: "security_policies"
   include_tasks: security_policies.yml
   loop: "{{ security_policies | default([]) }}"
   loop_control:
