@@ -2,3 +2,4 @@
   loop: "{{ interfaces | default([]) }}"
   loop_control:
     loop_var: interface
+  when: interface.name is defined
