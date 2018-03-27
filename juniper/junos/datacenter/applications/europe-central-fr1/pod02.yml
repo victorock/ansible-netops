@@ -3,6 +3,13 @@
   connection: netconf
   gather_facts: no
 
+  pre_tasks:
+    - name: "Ensure Netconf service on port 830"
+      connection: network_cli
+      junos_netconf:
+        listens_on: 830
+        state: present
+
   tasks:
     - name: "Ensure Netconf service on port 830"
       connection: network_cli
