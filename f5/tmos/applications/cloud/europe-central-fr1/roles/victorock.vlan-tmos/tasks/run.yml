@@ -1,5 +1,5 @@
 ---
 - include_tasks: vlan.yml
-  with_items: "{{ vlans | default([]) }}"
+  loop: "{{ vlans | default([]) }}"
   loop_control:
     loop_var: vlan
