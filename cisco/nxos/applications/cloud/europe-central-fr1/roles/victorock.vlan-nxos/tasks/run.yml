@@ -2,3 +2,4 @@
   net_vlan:
 #    provider: "{{ provider }}"
     aggregate: "{{ vlans | default(mandatory) }}"
+  when: vlans|length > 0

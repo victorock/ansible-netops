@@ -2,8 +2,10 @@
   net_l2_interface:
 #    provider: "{{ provider }}"
     aggregate: "{{ accesses | default(mandatory) }}"
+  when: accesses|length > 0
 
 - name: "Ensure state of trunk interfaces"
   net_l2_interface:
 #    provider: "{{ provider }}"
     aggregate: "{{ trunks | default(mandatory) }}"
+  when: trunks|length > 0

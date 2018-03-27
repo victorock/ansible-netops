@@ -2,7 +2,8 @@
   nxos_feature:
     feature: "{{ feature.name }}"
     state: "{{ feature.state | default(omit) }}"
-  with_items: "{{ features }}"
+  with_items: "{{ features | default([]) }}"
   loop_control:
     loop_var: feature
     label: "feature {{ feature.name }}"
+  when: feature.name is defined

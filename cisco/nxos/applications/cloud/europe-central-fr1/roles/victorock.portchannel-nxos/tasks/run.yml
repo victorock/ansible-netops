@@ -2,3 +2,4 @@
   net_linkagg:
 #    provider: "{{ provider }}"
     aggregate: "{{ portchannels }}"
+  when: portchannels|length > 0
