@@ -1,5 +1,5 @@
 - name: "Cloud Pod Configuration"
-  hosts: pod01
+  hosts: pod01:&nxos
   strategy: free
   connection: network_cli
 

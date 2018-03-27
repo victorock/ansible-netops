@@ -1,0 +1,3 @@
+interfaces:
+  - { name: inside, interface: 1.1, vlan: app01, ip: 10.1.1.254/24 }
+  - { name: outside, interface: 1.2, vlan: app02, ip: 10.1.2.254/24 }

@@ -1,70 +1,27 @@
 ---
-- name: Configure the F5s
+- name: "Configure F5: time settings"
   hosts: tmos
   connection: local
   gather_facts: no
 
   vars:
-    bigip_device_ntp_server: "{{ ansible_host }}"
-    bigip_device_ntp_user: "{{ network_username }}"
-    bigip_device_ntp_password: "{{ network_password }}"
-    bigip_device_ntp_hostname: "{{ inventory_hostname }}"
-    bigip_device_ntp_ntp_servers:
+    bigip_device_ntp_servers:
       - 169.254.169.123
+    bigip_device_ntp_timezone: "America/New_York"
 
   tasks:
-    - name: Ensure state of DNS settings on the BIG-IP
-      bigip_device_ntp:
-        server: "{{ bigip_device_ntp_server }}"
-        user: "{{ bigip_device_ntp_user }}"
-        password: "{{ bigip_device_ntp_password }}"
-        ntp_servers: "{{ bigip_device_ntp_ntp_servers }}"
-        validate_certs: "no"
-
-    - name: Set timezone
+    - name: Ensure state of NTP settings
       bigip_device_ntp:
         server: "{{ ansible_host }}"
-        user: "{{ network_username }}"
-        password: "{{ network_password }}"
-        timezone: "America/New_York"
-        validate_certs: "no"
+        user: "{{ network_username | default(omit) }}"
+        password: "{{ network_password | default(omit) }}"
+        validate_certs: no
+        ntp_servers: "{{ bigip_device_ntp_servers }}"
 
-    - name: Create Outside VLAN
-      bigip_vlan:
+    - name: Ensure state of timezone settings
+      bigip_device_ntp:
         server: "{{ ansible_host }}"
-        user: "{{ network_username }}"
-        password: "{{ network_password }}"
-        name: "outside"
-        untagged_interfaces: 1.1
-        validate_certs: "no"
-
-    - name: Address Outside Interface
-      bigip_selfip:
-          address: "{{ interfaces[1].ip | ipaddr('address') }}"
-          name: "outside"
-          netmask: "{{ interfaces[1].ip | ipaddr('netmask') }}"
-          server: "{{ ansible_host }}"
-          user: "{{ network_username }}"
-          password: "{{ network_password }}"
-          validate_certs: "no"
-          vlan: "outside"
-
-    - name: Create Inside VLAN
-      bigip_vlan:
-        server: "{{ ansible_host }}"
-        user: "{{ network_username }}"
-        password: "{{ network_password }}"
-        name: "inside"
-        untagged_interfaces: 1.2
-        validate_certs: "no"
-
-    - name: Address Inside Interface
-      bigip_selfip:
-          address: "{{ interfaces[2].ip | ipaddr('address') }}"
-          name: "inside"
-          netmask: "{{ interfaces[2].ip | ipaddr('netmask') }}"
-          server: "{{ ansible_host }}"
-          user: "{{ network_username }}"
-          password: "{{ network_password }}"
-          validate_certs: "no"
-          vlan: "inside"
+        user: "{{ network_username | default(omit) }}"
+        password: "{{ network_password | default(omit) }}"
+        validate_certs: no
+        timezone: "{{ bigip_device_ntp_timezone }}"

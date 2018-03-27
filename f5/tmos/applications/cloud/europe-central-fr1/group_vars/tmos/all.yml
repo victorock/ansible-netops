@@ -1,0 +1,6 @@
+ansible_network_os: tmos
+provider:
+  host: "{{ ansible_host }}"
+  username: "{{ network_username | default( lookup('ENV', F5_USERNAME ) ) }}"
+  password: "{{ network_password | default( lookup('ENV', F5_PASSWORD ) ) }}"
+  use_ssl: no

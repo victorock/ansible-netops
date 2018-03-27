@@ -1,0 +1,11 @@
+---
+- name: Ensure state of VLAN on interface
+  bigip_vlan:
+    server: "{{ provider.host }}"
+    user: "{{ provider.username }}"
+    password: "{{ provider.password }}"
+    validate_certs: "{{ provider.use_ssl }}"
+    name: "{{ vlan.name }}"
+    tag: "{{ vlan.vlan_id }}"
+    tagged_interfaces: "{{ vlan.tagged_interfaces | default(omit) }}"
+    untagged_interfaces: "{{ vlan.untagged_interfaces | default(omit) }}"

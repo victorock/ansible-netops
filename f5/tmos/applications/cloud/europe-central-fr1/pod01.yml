@@ -1,7 +1,6 @@
 - name: "Cloud Pod Configuration"
-  hosts: pod02:&nxos
-  strategy: free
-  connection: network_cli
+  hosts: pod01:&tmos
+  connection: local
 
   tasks:
     - include_role:

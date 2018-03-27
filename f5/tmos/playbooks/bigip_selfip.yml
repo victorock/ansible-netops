@@ -1,0 +1,25 @@
+---
+- name: "Configure F5: Selfips on interfaces"
+  hosts: tmos
+  connection: local
+  gather_facts: no
+
+  vars:
+    bigip_selfip_interfaces:
+      - { name: outside, vlan: app01, interface: 1.1, ip: 10.1.1.254/24 }
+      - { name: inside, vlan: app02, interface: 1.2, ip: 10.1.2.254/24 }
+
+  tasks:
+    - name: Ensure selfip address on interfaces
+      bigip_selfip:
+        server: "{{ ansible_host }}"
+        user: "{{ network_username | default(omit) }}"
+        password: "{{ network_password | default(omit) }}"
+        validate_certs: no
+        name:  "{{ interface.name }}"
+        address: "{{ interface.ip | ipaddr('address') }}"
+        netmask: "{{ interface.ip | ipaddr('netmask') }}"
+        vlan: "{{ interface.vlan | default(omit) }}"
+      with_items: "{{ interface | default([]) }}"
+      loop_control:
+        loop_var: interface

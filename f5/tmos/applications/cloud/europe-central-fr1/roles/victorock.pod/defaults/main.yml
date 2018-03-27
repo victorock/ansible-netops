@@ -1,0 +1,1 @@
+network_os: "{{ ansible_network_os | default('tmos') }}"

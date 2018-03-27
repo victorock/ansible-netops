@@ -1,0 +1,4 @@
+- include_tasks: interface.yml
+  with_items: "{{ interfaces | default([]) }}"
+  loop_control:
+    loop_var: interface
