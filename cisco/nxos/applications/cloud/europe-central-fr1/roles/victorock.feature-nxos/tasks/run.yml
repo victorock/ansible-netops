@@ -2,7 +2,7 @@
   nxos_feature:
     feature: "{{ feature.name }}"
     state: "{{ feature.state | default(omit) }}"
-  with_items: "{{ features | default([]) }}"
+  loop: "{{ features | default([]) }}"
   loop_control:
     loop_var: feature
     label: "feature {{ feature.name }}"
