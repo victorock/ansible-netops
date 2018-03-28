@@ -6,6 +6,10 @@
         tasks_from: checkpoint
 
     - include_role:
+        name: "victorock.vlan-{{ network_os }}"
+        tasks_from: run
+
+    - include_role:
         name: "victorock.interface-{{ network_os }}"
         tasks_from: run
 

@@ -1,14 +1,14 @@
 - name: "Ensure state of interface unit configuration"
-  juniper_junos_config:
+  junos_config:
     lines:
-      - "set interfaces {{ interface.name }} unit {{ unit.name }} description {{ unit.description }}"
+      - set interfaces {{ interface.name }} unit {{ unit.name }} description {{ unit.description }}
 
 - name: "Ensure state of interface unit vlan configuration"
-  juniper_junos_config:
+  junos_config:
     lines:
-      - "set interfaces {{ interface.name }} unit {{ unit.name }} vlan-id {{ unit.vlan }}"
+      - set interfaces {{ interface.name }} unit {{ unit.name }} vlan-id {{ unit.vlan }}
 
 - name: "Ensure state of interface unit ipv4 configuration"
-  juniper_junos_config:
+  junos_config:
     lines:
-      - "set interfaces {{ interface.name }} unit {{ unit.name }} family inet address {{ unit.ipv4 }}"
+      - set interfaces {{ interface.name }} unit {{ unit.name }} family inet address {{ unit.ipv4 }}
