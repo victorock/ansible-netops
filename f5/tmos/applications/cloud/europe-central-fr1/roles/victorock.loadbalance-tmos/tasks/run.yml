@@ -1,6 +1,2 @@
 ---
 - include_tasks: virtualservers.yml
-  when: virtualservers|length > 0
-
-- include_tasks: virtualserver.yml
-  when: virtualserver.name is defined
