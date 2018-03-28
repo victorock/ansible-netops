@@ -2,4 +2,5 @@
 - name: "Commit configuration"
   junos_command:
     commands:
+      - configure
       - commit and-quit

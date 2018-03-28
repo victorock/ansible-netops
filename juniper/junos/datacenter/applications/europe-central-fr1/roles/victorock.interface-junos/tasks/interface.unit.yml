@@ -3,7 +3,6 @@
     commands:
       - configure
       - set interfaces {{ interface.name }} unit {{ unit.name }} description {{ unit.description }}
-      - commit and-quit
   when: unit.name is defined
 
 - name: "Ensure state of interface unit vlan configuration"
@@ -11,7 +10,6 @@
     commands:
       - configure
       - set interfaces {{ interface.name }} unit {{ unit.name }} vlan-id {{ unit.vlan }}
-      - commit and-quit
   when: unit.vlan is defined
 
 - name: "Ensure state of interface unit ipv4 configuration"
@@ -19,5 +17,4 @@
     commands:
       - configure
       - set interfaces {{ interface.name }} unit {{ unit.name }} family inet address {{ unit.ipv4 }}
-      - commit and-quit
   when: unit.ipv4 is defined
