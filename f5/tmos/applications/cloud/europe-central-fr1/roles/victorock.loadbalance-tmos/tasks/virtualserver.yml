@@ -5,7 +5,7 @@
     password: "{{ provider.password | default(omit) }}"
     validate_certs: "{{ provider.use_ssl | default(omit) }}"
     name: "{{ virtualserver.name }}"
-    destination: "{{ virtualserver.destination }}"
+    destination: "{{ virtualserver.destination | ipaddr('address') }}"
     port: "{{ virtualserver.port }}"
     snat: "{{ virtualserver.snat }}"
     state: "{{ virtualserver.state | default(omit) }}"
