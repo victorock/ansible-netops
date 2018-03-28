@@ -1,4 +1,4 @@
 ---
-#- name: "Commit configuration"
-#  juniper_junos_commit:
-#    comment: "Automated by Ansible"
+- name: "Commit configuration"
+  juniper_junos_commit:
+    comment: "Automated by Ansible"
