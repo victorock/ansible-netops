@@ -2,4 +2,3 @@
   with_items: "{{ virtualserver.pools | default([]) }}"
   loop_control:
     loop_var: pool
-  when: pool.name is defined

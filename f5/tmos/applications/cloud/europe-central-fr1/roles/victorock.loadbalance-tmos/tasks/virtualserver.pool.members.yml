@@ -2,4 +2,3 @@
   with_items: "{{ pool.members | default([]) }}"
   loop_control:
     loop_var: member
-  when: member.name is defined

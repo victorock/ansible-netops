@@ -2,4 +2,3 @@
   with_items: "{{ virtualservers | default([]) }}"
   loop_control:
     loop_var: virtualserver
-  when: virtualserver.name is defined
