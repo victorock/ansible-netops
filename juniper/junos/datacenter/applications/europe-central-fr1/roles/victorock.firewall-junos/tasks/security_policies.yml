@@ -3,4 +3,3 @@
   loop: "{{ security_policies | default([]) }}"
   loop_control:
     loop_var: policy
-  when: policy.name is defined

@@ -4,11 +4,9 @@
   loop: "{{ zone.interfaces | default([]) }}"
   loop_control:
     loop_var: interface
-  when: interface.name is defined
 
 - name: "security_zone.address_book"
   include_tasks: security_zone.address_book.yml
   loop: "{{ zone.address_books | default([]) }}"
   loop_control:
     loop_var: address_book
-  when: address_book.name is defined

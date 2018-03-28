@@ -1,6 +1,6 @@
 - name: "Cloud Pod Configuration"
   hosts: pod01:&junos
-  connection: netconf
+  connection: network_cli
   gather_facts: no
 
   pre_tasks:
@@ -9,6 +9,12 @@
       junos_netconf:
         listens_on: 830
         state: present
+
+    - name: "Enter configuration mode"
+      connection: network_cli
+      junos_command:
+        lines:
+          - configure
 
   tasks:
 

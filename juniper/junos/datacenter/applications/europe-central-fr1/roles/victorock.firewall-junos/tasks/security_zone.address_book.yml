@@ -1,5 +1,5 @@
 - name: "security_zones.address_books: Ensure state of address-book objects"
-  junos_config:
-    lines:
+  junos_command:
+    commands:
       - set security zones security-zone {{ zone.name }} address-book address {{ address_book.name }} {{ address_book.ipv4 | ipaddr('address') }}
   when: address_book.name is defined

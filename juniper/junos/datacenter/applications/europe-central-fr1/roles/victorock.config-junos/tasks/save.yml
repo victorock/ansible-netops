@@ -1,4 +1,5 @@
 ---
 - name: "Commit configuration"
-  junos_config:
-    confirm_commit: yes
+  junos_command:
+    commands:
+      - commit and-quit

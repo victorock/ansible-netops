@@ -1,17 +1,17 @@
 - name: "Ensure state of interface unit configuration"
-  junos_config:
+  junos_command:
     lines:
       - set interfaces {{ interface.name }} unit {{ unit.name }} description {{ unit.description }}
   when: unit.name is defined
 
 - name: "Ensure state of interface unit vlan configuration"
-  junos_config:
+  junos_command:
     lines:
       - set interfaces {{ interface.name }} unit {{ unit.name }} vlan-id {{ unit.vlan }}
   when: unit.vlan is defined
 
 - name: "Ensure state of interface unit ipv4 configuration"
-  junos_config:
+  junos_command:
     lines:
       - set interfaces {{ interface.name }} unit {{ unit.name }} family inet address {{ unit.ipv4 }}
   when: unit.ipv4 is defined
