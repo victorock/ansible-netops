@@ -1,1 +1,1 @@
-- import_playbooks: pod01.yml
+- include: pod01.yml
