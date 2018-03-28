@@ -1,4 +1,4 @@
 ---
 - name: "Commit configuration"
-  junos_config:
-    save_when: always
+  juniper_junos_commit:
+    comment: "Automated by Ansible"

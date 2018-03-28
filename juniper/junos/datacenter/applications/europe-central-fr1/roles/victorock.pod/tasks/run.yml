@@ -2,8 +2,7 @@
 - name: "victorock.pod"
   block:
     - include_role:
-        name: "victorock.config-{{ network_os }}"
-        tasks_from: configure
+        name: Juniper.junos
 
     - include_role:
         name: "victorock.config-{{ network_os }}"
