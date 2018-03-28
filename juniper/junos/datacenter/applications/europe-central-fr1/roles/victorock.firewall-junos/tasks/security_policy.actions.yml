@@ -5,4 +5,3 @@
   loop: "{{ policy.actions | default([]) }}"
   loop_control:
     loop_var: action
-  when: action.name is defined
