@@ -1,6 +1,4 @@
 ---
 - name: "Commit configuration"
-  junos_command:
-    commands:
-      - configure
-      - commit and-quit
+  junos_config:
+    save_when: always
