@@ -1,5 +1,5 @@
 ---
-- name: Ensure state of VLAN on interface
+- name: "vlan: Ensure state of VLAN on interface"
   bigip_vlan:
     server: "{{ provider.host }}"
     user: "{{ provider.username | default(omit) }}"

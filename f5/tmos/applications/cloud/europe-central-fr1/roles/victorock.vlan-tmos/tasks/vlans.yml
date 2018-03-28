@@ -1,6 +1,6 @@
 ---
 - include_tasks: vlan.yml
-  loop: "{{ vlans | default([]) }}"
+  loop: "{{ vlans }}"
   loop_control:
     loop_var: vlan
   when: vlan.name is defined
