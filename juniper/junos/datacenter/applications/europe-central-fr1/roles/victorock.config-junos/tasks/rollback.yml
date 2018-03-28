@@ -1,5 +1,4 @@
 ---
 - name: "Rollback to 0"
   junos_config:
-    lines:
-      - rollback 0
+    rollback: 0
