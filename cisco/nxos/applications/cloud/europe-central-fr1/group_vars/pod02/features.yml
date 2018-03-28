@@ -1,2 +1,4 @@
 features:
   - { name: lacp, state: enabled }
+  - { name: lldp, state: enabled }
+  - { name: vpc, state: enabled }
