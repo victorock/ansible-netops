@@ -1,3 +1,5 @@
 ---
-- debug:
-    msg: NOT IMPLEMENTED
+- name: "Rollback to 0"
+  junos_config:
+    lines:
+      - rollback 0

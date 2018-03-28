@@ -3,6 +3,9 @@
   connection: netconf
   gather_facts: no
 
+  roles:
+    - role: Juniper.junos
+
   tasks:
     - include_role:
         name: "victorock.pod"
