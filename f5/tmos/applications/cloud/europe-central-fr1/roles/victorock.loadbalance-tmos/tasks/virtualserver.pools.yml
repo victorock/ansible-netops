@@ -1,4 +1,4 @@
 - include_tasks: virtualserver.pool.yml
-  with_items: "{{ virtualserver.pools | default([]) }}"
+  loop: "{{ virtualserver.pools | default([]) }}"
   loop_control:
     loop_var: pool

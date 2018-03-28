@@ -1,4 +1,4 @@
 - include_tasks: virtualserver.yml
-  with_items: "{{ virtualservers | default([]) }}"
+  loop: "{{ virtualservers | default([]) }}"
   loop_control:
     loop_var: virtualserver

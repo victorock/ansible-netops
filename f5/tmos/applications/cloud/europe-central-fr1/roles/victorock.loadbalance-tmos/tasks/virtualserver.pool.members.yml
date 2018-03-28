@@ -1,4 +1,4 @@
 - include_tasks: virtualserver.pool.member.yml
-  with_items: "{{ pool.members | default([]) }}"
+  loop: "{{ pool.members | default([]) }}"
   loop_control:
     loop_var: member
