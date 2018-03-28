@@ -2,4 +2,3 @@
   loop: "{{ interface.units | default([]) }}"
   loop_control:
     loop_var: unit
-  when: unit.name is defined
