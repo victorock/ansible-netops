@@ -17,7 +17,21 @@
         feature_state: disabled
       when: state == 'absent'
 
-    - name: "Ensure {{ feature }} is enabled"
-      nxos_feature:
-        feature: "{{ feature }}"
-        state: "{{ feature_state }}"
+    - name:"Ensure feature state"
+      block:
+        - name: "Ensure {{ feature }} is enabled"
+          nxos_feature:
+            feature: "{{ feature }}"
+            state: "{{ feature_state }}"
+      rescue:
+        - name: "Ensure {{ feature }} is enabled"
+          nxos_config:
+            lines:
+              - feature {{ feature }}
+          when: feature_state == 'enabled'
+
+        - name: "Ensure {{ feature }} is disabled"
+          nxos_config:
+            lines:
+              - no feature {{ feature }}
+          when: feature_state == 'disable'
