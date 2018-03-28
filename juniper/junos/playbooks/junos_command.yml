@@ -1,6 +1,6 @@
 ---
 - name: "Command Junos: run arbitrary commands"
-  hosts: junos
+  hosts: all
   connection: network_cli
   gather_facts: no
 
