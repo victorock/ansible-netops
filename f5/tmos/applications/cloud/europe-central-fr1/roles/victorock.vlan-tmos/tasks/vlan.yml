@@ -9,3 +9,4 @@
     tag: "{{ vlan.vlan_id }}"
     tagged_interfaces: "{{ vlan.tagged_interfaces | default(omit) }}"
     untagged_interfaces: "{{ vlan.untagged_interfaces | default(omit) }}"
+    state: "{{ vlan.state | default(omit) }}"

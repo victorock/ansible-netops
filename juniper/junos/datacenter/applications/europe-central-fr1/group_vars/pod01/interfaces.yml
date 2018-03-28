@@ -3,7 +3,7 @@ interfaces:
     units:
       - name: 101
         description: app01
-        vlan: 100
+        vlan: 101
         ipv4: 10.101.0.10/24
 
   - name: ge-0/0/1

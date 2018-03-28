@@ -1,0 +1,20 @@
+- name: "virtualserver.pool: Ensure state of pool"
+  bigip_pool:
+    server: "{{ provider.host }}"
+    user: "{{ provider.username | default(omit) }}"
+    password: "{{ provider.password | default(omit) }}"
+    validate_certs: "{{ provider.use_ssl | default(omit) }}"
+    name: "{{ pool.name }}"
+    state: "{{ pool.state | default(omit) }}"
+
+- name: "virtualserver.pool: Ensure association between pool and virtualserver"
+  bigip_virtual_server:
+    server: "{{ provider.host }}"
+    user: "{{ provider.username | default(omit) }}"
+    password: "{{ provider.password | default(omit) }}"
+    validate_certs: "{{ provider.use_ssl | default(omit) }}"
+    name: "{{ virtualserver.name }}"
+    pool: "{{ pool.name }}"
+    state: "{{ pool.state | default(omit) }}"
+
+- include_tasks: virtualserver.pool.members.yml

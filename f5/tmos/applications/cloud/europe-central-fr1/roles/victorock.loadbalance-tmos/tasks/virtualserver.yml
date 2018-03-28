@@ -1,0 +1,13 @@
+- name: "virtualserver: Ensure state of VirtualServer"
+  bigip_virtual_server:
+    server: "{{ provider.host }}"
+    user: "{{ provider.username | default(omit) }}"
+    password: "{{ provider.password | default(omit) }}"
+    validate_certs: "{{ provider.use_ssl | default(omit) }}"
+    name: "{{ virtualserver.name }}"
+    destination: "{{ virtualserver.destination }}"
+    port: "{{ virtualserver.port }}"
+    snat: "{{ virtualserver.snat }}"
+    state: "{{ virtualserver.state | default(omit) }}"
+
+- include_tasks: virtualserver.pools.yml

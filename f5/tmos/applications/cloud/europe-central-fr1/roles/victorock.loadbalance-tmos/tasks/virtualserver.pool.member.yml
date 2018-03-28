@@ -1,0 +1,10 @@
+- name: "virtualserver.pool.member: Ensure association between member and pool"
+  bigip_pool_member:
+    server: "{{ provider.host }}"
+    user: "{{ provider.username | default(omit) }}"
+    password: "{{ provider.password | default(omit) }}"
+    validate_certs: "{{ provider.use_ssl | default(omit) }}"
+    pool: "{{ pool.name }}"
+    host: "{{ member.name }}"
+    port: "{{ member.port }}"
+    state: "{{ member.state | default(omit) }}"
