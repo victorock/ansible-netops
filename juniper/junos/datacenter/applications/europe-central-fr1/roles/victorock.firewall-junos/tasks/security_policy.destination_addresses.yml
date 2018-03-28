@@ -1,6 +1,6 @@
 - name: "security_policies.destination_addresses: Ensure state of action"
-  junos_command:
-    commands:
+  junos_config:
+    lines:
       - set security policies from-zone {{ policy.from }} to-zone {{ policy.to }} policy {{ policy.name }} match destination-address {{ destination_address.name }}
   loop: "{{ policy.destination_addresses | default([]) }}"
   loop_control:
