@@ -1,4 +1,4 @@
 ---
 - name: "Commit configuration"
   junos_config:
-    config_commit: yes
+    confirm_commit: yes
