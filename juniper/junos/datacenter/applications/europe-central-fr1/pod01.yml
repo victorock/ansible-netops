@@ -1,6 +1,6 @@
 - name: "Cloud Pod Configuration"
   hosts: pod01:&junos
-  connection: network_cli
+  connection: netconf
   gather_facts: no
 
   tasks:
