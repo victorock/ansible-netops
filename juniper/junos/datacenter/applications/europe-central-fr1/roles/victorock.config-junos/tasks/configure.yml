@@ -1,5 +1,0 @@
----
-- name: "Enter in configuration mode"
-  junos_command:
-    commands:
-      - configure
