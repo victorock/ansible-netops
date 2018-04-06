@@ -1,5 +1,0 @@
-- name: "security_policies"
-  include_tasks: security_policy.yml
-  loop: "{{ security_policies | default([]) }}"
-  loop_control:
-    loop_var: policy

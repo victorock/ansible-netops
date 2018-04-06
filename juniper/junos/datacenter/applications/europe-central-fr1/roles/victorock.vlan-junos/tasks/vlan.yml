@@ -1,5 +1,0 @@
----
-- name: "vlan: Ensure state of VLAN"
-  junos_config:
-    lines:
-      - set vlans {{ vlan.name }} vlan-id {{ vlan.vlan_id }}

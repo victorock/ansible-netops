@@ -1,2 +1,0 @@
-- include_tasks: security_zones.yml
-- include_tasks: security_policies.yml

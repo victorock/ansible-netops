@@ -1,0 +1,7 @@
+- include_tasks: interface.yml
+  when:
+    - interface is defined
+
+- include_tasks: interfaces.yml
+  when:
+    - interfaces is defined

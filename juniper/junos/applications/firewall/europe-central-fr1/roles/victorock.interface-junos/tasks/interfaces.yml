@@ -1,0 +1,12 @@
+#- include_tasks: interface.yml
+#    vars:
+#      vlan: "{{ interface_entry.value }}"
+#  loop_dict: "{{ interfaces }}"
+#  loop_control:
+#    loop_var: interface_entry
+
+- include_tasks: interface.yml
+  loop_dict: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface
+  when: interfaces|length > 0

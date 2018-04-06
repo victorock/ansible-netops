@@ -1,0 +1,4 @@
+- name: "Ensure the state of vlan"
+  net_vlan:
+    name: "{{ vlan.name }}"
+    vlan_id: "{{ vlan.vlan_id }}"

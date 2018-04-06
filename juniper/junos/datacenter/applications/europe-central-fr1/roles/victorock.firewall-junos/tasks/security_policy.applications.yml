@@ -1,7 +1,0 @@
-- name: "security_policies.applications: Ensure state of match"
-  junos_config:
-    lines:
-      - set security policies from-zone {{ policy.from }} to-zone {{ policy.to }} policy {{ policy.name }} match application {{ application.name }}
-  loop: "{{ policy.applications | default([]) }}"
-  loop_control:
-    loop_var: application
