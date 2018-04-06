@@ -3,6 +3,10 @@
   block:
     - include_role:
         name: "victorock.config-{{ network_os }}"
+        tasks_from: netconf
+
+    - include_role:
+        name: "victorock.config-{{ network_os }}"
         tasks_from: checkpoint
 
     - include_role:
