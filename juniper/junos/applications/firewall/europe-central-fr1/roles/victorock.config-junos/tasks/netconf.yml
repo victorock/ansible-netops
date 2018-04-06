@@ -1,5 +1,6 @@
 ---
 - name: "Ensure state of netconf service on port 830"
+  connection: network_cli
   junos_netconf:
     listens_on: 830
     state: present
