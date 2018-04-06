@@ -1,12 +1,5 @@
-#- include_tasks: vlan.yml
-#    vars:
-#      vlan: "{{ vlan_entry.value }}"
-#  loop_dict: "{{ vlans }}"
-#  loop_control:
-#    loop_var: vlan_entry
-
 - include_tasks: vlan.yml
-  loop_dict: "{{ vlans }}"
+  loop: "{{ vlans }}"
   loop_control:
     loop_var: vlan
   when: vlans|length > 0
