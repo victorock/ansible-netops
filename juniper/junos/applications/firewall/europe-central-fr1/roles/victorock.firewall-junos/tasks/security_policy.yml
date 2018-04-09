@@ -1,6 +1,6 @@
 - name: "security_policy: initiate security_policy array"
   set_fact:
-    security_policy: []
+    security_policy_config: []
 
 - name: security_policy.source_address
   include_tasks: security_policy.source_addresses.yml
@@ -16,4 +16,4 @@
 
 - name: "security_policy: Push configuration"
   junos_config:
-    lines: "{{ security_policy }}"
+    lines: "{{ security_policy_config }}"

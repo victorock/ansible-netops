@@ -1,8 +1,8 @@
 - name: "security_policies.source_address: Ensure state of match"
   vars:
-    junos_config: set security policies from-zone {{ policy.from }} to-zone {{ policy.to }} policy {{ policy.name }} then {{ action.name }}
+    junos_config: set security policies from-zone {{ security_policy.from }} to-zone {{ security_policy.to }} policy {{ security_policy.name }} then {{ action.name }}
   set_fact:
-    security_policy: "{{ security_policy }} + [ '{{ junos_config }}' ]"
-  loop: "{{ policy.actions | default([]) }}"
+    security_policy_config: "{{ security_policy_config }} + [ '{{ junos_config }}' ]"
+  loop: "{{ security_policy.actions }}"
   loop_control:
     loop_var: action

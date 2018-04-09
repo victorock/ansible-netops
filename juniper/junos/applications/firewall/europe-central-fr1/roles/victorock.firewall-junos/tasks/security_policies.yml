@@ -1,5 +1,5 @@
 - name: "security_policies"
   include_tasks: security_policy.yml
-  loop: "{{ security_policies }}"
+  with_items: "{{ security_policies }}"
   loop_control:
-    loop_var: policy
+    loop_var: security_policy
