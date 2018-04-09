@@ -1,7 +1,7 @@
 security_zones:
   - name: app01
     interfaces:
-      - name: ge-0/0/1.100
+      - name: ge-0/0/1.101
         type: host-inbound-traffic
         services:
           - name: ping
@@ -12,12 +12,12 @@ security_zones:
           - name: ssh
           - name: http
     address_books:
-      - name: server100
-        ipv4: 10.100.0.20/32
+      - name: server101
+        ipv4: 10.101.0.20/32
 
   - name: app02
     interfaces:
-      - name: ge-0/0/1.200
+      - name: ge-0/0/1.102
         type: host-inbound-traffic
         services:
           - name: ping
@@ -28,5 +28,5 @@ security_zones:
           - name: ssh
           - name: http
     address_books:
-      - name: server200
-        ipv4: 10.200.0.20/32
+      - name: server102
+        ipv4: 10.102.0.20/32
