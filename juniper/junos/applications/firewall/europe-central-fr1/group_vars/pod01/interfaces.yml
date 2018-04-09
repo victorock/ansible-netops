@@ -1,12 +1,12 @@
 interfaces:
   - name: ge-0/0/1
     unit: 101
-    mode: access
-    access_vlan: app02
+    type: route
+    vlan: app02
     ipv4: 10.1.1.10/24
 
   - name: ge-0/0/1
     unit: 102
-    mode: access
-    access_vlan: app01
+    type: route
+    vlan: app01
     ipv4: 10.1.2.10/24

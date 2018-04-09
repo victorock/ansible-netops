@@ -1,0 +1,7 @@
+- name: "interface.transparent: Ensure the state of vlan parameters"
+  net_l2_interface:
+    name: "{{ interface.name }}"
+    unit: "{{ interface.unit | default(omit) }}"
+    mode: "{{ interface.mode | default(omit) }}"
+    access_vlan: "{{ interface.access_vlan | default(omit) }}"
+    trunk_allowed_vlans: "{{ interface.trunk_allowed_vlans | default(omit) }}"

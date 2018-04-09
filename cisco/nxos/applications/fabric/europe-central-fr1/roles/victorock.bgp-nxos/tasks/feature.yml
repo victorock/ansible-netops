@@ -1,0 +1,4 @@
+- name: "nxos_feature: Ensure the state of BGP feature"
+  nxos_feature:
+    feature: "{{ bgp.feature.name }}"
+    state: "{{ bgp.feature.state }}"

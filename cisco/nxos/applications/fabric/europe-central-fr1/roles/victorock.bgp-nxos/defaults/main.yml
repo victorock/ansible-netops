@@ -1,0 +1,5 @@
+bgp:
+  feature:
+    name: bgp
+    state: enabled
+  

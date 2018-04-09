@@ -2,17 +2,10 @@
   junos_interface:
     name: "{{ interface.name }}"
     enabled: "{{ interface.enabled | default(omit) }}"
+    duplex: "{{ interface.duplex | default(omit) }}"
+    speed: "{{ interface.speed | default(omit) }}"
+    mtu: "{{ interface.mtu | default(omit) }}"
+    description: "{{ interface.description | default(omit) }}"
+    active: "{{ interface.active | default(omit) }}"
 
-- name: "interface_l2: Ensure the state of layer2 parameters"
-  net_l2_interface:
-    name: "{{ interface.name }}"
-    unit: "{{ interface.unit | default(omit) }}"
-    mode: "{{ interface.mode | default(omit) }}"
-    access_vlan: "{{ interface.access_vlan | default(omit) }}"
-    trunk_allowed_vlans: "{{ interface.trunk_allowed_vlans | default(omit) }}"
-
-- name: "interface_l3: Ensure the state of layer3 parameters"
-  net_l3_interface:
-    name: "{{ interface.name }}"
-    unit: "{{ interface.unit | default(omit) }}"
-    ipv4: "{{ interface.ipv4 }}"
+- include_tasks: "interface.{{ interface.type | default('route') }}.yml"
