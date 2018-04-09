@@ -3,9 +3,9 @@ security_policies:
     from: app01
     to: app02
     source_addresses:
-      - name: server100
+      - name: server101
     destination_addresses:
-      - name: server200
+      - name: server102
     applications:
       - name: junos-telnet
       - name: junos-ping
