@@ -3,4 +3,4 @@
   include_tasks: security_zone.yml
   loop: "{{ security_zones }}"
   loop_control:
-    loop_var: zone
+    loop_var: security_zone
