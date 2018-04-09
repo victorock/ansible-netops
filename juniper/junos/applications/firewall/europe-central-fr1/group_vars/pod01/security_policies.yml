@@ -12,5 +12,4 @@ security_policies:
       - name: junos-http
     actions:
       - name: permit
-      - name: log
-        type: session-init
+      - name: log session-init
