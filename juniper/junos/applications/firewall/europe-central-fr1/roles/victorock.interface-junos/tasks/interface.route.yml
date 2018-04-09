@@ -1,8 +1,8 @@
 - name: "interface.route: Ensure the state of vlan parameters"
   junos_config:
     lines:
-      - set interface {{ interface.name }} vlan-tagging
-      - set interface {{ interface.name }} unit {{ interface.unit }} vlan-id {{ interface.vlan }}
+      - set interfaces {{ interface.name }} vlan-tagging
+      - set interfaces {{ interface.name }} unit {{ interface.unit }} vlan-id {{ interface.vlan }}
   when: interface.vlan is defined
 
 - name: "interface.route: Ensure the state of layer3 parameters"
