@@ -4,4 +4,3 @@
   loop: "{{ security_zones }}"
   loop_control:
     loop_var: zone
-  when: security_zones|length > 0

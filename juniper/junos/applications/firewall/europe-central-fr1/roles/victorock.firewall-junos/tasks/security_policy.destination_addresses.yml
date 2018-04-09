@@ -3,6 +3,6 @@
     junos_config: set security policies from-zone {{ policy.from }} to-zone {{ policy.to }} policy {{ policy.name }} match destination-address {{ destination_address.name }}
   set_fact:
     security_policy: "{{ security_policy }} + [ '{{ junos_config }}' ]"
-  loop: "{{ policy.destination_addresses | default([]) }}"
+  loop: "{{ policy.destination_addresses }}"
   loop_control:
     loop_var: destination_address
