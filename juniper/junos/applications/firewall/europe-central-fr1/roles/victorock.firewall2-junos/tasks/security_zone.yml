@@ -1,0 +1,12 @@
+---
+- name: "security_zone.interface"
+  include_tasks: security_zone.interface.yml
+  loop: "{{ security_zone.interfaces }}"
+  loop_control:
+    loop_var: interface
+
+- name: "security_zone.address_book"
+  include_tasks: security_zone.address_book.yml
+  loop: "{{ security_zone.address_books }}"
+  loop_control:
+    loop_var: address_book

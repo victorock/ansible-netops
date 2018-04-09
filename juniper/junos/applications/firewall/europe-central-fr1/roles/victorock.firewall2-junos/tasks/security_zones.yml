@@ -1,0 +1,6 @@
+---
+- name: "security_zone"
+  include_tasks: security_zone.yml
+  loop: "{{ security_zones }}"
+  loop_control:
+    loop_var: security_zone

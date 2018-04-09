@@ -1,0 +1,11 @@
+- include_tasks: security_zones.yml
+  when: security_zones is defined
+
+- include_tasks: security_zone.yml
+  when: security_zone is defined
+
+- include_tasks: security_policies.yml
+  when: security_policies is defined
+
+- include_tasks: security_policy.yml
+  when: security_policy is defined

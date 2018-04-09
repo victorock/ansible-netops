@@ -1,0 +1,9 @@
+- name: "security_zones.interface: Ensure state of inteface objects"
+  juniper_junos_config:
+    check: false
+    commit: false
+    lines:
+      - set security zones security-zone {{ security_zone.name }} interfaces {{ interface.name }} {{ interface.type }} system-services {{ service.name }}
+  loop: "{{ interface.services }}"
+  loop_control:
+    loop_var: service

@@ -1,0 +1,15 @@
+dependencies:
+  - Juniper.junos
+
+galaxy_info:
+  author: victorock
+  description: Juniper SRX
+  license: "license (BSD, MIT)"
+  min_ansible_version: 2.4
+  platforms:
+  - name: junos
+    versions: ALL
+  galaxy_tags:
+    - network
+    - firewall
+    - juniper

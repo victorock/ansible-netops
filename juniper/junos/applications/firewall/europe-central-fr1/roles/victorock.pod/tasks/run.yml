@@ -21,6 +21,10 @@
         name: "victorock.firewall-{{ network_os }}"
         tasks_from: run
 
+    - include_role:
+        name: "victorock.firewall2-{{ network_os }}"
+        tasks_from: run
+
   rescue:
     - include_role:
         name: "victorock.config-{{ network_os }}"

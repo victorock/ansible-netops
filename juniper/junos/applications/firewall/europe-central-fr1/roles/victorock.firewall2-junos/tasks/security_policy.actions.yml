@@ -1,0 +1,9 @@
+- name: "security_policies.source_address: Ensure state of match"
+  juniper_junos_config:
+    check: false
+    commit: false
+    lines:
+      - set security policies from-zone {{ security_policy.from }} to-zone {{ security_policy.to }} policy {{ security_policy.name }} then {{ action.name }}
+  loop: "{{ security_policy.actions }}"
+  loop_control:
+    loop_var: action
