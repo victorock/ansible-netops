@@ -2,8 +2,8 @@
   junos_config:
     lines:
       - set interfaces {{ interface.name }} vlan-tagging
-      - set interfaces {{ interface.name }} unit {{ interface.unit }} vlan-id {{ interface.vlan }}
-  when: interface.vlan is defined
+      - set interfaces {{ interface.name }} unit {{ interface.unit }} vlan-id {{ interface.vlan_id }}
+  when: interface.vlan_id is defined
 
 - name: "interface.route: Ensure the state of layer3 parameters"
   net_l3_interface:
