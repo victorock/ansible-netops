@@ -1,4 +1,4 @@
 ---
 - name: "commit configuration"
-  juniper_junos_config:
-    commit: true
+  junos_config:
+    confirm_commit: true
