@@ -4,6 +4,7 @@
   gather_facts: no
 
   tasks:
+    - junos_facts:
     - include_role:
         name: "victorock.pod"
         tasks_from: run
