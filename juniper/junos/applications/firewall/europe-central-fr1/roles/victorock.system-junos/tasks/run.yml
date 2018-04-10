@@ -1,7 +1,1 @@
-- include_tasks: vlan.yml
-  when:
-    - vlan is defined
-
-- include_tasks: vlans.yml
-  when:
-    - vlans is defined
+- include_tasks: hostname.yml
