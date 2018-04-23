@@ -1,0 +1,10 @@
+- name: "OSPFv2: Configure areas with networks"
+  ios_config:
+    parents: router ospf {{ ospfv2_instance.name }}
+    lines:
+      - area {{ ospfv2_area.area }} authentication message-digest
+      - area {{ ospfv2_area.area }} {{ ospfv2_area.type }}
+      - network {{ ospfv2_area.network }} {{ ospfv2_area.wildcard }} area {{ ospfv2_area.area }}
+  loop: "{{ ospfv2_instance.areas }}"
+  loop_control:
+    loop_var: ospfv2_area

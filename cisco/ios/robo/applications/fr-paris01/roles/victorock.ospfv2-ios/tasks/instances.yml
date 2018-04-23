@@ -1,0 +1,6 @@
+- include_tasks: instance.yml
+  vars:
+    ospfv2_instance: "{{ ospfv2_instance_dict.value }}"
+  with_dict: "{{ ospfv2 | default({}) }}"
+  loop_control:
+    loop_var: ospfv2_instance_dict

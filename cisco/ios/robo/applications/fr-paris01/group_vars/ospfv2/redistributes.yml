@@ -1,0 +1,10 @@
+ospfv2:
+  110:
+    redistributes:
+        - redistribute: static
+          metric: 210
+          route_map: 110-STATIC-to-OSPF
+
+        - redistribute: connected
+          metric: 200
+          route_map: 110-CONNECTED-to-OSPF

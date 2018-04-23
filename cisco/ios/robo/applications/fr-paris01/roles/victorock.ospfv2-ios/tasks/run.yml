@@ -1,0 +1,33 @@
+---
+- name: "victorock.interfaces-ios"
+  block:
+    - name: "sanity"
+      include_tasks: sanity.yml
+
+    - name: "victorock.config-{{ ansible_network_os }}"
+      include_role:
+        name: "victorock.config-{{ ansible_network_os }}"
+        tasks_from: checkpoint
+      vars:
+        network_config: "{{ ospfv2_config }}"
+
+    - name: "instances"
+      include_tasks: instances.yml
+
+    - name: "assert"
+      include_tasks: assert.yml
+
+  rescue:
+    - name: " /!\\ ROLLBACK /!\\"
+      include_role:
+        name: "victorock.config-{{ ansible_network_os }}"
+        tasks_from: rollback
+
+  always:
+    - include_role:
+        name: "victorock.config-{{ ansible_network_os }}"
+        tasks_from: save
+
+    - include_role:
+        name: "victorock.config-{{ ansible_network_os }}"
+        tasks_from: backup

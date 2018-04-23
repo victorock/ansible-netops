@@ -1,3 +1,4 @@
 - import_playbook: facts.yml
 - import_playbook: interfaces_role.yml
-- import_playbook: ospf.yml
+- import_playbook: ospfv2.yml
+- import_playbook: ospfv2_role.yml

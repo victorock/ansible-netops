@@ -1,0 +1,12 @@
+ospfv2:
+  110:
+    interfaces:
+      - interface: GigabitEthernet3
+        area: 1
+        key: mykey
+        cost: 110
+
+      - interface: GigabitEthernet4
+        area: 2
+        key: mykey
+        cost: 110

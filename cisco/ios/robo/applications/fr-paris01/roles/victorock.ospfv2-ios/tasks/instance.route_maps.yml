@@ -1,0 +1,8 @@
+- name: "OSPFv2: Configure route-maps"
+  ios_config:
+    parents: route-map {{  ospfv2_route_map.route_map }} {{ ospfv2_route_map.action }} {{ ospfv2_route_map.seq }}
+    lines:
+      - match ip address prefix-list {{ ospfv2_route_map.prefix_list }}
+  loop: "{{ ospfv2_instance.route_maps }}"
+  loop_control:
+    loop_var: ospfv2_route_map

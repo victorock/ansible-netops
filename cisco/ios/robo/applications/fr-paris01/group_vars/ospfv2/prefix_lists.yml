@@ -1,0 +1,7 @@
+ospfv2:
+  110:
+    prefix_lists:
+      - prefix_list: 110-PERMIT_ALL
+        action: permit
+        seq: 5
+        network: 0.0.0.0/0

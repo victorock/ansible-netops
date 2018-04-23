@@ -1,0 +1,11 @@
+- name: "OSPFv2: Ensure instance's state of interfaces"
+  ios_config:
+    parents: interface {{ ospfv2_interface.interface }}
+    lines:
+      - ip ospf authentication
+      - ip ospf authentication-key {{ ospfv2_interface.key }}
+      - ip ospf cost {{ ospfv2_interface.cost }}
+      - ip ospf {{ ospfv2.110.name }} area {{ ospfv2_interface.area }}
+  loop: "{{ ospfv2.110.interfaces }}"
+  loop_control:
+    loop_var: ospfv2_interface

@@ -1,0 +1,17 @@
+ospfv2:
+  110:
+    areas:
+      - area: 1
+        type: nssa
+        network: 10.0.0.0
+        wildcard: 0.0.0.255
+
+      - area: 1
+        type: nssa
+        network: 192.168.0.0
+        wildcard: 0.0.0.255
+
+      - area: 2
+        type: nssa
+        network: 172.16.0.0
+        wildcard: 0.0.0.255

@@ -1,0 +1,4 @@
+ospfv2_config:
+  rollback:
+    path: "bootflash:"
+    file: "ansible_ospfv2.cfg"

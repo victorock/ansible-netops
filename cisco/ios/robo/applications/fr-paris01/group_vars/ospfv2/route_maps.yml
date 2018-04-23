@@ -1,0 +1,12 @@
+ospfv2:
+  110:
+    route_maps:
+      - route_map: 110-STATIC-to-OSPF
+        action: permit
+        seq: 10
+        prefix_list: 110-PERMIT_ALL
+
+      - route_map: 110-CONNECTED-to-OSPF
+        action: permit
+        seq: 10
+        prefix_list: 110-PERMIT_ALL

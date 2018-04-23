@@ -1,0 +1,8 @@
+- name: "OSPFv2: Ensure instance's state of redistributes"
+  ios_config:
+    parents: router ospf {{ ospfv2_instance.name }}
+    lines:
+      - redistribute {{ ospfv2_redistribute.redistribute }} metric {{ ospfv2_redistribute.metric }} subnets route-map {{ ospfv2_redistribute.route_map }}
+  loop: "{{ ospfv2_instance.redistributes }}"
+  loop_control:
+    loop_var: ospfv2_redistribute

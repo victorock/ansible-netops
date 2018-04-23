@@ -1,0 +1,7 @@
+- name: "OSPFv2: Ensure instance's state of prefix-lists"
+  ios_config:
+    lines:
+      - ip prefix-list {{ ospfv2_prefix_list.prefix_list }} seq {{ ospfv2_prefix_list.seq }} {{ ospfv2_prefix_list.action }} {{ ospfv2_prefix_list.network }} le 32
+  loop: "{{ ospfv2_instance.prefix_lists }}"
+  loop_control:
+    loop_var: ospfv2_prefix_list

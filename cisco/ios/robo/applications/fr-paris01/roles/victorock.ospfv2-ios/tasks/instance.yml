@@ -1,0 +1,5 @@
+- include_tasks: instance.areas.yml
+- include_tasks: instance.prefix_lists.yml
+- include_tasks: instance.route_maps.yml
+- include_tasks: instance.redistributes.yml
+- include_tasks: instance.interfaces.yml

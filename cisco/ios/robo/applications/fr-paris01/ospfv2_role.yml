@@ -1,0 +1,9 @@
+- name: "OSPFv2 Configuration"
+  hosts: ios:&ospfv2
+  connection: network_cli
+  gather_facts: no
+
+  tasks:
+    - include_role:
+        name: "victorock.ospfv2-ios"
+        tasks_from: run

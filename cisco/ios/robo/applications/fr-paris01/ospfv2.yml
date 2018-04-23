@@ -1,0 +1,113 @@
+- name: "OSPF Configuration"
+  hosts: all
+  connection: network_cli
+  gather_facts: no
+
+  vars:
+
+    ospfv2:
+      110:
+        name: 110
+        areas:
+          - area: 1
+            type: nssa
+            network: 10.0.0.0
+            wildcard: 0.0.0.255
+
+          - area: 1
+            type: nssa
+            network: 192.168.0.0
+            wildcard: 0.0.0.255
+
+          - area: 2
+            type: nssa
+            network: 172.16.0.0
+            wildcard: 0.0.0.255
+
+        interfaces:
+          - interface: GigabitEthernet3
+            area: 1
+            key: mykey
+            cost: 110
+
+          - interface: GigabitEthernet4
+            area: 2
+            key: mykey
+            cost: 110
+
+        prefix_lists:
+          - prefix_list: 110-PERMIT_ALL
+            action: permit
+            seq: 5
+            network: 0.0.0.0/0
+
+        redistributes:
+            - redistribute: static
+              metric: 210
+              route_map: 110-STATIC-to-OSPF
+
+            - redistribute: connected
+              metric: 200
+              route_map: 110-CONNECTED-to-OSPF
+
+        route_maps:
+          - route_map: 110-STATIC-to-OSPF
+            action: permit
+            seq: 10
+            prefix_list: 110-PERMIT_ALL
+
+          - route_map: 110-CONNECTED-to-OSPF
+            action: permit
+            seq: 10
+            prefix_list: 110-PERMIT_ALL
+
+  tasks:
+
+    - name: "OSPF: Configure areas with networks"
+      ios_config:
+        parents: router ospf {{ ospfv2.110.name }}
+        lines:
+          - area {{ ospfv2_area.area }} authentication message-digest
+          - area {{ ospfv2_area.area }} {{ ospfv2_area.type }}
+          - network {{ ospfv2_area.network }} {{ ospfv2_area.wildcard }} area {{ ospfv2_area.area }}
+      loop: "{{ ospfv2.110.areas }}"
+      loop_control:
+        loop_var: ospfv2_area
+
+    - name: "OSPF: Configure prefix-lists with networks"
+      ios_config:
+        lines:
+          - ip prefix-list {{ ospfv2_prefix_list.prefix_list }} seq {{ ospfv2_prefix_list.seq }} {{ ospfv2_prefix_list.action }} {{ ospfv2_prefix_list.network }} le 32
+      loop: "{{ ospfv2.110.prefix_lists }}"
+      loop_control:
+        loop_var: ospfv2_prefix_list
+
+    - name: "OSPF: Configure route-maps"
+      ios_config:
+        parents: route-map {{  ospfv2_route_map.route_map }} {{ ospfv2_route_map.action }} {{ ospfv2_route_map.seq }}
+        lines:
+          - match ip address prefix-list {{ ospfv2_route_map.prefix_list }}
+      loop: "{{ ospfv2.110.route_maps }}"
+      loop_control:
+        loop_var: ospfv2_route_map
+
+    - name: "OSPF: Configure redistributes"
+      ios_config:
+        parents: router ospf {{ ospfv2.110.name }}
+        lines:
+          - redistribute {{ ospfv2_redistribute.redistribute }} metric {{ ospfv2_redistribute.metric }} subnets route-map {{ ospfv2_redistribute.route_map }}
+      loop: "{{ ospfv2.110.redistributes }}"
+      loop_control:
+        loop_var: ospfv2_redistribute
+
+    - name: "OSPF: Configure interfaces"
+      ios_config:
+        parents: interface {{ ospfv2_interface.interface }}
+        lines:
+          - ip ospf authentication
+          - ip ospf authentication-key {{ ospfv2_interface.key }}
+          - ip ospf cost {{ ospfv2_interface.cost }}
+          - ip ospf {{ ospfv2.110.name }} area {{ ospfv2_interface.area }}
+      loop: "{{ ospfv2.110.interfaces }}"
+      loop_control:
+        loop_var: ospfv2_interface
