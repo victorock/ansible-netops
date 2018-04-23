@@ -1,0 +1,57 @@
+- name: "System Junos: configure NOS"
+  hosts: junos
+  connection: netconf
+  gather_facts: no
+
+  vars:
+    banner: "Automated by Ansible"
+    name_servers:
+      - 8.8.8.8
+      - 8.8.4.4
+    domain_name: victorock.io
+    time_zone: Europe/Paris
+    ntp_servers:
+      - 185.82.218.175
+      - 193.239.220.29
+      - 185.22.60.71
+
+  tasks:
+    - name: "Ensure the state of hostname"
+      junos_config:
+        lines:
+        - set system host-name {{ inventory_hostname }}
+
+    - name: "Ensure the state of domain-name"
+      junos_config:
+        lines:
+        - set system domain-name {{ domain_name }}
+
+    - name: "Ensure the state of name-servers"
+      junos_config:
+        lines:
+        - set system name-server {{ name_server }}
+      loop: "{{ name_servers }}"
+      loop_control:
+        loop_var: name_server
+
+    - name: "Ensure the state of banner (announcement)"
+      junos_config:
+        lines:
+        - set system login announcement "{{ banner }}"
+
+    - name: "Ensure the state of time-zone"
+      junos_config:
+        lines:
+        - set system time-zone {{ time_zone }}
+
+    - name: "Ensure the state of ntp servers"
+      junos_config:
+        lines:
+        - set system ntp server {{ ntp_server }}
+      loop: "{{ ntp_servers }}"
+      loop_control:
+        loop_var: ntp_server
+
+    - name: "l3_interface: Ensure commit"
+      junos_config:
+        confirm_commit: true

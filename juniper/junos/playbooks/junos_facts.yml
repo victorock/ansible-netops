@@ -1,6 +1,6 @@
 ---
 - name: "Gather Junos: facts"
-  hosts: all
+  hosts: junos
   connection: netconf
   gather_facts: no
 

@@ -1,0 +1,18 @@
+---
+- name: Configure the Junos
+  hosts: junos
+  connection: netconf
+  gather_facts: False
+
+  tasks:
+    - name: wait for SSH prompt (timeout 10min)
+      wait_for:
+        port: 22
+        host: "{{ ansible_host }}"
+        timeout: 600
+
+    - name: Set the Junos admin password
+      junos_config:
+        confirm_commit: true
+        lines:
+          - set system root-authentication encrypted-password "{{ network_password | default( lookup('env', 'JUNOS_PASSWD') ) }}"

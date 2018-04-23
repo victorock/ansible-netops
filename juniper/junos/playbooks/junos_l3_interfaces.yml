@@ -1,0 +1,42 @@
+- name: "Interfaces Junos: configure network interfaces"
+  hosts: junos
+  connection: network_cli
+  gather_facts: no
+
+  vars:
+    l3_interfaces:
+      - name: ge-0/0/0
+        unit: 0
+        ipv4: 10.1.1.254/24
+
+      - name: ge-0/0/1
+        unit: 0
+        type: route
+        ipv4: 10.1.2.254/24
+
+  tasks:
+    - name: "l3_interface: Ensure state of layer1 parameters"
+      junos_interface:
+        name: "{{ interface.name }}"
+        enabled: "{{ interface.enabled | default(omit) }}"
+        duplex: "{{ interface.duplex | default(omit) }}"
+        speed: "{{ interface.speed | default(omit) }}"
+        mtu: "{{ interface.mtu | default(omit) }}"
+        description: "{{ interface.description | default(omit) }}"
+        active: "{{ interface.active | default(omit) }}"
+      loop: "{{ l3_interfaces }}"
+      loop_control:
+        loop_var: interface
+
+    - name: "l3_interface: Ensure the state of layer3 parameters"
+      net_l3_interface:
+        name: "{{ interface.name }}"
+        unit: "{{ interface.unit | default(omit) }}"
+        ipv4: "{{ interface.ipv4 }}"
+      loop: "{{ l3_interfaces }}"
+      loop_control:
+        loop_var: interface
+
+    - name: "l3_interface: Ensure commit"
+      junos_config:
+        confirm_commit: true

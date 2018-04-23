@@ -1,6 +1,6 @@
 ---
 - name: "Configure Junos: hostname"
-  hosts: all
+  hosts: junos
   connection: network_cli
   gather_facts: no
 
