@@ -1,0 +1,51 @@
+[europe-central-fr1:children]
+control
+management
+spine
+leaf
+server
+
+[control]
+tower01 ansible_host=darkbulb.devops.victorock.io
+
+[management]
+mgmt01 ansible_host=darkbulb.devops.victorock.io
+
+[spine]
+spine01 ansible_host=darkbulb.devops.victorock.io
+spine02 ansible_host=darkbulb.devops.victorock.io
+
+[leaf]
+leaf01 ansible_host=darkbulb.devops.victorock.io
+leaf02 ansible_host=darkbulb.devops.victorock.io
+leaf03 ansible_host=darkbulb.devops.victorock.io
+leaf04 ansible_host=darkbulb.devops.victorock.io
+
+[server]
+server01 ansible_host=darkbulb.devops.victorock.io
+server02 ansible_host=darkbulb.devops.victorock.io
+
+[nxos:children]
+spine
+leaf
+pod01
+pod02
+
+[nxos:vars]
+ansible_network_os=nxos
+
+[pod01]
+leaf01 ansible_host=darkbulb.devops.victorock.io
+leaf02 ansible_host=darkbulb.devops.victorock.io
+server01  ansible_host=darkbulb.devops.victorock.io
+
+[pod02]
+leaf03 ansible_host=10.42.0.23
+leaf04 ansible_host=10.42.0.24
+server02  ansible_host=10.42.0.32
+
+[cumulus:children]
+management
+
+[cumulus:vars]
+ ansible_network_os=cumulus
