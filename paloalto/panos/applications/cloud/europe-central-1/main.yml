@@ -1,8 +1,1 @@
-- when: cloudbuilder_state|default('present') == 'present'
-  include: build.yml
-
-- when: cloudbuilder_state|default('present') == 'present'
-  include: deploy.yml
-
-- when: cloudbuilder_state|default('present') == 'absent'
-  include: destroy.yml
+- include: pod01.yml

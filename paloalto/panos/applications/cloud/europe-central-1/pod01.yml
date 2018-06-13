@@ -1,0 +1,88 @@
+---
+- name: Configure the PAN system attributes
+  hosts: pod01:&panos
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: wait for SSH prompt (timeout 10min)
+      wait_for:
+        port: 22
+        host: "{{ ansible_host }}"
+        timeout: 600
+
+    - name: "Ensure state of network interface"
+      when: panos_interfaces is defined
+      panos_interface:
+        ip_address: "{{ provider.host }}"
+        username: "{{ provider.username }}"
+        password: "{{ provider.password }}"
+        if_name: "{{ panos_interface.name }}"
+        zone_name: "{{ panos_interface.zone | default('untrust') }}"
+        create_default_route: "{{ panos_interface.default_route | default('no') }}"
+        commit: False
+      loop: "{{ panos_interfaces | default([]) }}"
+      loop_control:
+        loop_var: panos_interface
+
+    - name: "Ensure state of objects"
+      when: panos_objects is defined
+      panos_object:
+        ip_address: "{{ provider.host }}"
+        username: "{{ provider.username }}"
+        password: "{{ provider.password }}"
+        operation: "{{ panos_object.operation | default('add') }}"
+        serviceobject: "{{ panos_object.serviceobject }}"
+        destination_port: "{{ panos_object.destination_port }}"
+        protocol: "{{ panos_object.protocol | default('tcp') }}"
+        description: "{{ panos_object.description | default(omit) }}"
+      loop: "{{ panos_objects | default([]) }}"
+      loop_control:
+        loop_var: panos_object
+
+    - name: "Ensure state of NAT rules"
+    when: panos_nat_rules is defined
+      panos_nat_rule:
+        ip_address: "{{ provider.host }}"
+        username: "{{ provider.username }}"
+        password: "{{ provider.password }}"
+        operation: add
+        rule_name: "{{ item.rule_name }}"
+        source_zone: "{{ item.source_zone }}"
+        destination_zone: "{{ item.destination_zone }}"
+        source_ip: "{{ item.source_ip | default (omit) }}"
+        destination_ip: "{{ item.destination_ip | default (omit) }}"
+        service: "{{ item.service | default(omit) }}"
+        snat_type: "{{ item.snat_type | default (omit) }}"
+        snat_interface: "{{ item.snat_interface | default (omit) }}"
+        dnat_address: "{{ item.dnat_address | default(omit) }}"
+        dnat_port: "{{ item.dnat_port | default(omit) }}"
+        commit: "False"
+      with_items: "{{ panos_nat_rules | default ([]) }}"
+      register: command_result
+      failed_when: "'MODULE FAILURE' in command_result.msg"
+      changed_when: "'successfully added' in command_result.msg"
+
+    - name: "Ensure state of security rules"
+      when: panos_security_rules is defined
+      panos_security_rule:
+        ip_address: "{{ provider.host }}"
+        username: "{{ provider.username }}"
+        password: "{{ provider.password }}"
+        operation: "{{ item.operation | default (omit) }}"
+        rule_name: "{{ item.rule_name | default (omit) }}"
+        service: "{{ item.service | default (omit) }}"
+        description: "{{ item.description | default (omit) }}"
+        source_zone: "{{ item.source_zone | default (omit) }}"
+        destination_zone: "{{ item.destination_zone | default (omit) }}"
+        action: "{{ item.action | default ('allow') }}"
+        commit: False
+      with_items: "{{ panos_security_rules | default([]) }}"
+      register: command_result
+      failed_when: "'MODULE FAILURE' in command_result.msg"
+      changed_when: "'successfully added' in command_result.msg"
+
+    - name: Commit the configure
+      panos_commit:
+        ip_address: "{{ provider.host }}"
+        username: "{{ provider.username }}"
+        password: "{{ provider.password }}"

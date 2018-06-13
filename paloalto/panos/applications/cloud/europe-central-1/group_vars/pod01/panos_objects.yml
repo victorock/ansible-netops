@@ -3,3 +3,4 @@ panos_objects:
     destination_port: '22'
     protocol: 'tcp'
     description: 'ssh on 22'
+    operation: add

@@ -19,9 +19,9 @@
   tasks:
     - name: Create security rules
       panos_security_rule:
-        ip_address: "{{ ansible_host }}"
-        username: "{{ ansible_user }}"
-        password: "{{ ansible_ssh_pass }}"
+        ip_address: "{{ provider.host }}"
+        username: "{{ provider.username }}"
+        password: "{{ provider.password }}"
         operation: "{{ panos_security_rule_operation | default (omit) }}"
         rule_name: "{{ panos_security_rule_name | default (omit) }}"
         service: "{{ panos_security_rule_service | default (omit) }}"
@@ -36,6 +36,6 @@
 
     - name: Commit the configure
       panos_commit:
-        ip_address: "{{ ansible_host }}"
-        username: "{{ ansible_user }}"
-        password: "{{ ansible_ssh_pass }}"
+        ip_address: "{{ provider.host }}"
+        username: "{{ provider.username }}"
+        password: "{{ provider.password }}"

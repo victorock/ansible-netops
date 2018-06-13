@@ -1,8 +1,0 @@
-- import_playbook: bigip_facts.yml
-- import_playbook: bigip_hostname.yml
-- import_playbook: bigip_device_ntp.yml
-- import_playbook: bigip_device_dns.yml
-- import_playbook: bigip_vlan.yml
-- import_playbook: bigip_selfip.yml
-- import_playbook: bigip_vserver.yml
-- import_playbook: bigip_facts.yml

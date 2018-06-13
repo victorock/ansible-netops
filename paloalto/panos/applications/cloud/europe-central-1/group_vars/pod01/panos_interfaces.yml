@@ -1,0 +1,8 @@
+panos_interfaces:
+  - name: "ethernet1/1"
+    zone: "untrust"
+    default_route: "yes"
+
+  - name: "ethernet1/2"
+    zone: "trust"
+    default_route: "no"

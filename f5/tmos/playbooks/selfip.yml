@@ -12,10 +12,10 @@
   tasks:
     - name: Ensure selfip address on interfaces
       bigip_selfip:
-        server: "{{ ansible_host }}"
-        user: "{{ ansible_user }}"
-        password: "{{ ansible_ssh_pass }}"
-        validate_certs: no
+        server: "{{ provider.host }}"
+        user: "{{ provider.username }}"
+        password: "{{ provider.password }}"
+        validate_certs: "{{ provider.use_ssl }}"
         name:  "{{ interface.name }}"
         address: "{{ interface.ip | ipaddr('address') }}"
         netmask: "{{ interface.ip | ipaddr('netmask') }}"

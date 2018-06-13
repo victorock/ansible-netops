@@ -22,9 +22,9 @@
   tasks:
     - name: Create NAT rules
       panos_nat_rule:
-        ip_address: "{{ ansible_host }}"
-        username: "{{ ansible_user }}"
-        password: "{{ ansible_ssh_pass }}"
+        ip_address: "{{ provider.host }}"
+        username: "{{ provider.username }}"
+        password: "{{ provider.password }}"
         operation: "{{ panos_nat_operation | default(omit) }}"
         rule_name: "{{ panos_nat_rule_name }}"
         source_zone: "{{ panos_nat_source_zone }}"
@@ -43,6 +43,6 @@
 
     - name: "Ensure commit"
       panos_commit:
-        ip_address: "{{ ansible_host }}"
-        username: "{{ ansible_user }}"
-        password: "{{ ansible_ssh_pass }}"
+        ip_address: "{{ provider.host }}"
+        username: "{{ provider.username }}"
+        password: "{{ provider.password }}"
