@@ -1,0 +1,12 @@
+[all:children]
+tmos
+pod01
+
+[tmos:children]
+tag_tmos
+
+[pod01:children]
+tag_pod01
+
+[tag_tmos]
+[tag_pod01]

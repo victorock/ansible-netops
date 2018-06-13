@@ -1,16 +1,3 @@
----
-### This file is empty to avoid automatic execution
-### Use run.yml
-#- name: "victorock.overlay: Use run.yml"
-#  debug:
-#    msg: |
-#      The main.yml by default is empty and does not perform any action.
-#      This avoids automatic execution when galaxy satisfies dependencies specified meta/main.yml.
-#      To use this role correctly you need to explicitly call run.yml.
-
-#- name: "victorock.overlay: Review configuration"
-#  debug:
-#    msg: |
-#      Before calling run.yml consider reviewing the following:
-#        - You need at least 1 leaf with their respective variables defined in host_vars/group_vars.
-#        - The leaf(s) must be member of leaf group in inventory.
+- name: "autorun"
+  include_tasks: run.yml
+  when: autorun|default(false)

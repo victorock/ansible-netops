@@ -1,0 +1,3 @@
+- include: playbooks/pan-system.yml
+- include: playbooks/pan-security-rules.yml
+- include: playbooks/pan-nat.yml

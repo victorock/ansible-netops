@@ -16,8 +16,8 @@
     - name: Ensure state of DNS settings on the BIG-IP
       bigip_device_dns:
         server: "{{ ansible_host }}"
-        user: "{{ network_username }}"
-        password: "{{ network_password }}"
+        user: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"
         validate_certs: no
         hostname: "{{ inventory_hostname }}"
         name_servers: "{{ bigip_device_dns_name_servers }}"

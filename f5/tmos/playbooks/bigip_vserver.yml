@@ -20,16 +20,16 @@
     - name: Ensure state of pool settings
       bigip_pool:
         server: "{{ ansible_host }}"
-        user: "{{ network_username | default(omit) }}"
-        password: "{{ network_password | default(omit) }}"
+        user: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"
         validate_certs: no
         name: "{{ bigip_vserver_pool_name }}"
 
     - name: Ensure state of node and pool membership
       bigip_pool_member:
         server: "{{ ansible_host }}"
-        user: "{{ network_username | default(omit) }}"
-        password: "{{ network_password | default(omit) }}"
+        user: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"
         validate_certs: no
         pool: "{{ bigip_vserver_pool_name }}"
         host: "{{ bigip_vserver_node_host }}"
@@ -38,8 +38,8 @@
     - name: Ensure state of VirtualServer
       bigip_virtual_server:
         server: "{{ ansible_host }}"
-        user: "{{ network_username | default(omit) }}"
-        password: "{{ network_password | default(omit) }}"
+        user: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"
         validate_certs: no
         name: "{{ bigip_vserver_name }}"
         destination: "{{ bigip_vserver_destination }}"

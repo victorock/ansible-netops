@@ -2,6 +2,9 @@
   hosts: all
   connection: network_cli
 
+  roles:
+    - role: ansible-network.network-engine
+
   vars:
     commands:
       - terminal length 0

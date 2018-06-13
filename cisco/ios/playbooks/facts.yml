@@ -3,8 +3,6 @@
   connection: local
   gather_facts: no
 
-  vars:
-
   tasks:
     - name: "Gather Facts"
-      iosos_facts:
+      ios_facts:

@@ -13,8 +13,8 @@
     - name: Ensure state of VLAN interfaces
       bigip_vlan:
         server: "{{ ansible_host }}"
-        user: "{{ network_username | default(omit) }}"
-        password: "{{ network_password | default(omit) }}"
+        user: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"
         validate_certs: no
         name: "{{ bigip_vlan.name }}"
         untagged_interfaces: "{{ bigip_vlan.untagged_interfaces | default(omit) }}"

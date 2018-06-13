@@ -13,15 +13,15 @@
     - name: Ensure state of NTP settings
       bigip_device_ntp:
         server: "{{ ansible_host }}"
-        user: "{{ network_username | default(omit) }}"
-        password: "{{ network_password | default(omit) }}"
+        user: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"
         validate_certs: no
         ntp_servers: "{{ bigip_device_ntp_servers }}"
 
     - name: Ensure state of timezone settings
       bigip_device_ntp:
         server: "{{ ansible_host }}"
-        user: "{{ network_username | default(omit) }}"
-        password: "{{ network_password | default(omit) }}"
+        user: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"
         validate_certs: no
         timezone: "{{ bigip_device_ntp_timezone }}"

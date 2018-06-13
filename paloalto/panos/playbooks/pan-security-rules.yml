@@ -1,0 +1,41 @@
+---
+- name: Configure PAN security rules
+  hosts: panos
+  connection: local
+  gather_facts: False
+
+  vars:
+
+      panos_security_rule_operation: 'add'
+      panos_security_rule_name: 'Incoming SSH'
+      panos_security_rule_service: 'service-ssh'
+      panos_security_rule_description: 'Allow Incoming SSH traffic'
+      panos_security_rule_source_zone: ['untrust']
+      panos_security_rule_destination_zone: 'trust'
+      panos_security_rule_action: 'allow'
+      panos_security_rule_commit: True
+
+
+  tasks:
+    - name: Create security rules
+      panos_security_rule:
+        ip_address: "{{ ansible_host }}"
+        username: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"
+        operation: "{{ panos_security_rule_operation | default (omit) }}"
+        rule_name: "{{ panos_security_rule_name | default (omit) }}"
+        service: "{{ panos_security_rule_service | default (omit) }}"
+        description: "{{ panos_security_rule_description | default (omit) }}"
+        source_zone: "{{ panos_security_rule_source_zone | default (omit) }}"
+        destination_zone: "{{ panos_security_rule_destination_zone | default (omit) }}"
+        action: "{{ panos_security_rule_action }}"
+        commit: "{{ panos_security_rule_commit }}"
+      register: command_result
+      failed_when: "'MODULE FAILURE' in command_result.msg"
+      changed_when: "'successfully added' in command_result.msg"
+
+    - name: Commit the configure
+      panos_commit:
+        ip_address: "{{ ansible_host }}"
+        username: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"

@@ -1,0 +1,4 @@
+ansible_network_os: ios
+ansible_proxy_user: darkbulb
+ansible_proxy_host: darkbulb-ios.devops.victorock.io
+ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q "{{ansible_proxy_user}}@{{ansible_proxy_host}}"'

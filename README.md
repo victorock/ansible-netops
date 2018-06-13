@@ -2,7 +2,11 @@
 
 ## NetOps - Network Operations Playbooks
 
-Repository of playbooks maintained by Network Operations.
+Repository of playbooks for Network Operations.
 
-**!!!!! THESE ARE ONLY EXAMPLES !!!!!**
-**!!!!! DO NOT USE IT IN REAL ENVIRONMENTS !!!!!**
+License
+=======
+
+GNU General Public License v3.0
+
+See `COPYING <COPYING>`_ to see the full text.

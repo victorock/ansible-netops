@@ -13,8 +13,8 @@
     - name: Ensure selfip address on interfaces
       bigip_selfip:
         server: "{{ ansible_host }}"
-        user: "{{ network_username | default(omit) }}"
-        password: "{{ network_password | default(omit) }}"
+        user: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"
         validate_certs: no
         name:  "{{ interface.name }}"
         address: "{{ interface.ip | ipaddr('address') }}"

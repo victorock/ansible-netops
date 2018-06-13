@@ -1,10 +1,8 @@
 - name: "Spine: Fabric Configuration"
-  hosts: spine
+  hosts: spine:&nxos
   connection: network_cli
   gather_facts: no
 
-  tasks:
-    - nxos_facts:
-    - include_role:
-        name: victorock.underlay
-        tasks_from: run
+  roles:
+    - role: victorock.underlay
+      autorun: yes

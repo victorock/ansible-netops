@@ -1,0 +1,17 @@
+- name: "NXOS Interface Command"
+  hosts: nxos
+  connection: network_cli
+
+  vars:
+    commands:
+      - terminal length 0
+      - show interface
+
+  tasks:
+    - name: "show interface"
+      nxos_command:
+        commands: "{{ commands }}"
+        timeout: 600
+      register: show_interface
+
+    - debug: var=show_interface.stdout_lines

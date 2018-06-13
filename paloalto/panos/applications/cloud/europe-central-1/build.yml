@@ -1,0 +1,33 @@
+---
+- name: "Provision Instances"
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: false
+
+  tasks:
+    - name: "network-devops.cloudbuilder"
+      include_role:
+        name: network-devops.cloudbuilder
+        tasks_from: "build/build-{{ cloud_vpc_data.provider }}.yml"
+      vars:
+          cloud_vpc_name: "{{ cloud_vpc_data.name }}"
+          cloud_network_data: "{{ cloud_vpc_data.networks | default([]) }}"
+          cloud_security_group_data: "{{ cloud_acls | default([]) }}"
+          cloud_instance_data: "{{ cloud_vpc_data.instances | default([]) }}"
+      with_items: "{{ vpc_list | default([]) }}"
+      loop_control:
+        loop_var: cloud_vpc_data
+
+    - name: "network-devops.cloudbuilder"
+      include_role:
+        name: network-devops.cloudbuilder
+        tasks_from: "facts/{{ cloud_vpc_data.provider }}-facts.yml"
+      vars:
+          cloud_vpc_name: "{{ cloud_vpc_data.name }}"
+          cloud_network_data: "{{ cloud_vpc_data.networks | default([]) }}"
+          cloud_security_group_data: "{{ cloud_acls | default([]) }}"
+          cloud_instance_data: "{{ cloud_vpc_data.instances | default([]) }}"
+      with_items: "{{ vpc_list | default([]) }}"
+      loop_control:
+        loop_var: cloud_vpc_data

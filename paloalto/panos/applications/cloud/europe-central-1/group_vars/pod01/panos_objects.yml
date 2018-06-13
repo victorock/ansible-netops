@@ -1,0 +1,5 @@
+panos_objects:
+  - serviceobject: 'service-ssh'
+    destination_port: '22'
+    protocol: 'tcp'
+    description: 'ssh on 22'

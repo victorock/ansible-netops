@@ -1,0 +1,6 @@
+- name: ansible-network.network-engine
+
+- src: https://github.com/network-devops/cloudbuilder
+  scm: git
+  version: master
+  name: network-devops.cloudbuilder

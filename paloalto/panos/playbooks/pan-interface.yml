@@ -1,0 +1,29 @@
+---
+- name: Configure the PAN system attributes
+  hosts: panos
+  connection: local
+  gather_facts: False
+
+  vars:
+    panos_interface_name: 'ethernet1/1'
+    panos_interface_zone: 'untrust'
+    panos_interface_default_route: 'yes'
+    panos_interface_commit: True
+
+
+  tasks:
+    - name: "Ensure configuration for {{ panos_interface_name }}"
+      panos_interface:
+        ip_address: "{{ ansible_host }}"
+        username: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"
+        if_name: "{{ panos_interface_name }}"
+        zone_name: "{{ panos_interface_zone }}"
+        create_default_route: "{{ panos_interface_default_route | default(omit) }}"
+        commit: "{{ panos_interface_commit | default(omit) }}"
+
+    - name: Commit the configuration
+      panos_commit:
+        ip_address: "{{ ansible_host }}"
+        username: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"

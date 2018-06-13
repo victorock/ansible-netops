@@ -1,14 +1,11 @@
 - name: "Leaf: Fabric Configuration"
-  hosts: leaf
+  hosts: leaf:&nxos
   connection: network_cli
   gather_facts: no
 
-  tasks:
-    - nxos_facts:
-    - include_role:
-        name: victorock.underlay
-        tasks_from: run
+  roles:
+    - role: victorock.underlay
+      autorun: yes
 
-    - include_role:
-        name: victorock.overlay
-        tasks_from: run
+    - role: victorock.overlay
+      autorun: yes

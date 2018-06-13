@@ -8,7 +8,7 @@
     - name: Ensure state of hostname
       bigip_hostname:
         server: "{{ ansible_host }}"
-        user: "{{ network_username | default(omit) }}"
-        password: "{{ network_password | default(omit) }}"
+        user: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"
         hostname: "{{ inventory_hostname }}"
         validate_certs: "no"

@@ -1,10 +1,10 @@
-- name: "IOS Backup"
+- name: "NXOS Backup"
   hosts: all
   connection: network_cli
 
   vars:
-    repo: ssh://git@github.com/victorock/network-configs
-    branch: "europe-central-fr1"
+    backup_repo: ssh://git@github.com/victorock/network-configs
+    backup_branch: "europe-central-fr1"
 
   tasks:
 
@@ -18,9 +18,9 @@
     - name: "clone the repository containing configurations"
       changed_when: False
       git:
-        repo: "{{ repo }}"
+        repo: "{{ backup_repo }}"
         dest: "{{ r_tempfile.path }}"
-        version: "{{ branch }}"
+        version: "{{ backup_branch }}"
         clone: yes
 
     - name: "fetch network configuration"
