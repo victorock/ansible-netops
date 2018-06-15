@@ -3,13 +3,8 @@
 Visit :
 
 [Network Automation](http://github.com/network-automation/)
+
 [Linklight](http://github.com/network-automation/linklight/)
-
-# Ansible Demo
-
-## NetOps - Network Operations Playbooks
-
-Repository of playbooks for Network Operations.
 
 License
 =======
