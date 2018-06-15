@@ -5,3 +5,4 @@ vlans:
   - { name: app02, vlan_id: 102, vlan_state: active, admin_state: up, state: present }
   - { name: app03, vlan_id: 103, vlan_state: active, admin_state: up, state: present }
   - { name: app04, vlan_id: 104, vlan_state: active, admin_state: up, state: present }
+  - { name: app05, vlan_id: 105, vlan_state: active, admin_state: up, state: present }
