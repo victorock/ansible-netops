@@ -12,16 +12,10 @@
   tasks:
     - name: Ensure state of NTP settings
       bigip_device_ntp:
-        server: "{{ provider.host }}"
-        user: "{{ provider.username }}"
-        password: "{{ provider.password }}"
-        validate_certs: "{{ provider.use_ssl }}"
+        provider: "{{ provider | default(omit) }}"
         ntp_servers: "{{ bigip_device_ntp_servers }}"
 
     - name: Ensure state of timezone settings
       bigip_device_ntp:
-        server: "{{ provider.host }}"
-        user: "{{ provider.username }}"
-        password: "{{ provider.password }}"
-        validate_certs: "{{ provider.use_ssl }}"
+        provider: "{{ provider | default(omit) }}"
         timezone: "{{ bigip_device_ntp_timezone }}"

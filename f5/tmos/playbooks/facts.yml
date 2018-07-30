@@ -7,10 +7,7 @@
   tasks:
     - name: Gather BIG-IP facts
       bigip_facts:
-        server: "{{ provider.host }}"
-        user: "{{ provider.username }}"
-        password: "{{ provider.password }}"
-        validate_certs: "{{ provider.use_ssl }}"
+        provider: "{{ provider | default(omit) }}"
         include: "system_info,software,self_ip"
       register: bigip_facts
 

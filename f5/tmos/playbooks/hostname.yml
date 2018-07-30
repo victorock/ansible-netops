@@ -7,8 +7,5 @@
   tasks:
     - name: Ensure state of hostname
       bigip_hostname:
-        server: "{{ provider.host }}"
-        user: "{{ provider.username }}"
-        password: "{{ provider.password }}"
-        validate_certs: "{{ provider.use_ssl }}"
+        provider: "{{ provider | default(omit) }}"
         hostname: "{{ inventory_hostname }}"

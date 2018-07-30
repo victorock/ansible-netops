@@ -12,10 +12,7 @@
   tasks:
     - name: Ensure state of VLAN interfaces
       bigip_vlan:
-        server: "{{ provider.host }}"
-        user: "{{ provider.username }}"
-        password: "{{ provider.password }}"
-        validate_certs: "{{ provider.use_ssl }}"
+        provider: "{{ provider | default(omit) }}"
         name: "{{ bigip_vlan.name }}"
         untagged_interfaces: "{{ bigip_vlan.untagged_interfaces | default(omit) }}"
         tagged_interfaces: "{{ bigip_vlan.untagged_interfaces | default(omit) }}"

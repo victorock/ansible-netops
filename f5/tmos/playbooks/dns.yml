@@ -15,10 +15,7 @@
   tasks:
     - name: Ensure state of DNS settings on the BIG-IP
       bigip_device_dns:
-        server: "{{ provider.host }}"
-        user: "{{ provider.username }}"
-        password: "{{ provider.password }}"
-        validate_certs: "{{ provider.use_ssl }}"
+        provider: "{{ provider | default(omit) }}"
         hostname: "{{ inventory_hostname }}"
         name_servers: "{{ bigip_device_dns_name_servers }}"
         search: "{{ bigip_device_dns_search }}"

@@ -19,28 +19,19 @@
   tasks:
     - name: Ensure state of pool settings
       bigip_pool:
-        server: "{{ provider.host }}"
-        user: "{{ provider.username }}"
-        password: "{{ provider.password }}"
-        validate_certs: "{{ provider.use_ssl }}"
+        provider: "{{ provider | default(omit) }}"
         name: "{{ bigip_vserver_pool_name }}"
 
     - name: Ensure state of node and pool membership
       bigip_pool_member:
-        server: "{{ provider.host }}"
-        user: "{{ provider.username }}"
-        password: "{{ provider.password }}"
-        validate_certs: "{{ provider.use_ssl }}"
+        provider: "{{ provider | default(omit) }}"
         pool: "{{ bigip_vserver_pool_name }}"
         host: "{{ bigip_vserver_node_host }}"
         port: "{{ bigip_vserver_node_port }}"
 
     - name: Ensure state of VirtualServer
       bigip_virtual_server:
-        server: "{{ provider.host }}"
-        user: "{{ provider.username }}"
-        password: "{{ provider.password }}"
-        validate_certs: "{{ provider.use_ssl }}"
+        provider: "{{ provider | default(omit) }}"
         name: "{{ bigip_vserver_name }}"
         destination: "{{ bigip_vserver_destination }}"
         port: "{{ bigip_vserver_port }}"

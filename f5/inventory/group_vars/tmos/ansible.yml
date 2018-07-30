@@ -1,6 +1,7 @@
 ansible_network_os: "tmos"
 provider:
-  host: "{{ ansible_host }}"
+  server: "{{ ansible_host }}"
+  server_port: "{{ ansible_port }}"
   username: "{{ ansible_user }}"
   password: "{{ ansible_ssh_pass }}"
-  use_ssl: no
+  validate_certs: no
