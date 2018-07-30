@@ -13,9 +13,11 @@
     - name: Ensure state of NTP settings
       bigip_device_ntp:
         provider: "{{ provider | default(omit) }}"
+        server_port: 8443
         ntp_servers: "{{ bigip_device_ntp_servers }}"
 
     - name: Ensure state of timezone settings
       bigip_device_ntp:
         provider: "{{ provider | default(omit) }}"
+        server_port: 8443
         timezone: "{{ bigip_device_ntp_timezone }}"
