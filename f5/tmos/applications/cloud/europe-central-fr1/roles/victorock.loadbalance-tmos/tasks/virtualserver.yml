@@ -1,9 +1,10 @@
 - name: "virtualserver: Ensure state of VirtualServer"
   bigip_virtual_server:
-    server: "{{ provider.host }}"
-    user: "{{ provider.username | default(omit) }}"
+    server: "{{ provider.server | default(omit) }}"
+    server_port: "{{ provider.server_port | default(omit) }}"
+    user: "{{ provider.user | default(omit) }}"
     password: "{{ provider.password | default(omit) }}"
-    validate_certs: "{{ provider.use_ssl | default(omit) }}"
+    validate_certs: "{{ provider.validate_certs | default(omit) }}"
     name: "{{ virtualserver.name }}"
     destination: "{{ virtualserver.destination | ipaddr('address') }}"
     port: "{{ virtualserver.port }}"

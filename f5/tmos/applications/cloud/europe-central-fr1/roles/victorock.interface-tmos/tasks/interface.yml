@@ -1,10 +1,11 @@
 ---
 - name: Ensure state of selfip address on interface
   bigip_selfip:
-    server: "{{ provider.host }}"
-    user: "{{ provider.username | default(omit) }}"
+    server: "{{ provider.server | default(omit) }}"
+    server_port: "{{ provider.server_port | default(omit) }}"
+    user: "{{ provider.user | default(omit) }}"
     password: "{{ provider.password | default(omit) }}"
-    validate_certs: "{{ provider.use_ssl | default(omit) }}"
+    validate_certs: "{{ provider.validate_certs | default(omit) }}"
     name:  "{{ interface.name }}"
     address: "{{ interface.ipv4 | ipaddr('address') }}"
     netmask: "{{ interface.ipv4 | ipaddr('netmask') }}"
