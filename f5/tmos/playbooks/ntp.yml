@@ -12,12 +12,18 @@
   tasks:
     - name: Ensure state of NTP settings
       bigip_device_ntp:
-        provider: "{{ provider | default(omit) }}"
-        server_port: 8443
+        server: "{{ provider.server | default(omit) }}"
+        server_port: "{{ provider.server_port | default(omit) }}"
+        user: "{{ provider.user | default(omit) }}"
+        password: "{{ provider.password | default(omit) }}"
+        validate_certs: "{{ provider.validate_certs | default(omit) }}"
         ntp_servers: "{{ bigip_device_ntp_servers }}"
 
     - name: Ensure state of timezone settings
       bigip_device_ntp:
-        provider: "{{ provider | default(omit) }}"
-        server_port: 8443
+        server: "{{ provider.server | default(omit) }}"
+        server_port: "{{ provider.server_port | default(omit) }}"
+        user: "{{ provider.user | default(omit) }}"
+        password: "{{ provider.password | default(omit) }}"
+        validate_certs: "{{ provider.validate_certs | default(omit) }}"
         timezone: "{{ bigip_device_ntp_timezone }}"

@@ -19,19 +19,31 @@
   tasks:
     - name: Ensure state of pool settings
       bigip_pool:
-        provider: "{{ provider | default(omit) }}"
+        server: "{{ provider.server | default(omit) }}"
+        server_port: "{{ provider.server_port | default(omit) }}"
+        user: "{{ provider.user | default(omit) }}"
+        password: "{{ provider.password | default(omit) }}"
+        validate_certs: "{{ provider.validate_certs | default(omit) }}"
         name: "{{ bigip_vserver_pool_name }}"
 
     - name: Ensure state of node and pool membership
       bigip_pool_member:
-        provider: "{{ provider | default(omit) }}"
+        server: "{{ provider.server | default(omit) }}"
+        server_port: "{{ provider.server_port | default(omit) }}"
+        user: "{{ provider.user | default(omit) }}"
+        password: "{{ provider.password | default(omit) }}"
+        validate_certs: "{{ provider.validate_certs | default(omit) }}"
         pool: "{{ bigip_vserver_pool_name }}"
         host: "{{ bigip_vserver_node_host }}"
         port: "{{ bigip_vserver_node_port }}"
 
     - name: Ensure state of VirtualServer
       bigip_virtual_server:
-        provider: "{{ provider | default(omit) }}"
+        server: "{{ provider.server | default(omit) }}"
+        server_port: "{{ provider.server_port | default(omit) }}"
+        user: "{{ provider.user | default(omit) }}"
+        password: "{{ provider.password | default(omit) }}"
+        validate_certs: "{{ provider.validate_certs | default(omit) }}"
         name: "{{ bigip_vserver_name }}"
         destination: "{{ bigip_vserver_destination }}"
         port: "{{ bigip_vserver_port }}"
