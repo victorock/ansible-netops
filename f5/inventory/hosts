@@ -1,6 +1,7 @@
 [all:children]
 tmos
-pod01
+eu-central-fr1
+cloud_pod01
 
 [tmos:children]
 tag_tmos
@@ -10,11 +11,12 @@ tag_short_name_f5
 tag_short_name_host1
 tag_short_name_host2
 
-[pod01:children]
-tag_pod01
+[cloud_pod01:children]
+tag_cloud_pod01
 
+[eu-central-fr1]
 [tag_tmos]
-[tag_pod01]
+[tag_cloud_pod01]
 [tag_short_name_f5]
 [tag_short_name_host1]
 [tag_short_name_host2]

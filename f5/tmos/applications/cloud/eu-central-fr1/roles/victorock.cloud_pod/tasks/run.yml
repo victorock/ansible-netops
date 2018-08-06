@@ -2,31 +2,31 @@
 - name: "victorock.pod"
   block:
     - include_role:
-        name: "victorock.config-{{ network_os }}"
+        name: "victorock.{{ network_os }}_config"
         tasks_from: checkpoint
 
     - include_role:
-        name: "victorock.vlan-{{ network_os }}"
+        name: "victorock.{{ network_os }}_vlan"
         tasks_from: run
 
     - include_role:
-        name: "victorock.interface-{{ network_os }}"
+        name: "victorock.{{ network_os }}_interface"
         tasks_from: run
 
     - include_role:
-        name: "victorock.loadbalance-{{ network_os }}"
+        name: "victorock.{{ network_os }}_loadbalance"
         tasks_from: run
 
   rescue:
     - include_role:
-        name: "victorock.config-{{ network_os }}"
+        name: "victorock.{{ network_os }}_config"
         tasks_from: rollback
 
   always:
     - include_role:
-        name: "victorock.config-{{ network_os }}"
+        name: "victorock.{{ network_os }}_config"
         tasks_from: save
 
     - include_role:
-        name: "victorock.config-{{ network_os }}"
+        name: "victorock.{{ network_os }}_config"
         tasks_from: backup
