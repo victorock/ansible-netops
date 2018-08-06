@@ -5,5 +5,5 @@
 
   tasks:
     - include_role:
-        name: "victorock.pod"
+        name: "victorock.cloud_pod"
         tasks_from: run
