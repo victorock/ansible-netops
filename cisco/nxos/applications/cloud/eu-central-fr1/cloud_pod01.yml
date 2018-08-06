@@ -1,5 +1,5 @@
 - name: "Cloud Pod Configuration"
-  hosts: europe-central-fr1:&pod01:&nxos
+  hosts: europe-central-fr1:&cloud_pod01:&nxos
   strategy: free
   connection: network_cli
 

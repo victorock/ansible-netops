@@ -1,5 +1,5 @@
 - name: "Leaf: Fabric Configuration"
-  hosts: leaf:&nxos
+  hosts: europe-central-fr1:&leaf:&nxos
   connection: network_cli
   gather_facts: no
 

@@ -1,5 +1,5 @@
 - name: "Spine: Fabric Configuration"
-  hosts: spine:&nxos
+  hosts: eu-central-fr1:&spine:&nxos
   connection: network_cli
   gather_facts: no
 

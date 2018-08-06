@@ -1,0 +1,36 @@
+---
+- name: "victorock.cloud_pod"
+  block:
+    - include_role:
+        name: "victorock.{{ network_os }}_config"
+        tasks_from: checkpoint
+
+    - include_role:
+        name: "victorock.{{ network_os }}_feature"
+        tasks_from: run
+
+    - include_role:
+        name: "victorock.{{ network_os }}_portchannel"
+        tasks_from: run
+
+    - include_role:
+        name: "victorock.{{ network_os }}_vlan"
+        tasks_from: run
+
+    - include_role:
+        name: "victorock.{{ network_os }}_l2_interface"
+        tasks_from: run
+
+  rescue:
+    - include_role:
+        name: "victorock.{{ network_os }}_config"
+        tasks_from: rollback
+
+  always:
+    - include_role:
+        name: "victorock.{{ network_os }}_config"
+        tasks_from: save
+
+    - include_role:
+        name: "victorock.{{ network_os }}_config"
+        tasks_from: backup

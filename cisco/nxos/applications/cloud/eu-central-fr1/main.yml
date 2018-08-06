@@ -1,0 +1,2 @@
+- include: cloud_pod01.yml
+- include: cloud_pod02.yml
