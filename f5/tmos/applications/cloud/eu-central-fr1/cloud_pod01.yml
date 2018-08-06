@@ -3,5 +3,5 @@
   connection: local
 
   roles:
-    - role: victorock.pod
+    - role: victorock.cloud_pod
       autorun: yes
