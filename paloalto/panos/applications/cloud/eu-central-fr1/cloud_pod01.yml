@@ -1,6 +1,6 @@
 ---
 - name: Configure the PAN system attributes
-  hosts: pod01:&panos
+  hosts: eu-central-fr1:&cloud_pod01:&panos
   connection: local
   gather_facts: False
   tasks:
