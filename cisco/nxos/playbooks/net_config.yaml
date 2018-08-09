@@ -1,0 +1,61 @@
+- name: "Apply Configuration from inventory to Devices"
+  hosts: all
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+    - name: "Apply system configuration"
+      net_system:
+        hostname: "{{ cisco_nxos.config.system.hostname | default(omit, true) }}"
+        name_servers: "{{ cisco_nxos.config.system.name_servers | default(omit, true) }}"
+        domain_search: "{{ cisco_nxos.config.system.domain_search | default(omit, true) }}"
+        domain_lookup: "{{ cisco_nxos.config.system.domain_lookup.enabled | default(omit, true) }}"
+        system_mtu: "{{ cisco_nxos.config.system.system_mtu | default(omit, true) }}"
+        state: "{{ cisco_nxos.config.system.state | default(omit, true) }}"
+
+    - name: "Apply vlan configuration"
+      net_vlan:
+        admin_state: "{{ item.value.admin_state | default(omit, true) }}"
+        associated_interfaces: "{{ item.value.associated_interfaces | default(omit, true) }}"
+        delay: "{{ item.value.delay | default(omit, true) }}"
+        interfaces: "{{ item.value.interfaces | default(omit, true) }}"
+        mapped_vni: "{{ item.value.mapped_vni | default(omit, true) }}"
+        mode: "{{ item.value.mode | default(omit, true) }}"
+        name: "{{ item.value.name | default(omit, true) }}"
+        state: "{{ item.value.state | default(omit, true) }}"
+        vlan_id: "{{ item.value.vlan_id | default(omit, true) }}"
+        vlan_range: "{{ item.value.vlan_range | default(omit, true) }}"
+        vlan_state: "{{ item.value.vlan_state | default(omit, true) }}"
+      loop: "{{ q('dict', cisco_nxos.config.vlan) | default({}) }}"
+      when:
+        - cisco_nxos|default({})
+        - cisco_nxos.config|default({})
+        - cisco_nxos.config.vlan|default({})
+
+    - name: "Apply interface configuration"
+      net_interface:
+        name: "{{ item.key }}"
+        speed: "{{ item.value.speed | default(omit, true) }}"
+        mtu: "{{ item.value.mtu | default(omit, true) }}"
+        duplex: "{{ item.value.duplex | default(omit, true) }}"
+      loop: "{{ q('dict', cisco_nxos.config.interface) | default({}) }}"
+      when:
+        - cisco_nxos|default({})
+        - cisco_nxos.config|default({})
+        - cisco_nxos.config.interface|default({})
+
+    - name: "Apply interface layer2 configuration"
+      net_l2_interface:
+        name: "{{ item.key }}"
+        mode: "{{ item.value.switchport.mode | default(omit, true) }}"
+        access_vlan: "{{ item.value.switchport.access_vlan | default(omit, true) }}"
+        native_vlan: "{{ item.value.switchport.native_vlan | default(omit, true) }}"
+        trunk_allowed_vlans: "{{ item.value.switchport.trunk_allowed_vlans | default(omit, true) }}"
+        trunk_vlans: "{{ item.value.switchport.trunk_vlans | default(omit, true) }}"
+        state: "{{ item.value.switchport.state | default(omit, true) }}"
+      loop: "{{ q('dict', cisco_nxos.config.interface) | default({}) }}"
+      when:
+        - cisco_nxos|default({})
+        - cisco_nxos.config|default({})
+        - cisco_nxos.config.interface|default({})
+        - cisco_nxos.config.interface.switchport|default({})

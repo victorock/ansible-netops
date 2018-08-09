@@ -1,1 +1,4 @@
 - name: ansible-network.network-engine
+- name: victorock.net_config
+  src: https://github.com/victorock/ansible-role-net_config.git
+  scm: git
