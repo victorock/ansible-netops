@@ -3,13 +3,12 @@
   connection: network_cli
   gather_facts: no
 
-  vars:
+#  vars:
 #    check_arp_ip: 172.16.0.11
 #    check_arp_mac: 5254.00b3.0117
-    check_arp_vrf: all
+#    check_arp_vrf: all
 
   tasks:
-
     - name: "Check ipv4 entry in arp table"
       block:
         - name: "Validate entry"
@@ -17,7 +16,7 @@
             commands:
               - show ip arp vrf {{ check_arp_vrf }}
             wait_for:
-              - result[0] contains check_arp_ip
+              - result[0] contains {{ check_arp_ip }}
           register: show_ip_arp_vrf_all
       rescue:
         - name: "Entry not found in device"
@@ -32,7 +31,7 @@
             commands:
               - show ip arp vrf {{ check_arp_vrf }}
             wait_for:
-              - result[0] contains check_arp_mac
+              - result[0] contains {{ check_arp_mac }}
       rescue:
         - name: "Entry not found in device"
           debug:
