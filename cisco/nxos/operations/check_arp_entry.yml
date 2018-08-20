@@ -9,7 +9,7 @@
     check_arp_vrf: all
 
   tasks:
-    - name: "Check ipv4 entry in arp table"
+    - name: "Check entry in ipv4 arp table"
       block:
         - name: "Validate entry"
           nxos_command:
