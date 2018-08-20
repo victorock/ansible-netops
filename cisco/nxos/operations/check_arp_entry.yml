@@ -22,8 +22,3 @@
       rescue:
         - name: "rescue"
           meta: clear_host_errors
-
-        - name: "No entry found"
-          debug:
-            verbosity: 1
-            msg: "No entry found for {{ check_arp_ip }} or {{ check_arp_mac }}"
