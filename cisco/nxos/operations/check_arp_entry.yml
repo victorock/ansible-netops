@@ -11,17 +11,30 @@
   tasks:
 
     - name: "Check ipv4 entry in arp table"
-      nxos_command:
-        commands:
-          - show ip arp vrf {{ check_arp_vrf }}
-        wait_for:
-          - result[0] contains check_arp_ip
+      block:
+        - name: "Validate entry"
+          nxos_command:
+            commands:
+              - show ip arp vrf {{ check_arp_vrf }}
+            wait_for:
+              - result[0] contains check_arp_ip
+          register: show_ip_arp_vrf_all
+      rescue:
+        - name: "Entry not found in device"
+          debug:
+            msg: "Entry not found in device"
       when: check_arp_ip is defined
 
     - name: "Check mac entry in arp table"
-      nxos_command:
-        commands:
-          - show ip arp vrf {{ check_arp_vrf }}
-        wait_for:
-          - result[0] contains check_arp_mac
+      block:
+        - name: "Validate entry"
+          nxos_command:
+            commands:
+              - show ip arp vrf {{ check_arp_vrf }}
+            wait_for:
+              - result[0] contains check_arp_mac
+      rescue:
+        - name: "Entry not found in device"
+          debug:
+            msg: "Entry not found in device"
       when: check_arp_mac is defined
