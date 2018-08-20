@@ -1,0 +1,19 @@
+- name: "NXOS Command"
+  hosts: nxos
+  connection: network_cli
+  gather_facts: no
+
+  vars:
+    check_arp_ip: 172.16.0.11
+    check_arp_mac: 5254.00b3.0117
+    check_arp_vrf: all
+
+  tasks:
+
+    - name: "Check entry in ipv4 arp table"
+      nxos_command:
+        commands:
+          - show ip arp vrf {{ check_arp_vrf }}
+        wait_for:
+          - results[0] contains check_ip
+          - results[0] contains check_mac
