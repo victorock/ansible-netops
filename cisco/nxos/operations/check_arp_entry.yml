@@ -3,10 +3,10 @@
   connection: network_cli
   gather_facts: no
 
-#  vars:
-#    check_arp_ip: 172.16.0.11
-#    check_arp_mac: 5254.00b3.0117
-#    check_arp_vrf: all
+  vars:
+    check_arp_ip: 172.16.0.11
+    check_arp_mac: 5254.00b3.0117
+    check_arp_vrf: all
 
   tasks:
     - name: "Check ipv4 entry in arp table"
@@ -17,26 +17,11 @@
               - show ip arp vrf {{ check_arp_vrf }}
             wait_for:
               - result[0] contains {{ check_arp_ip }}
-          register: show_ip_arp_vrf_all
-      rescue:
-        - name: "Entry not found in device"
-          debug:
-            verbosity: 1
-            msg: "{{ show_ip_arp_vrf_all.stdout_lines }}"
-      when: check_arp_ip is defined
-
-    - name: "Check mac entry in arp table"
-      block:
-        - name: "Validate entry"
-          nxos_command:
-            commands:
-              - show ip arp vrf {{ check_arp_vrf }}
-            wait_for:
               - result[0] contains {{ check_arp_mac }}
           register: show_ip_arp_vrf_all
-      rescue:
-        - name: "Entry not found in device"
+
+      always:
+        - name: "command output"
           debug:
             verbosity: 1
             msg: "{{ show_ip_arp_vrf_all.stdout_lines }}"
-      when: check_arp_mac is defined
