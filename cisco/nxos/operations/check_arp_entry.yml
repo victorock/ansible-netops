@@ -15,7 +15,7 @@
         commands:
           - show ip arp vrf {{ check_arp_vrf }}
         wait_for:
-          - results[0] contains check_arp_ip
+          - result[0] contains check_arp_ip
       when: check_arp_ip is defined
 
     - name: "Check mac entry in arp table"
@@ -23,5 +23,5 @@
         commands:
           - show ip arp vrf {{ check_arp_vrf }}
         wait_for:
-          - results[0] contains check_arp_mac
+          - result[0] contains check_arp_mac
       when: check_arp_mac is defined
