@@ -40,7 +40,7 @@
         - name: "Assert entry in show_ip_arp_vrf_all"
           assert:
             that:
-              - "show_ip_arp_vrf_all.stdout_lines | match(ip)"
+              - "show_ip_arp_vrf_all.stdout_lines is match(ip)"
             fail_msg: "Fail: Entry not found for {{ ip }}"
             success_msg: "Success: Entry found for {{ ip }}"
           loop: "{{ ips }}"
@@ -55,7 +55,7 @@
       block:
         - name: "Assert entry in show_mac_address_table"
           assert:
-            that: "show_mac_address_table.stdout_lines | match(mac)"
+            that: "show_mac_address_table.stdout_lines is match(mac)"
             fail_msg: "Fail: Entry not found for {{ mac }}"
             success_msg: "Success: Entry found for {{ mac }}"
           loop: "{{ macs }}"
