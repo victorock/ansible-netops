@@ -34,26 +34,32 @@
           - show ip arp vrf all
       register: show_ip_arp_vrf_all
 
-    - name: "Output show_ip_arp_vrf_all"
-      debug: var=show_ip_arp_vrf_all.stdout_lines
-
-    - name: "Output show_mac_address_table"
-      debug: var=show_mac_address_table.stdout_lines
+    - name: "Check ip entry in show_ip_arp_vrf_all"
+      block:
+        - name: "Assert entry in show_ip_arp_vrf_all"
+          assert:
+            that: "ip in show_ip_arp_vrf_all.stdout_lines"
+            fail_msg: "Fail: Entry not found for {{ ip }}"
+            success_msg: "Success: Entry found for {{ ip }}"
+          loop: "{{ ips }}"
+          loop_control:
+            loop_var: ip
+            label: "ip: {{ ip }}"
+      rescue:
+        - name: "rescue"
+          meta: clear_host_errors
 
     - name: "Check mac entry in show_mac_address_table"
-      assert:
-        that:
-          - ip in show_ip_arp_vrf_all.stdout_lines
-      loop: "{{ ips }}"
-      loop_control:
-        loop_var: ip
-        label: "ip: {{ ip }}"
-
-    - name: "Check mac entry in show_mac_address_table"
-      assert:
-        that:
-          - mac in show_mac_address_table.stdout_lines
-      loop: "{{ macs }}"
-      loop_control:
-        loop_var: mac
-        label: "mac: {{ mac }}"
+      block:
+        - name: "Assert entry in show_mac_address_table"
+          assert:
+            that: "mac in show_mac_address_table.stdout_lines"
+            fail_msg: "Fail: Entry not found for {{ mac }}"
+            success_msg: "Success: Entry found for {{ mac }}"
+          loop: "{{ macs }}"
+          loop_control:
+            loop_var: mac
+            label: "mac: {{ mac }}"
+      rescue:
+        - name: "rescue"
+          meta: clear_host_errors
