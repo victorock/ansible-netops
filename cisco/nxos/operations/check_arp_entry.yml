@@ -10,17 +10,9 @@
 
   tasks:
     - name: "Check entry in ipv4 arp table"
-      block:
-        - name: "Validate entry"
-          nxos_command:
-            commands:
-              - show ip arp vrf {{ check_arp_vrf }}
-            wait_for:
-              - result[0] contains {{ check_arp_ip }}
-              - result[0] contains {{ check_arp_mac }}
-
-      rescue:
-        - name: "Gather arp table"
-          nxos_command:
-            commands:
-              - show ip arp vrf {{ check_arp_vrf }}
+      nxos_command:
+        commands:
+          - show ip arp vrf {{ check_arp_vrf }}
+        wait_for:
+          - result[0] contains {{ check_arp_ip }}
+          - result[0] contains {{ check_arp_mac }}
