@@ -18,10 +18,9 @@
             wait_for:
               - result[0] contains {{ check_arp_ip }}
               - result[0] contains {{ check_arp_mac }}
-          register: show_ip_arp_vrf_all
 
-      always:
-        - name: "command output"
-          debug:
-            verbosity: 1
-            msg: "{{ show_ip_arp_vrf_all.stdout_lines }}"
+      rescue:
+        - name: "Gather arp table"
+          nxos_command:
+            commands:
+              - show ip arp vrf {{ check_arp_vrf }}
