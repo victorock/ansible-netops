@@ -20,6 +20,9 @@
               - result[0] contains {{ check_arp_ip }}
               - result[0] contains {{ check_arp_mac }}
       rescue:
+        - name: "rescue"
+          meta: clear_host_errors
+
         - name: "No entry found"
           debug:
             verbosity: 1
