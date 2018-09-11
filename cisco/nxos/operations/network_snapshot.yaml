@@ -1,0 +1,6 @@
+- name: "Network Configuration Snapshot"
+  hosts: all
+  gather_facts: no
+  connection: network_cli
+  roles:
+    - role: ansible-network.config_store

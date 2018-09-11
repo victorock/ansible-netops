@@ -1,0 +1,5 @@
+ansible_network_os: iosxr
+ssh_proxy_user: jdacosta
+ssh_proxy_host: darkbulb-iosxr.devops.victorock.io
+ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q "{{ssh_proxy_user}}@{{ssh_proxy_host}}" -i ~/.ssh/id_rsa'
+ansible_network_provider: ansible-network.cisco_iosxr

@@ -3,11 +3,34 @@
   connection: network_cli
 
   vars:
-    backup_repo: ssh://git@github.com/victorock/network-configs
-    backup_branch: "europe-central-fr1"
+    backup_branch: "{{ lookup('pipe', 'date +%T') }}"
+    backup_repo_user: "{{ lookup('ENV', 'SSH_USER' ) }}"
+    backup_repo_private_key: "{{ lookup('ENV', 'SSH_PRIVATE_KEY') }}"
+    backup_repo: ssh://git@github.com/{{backup_repo_user}}/config_store
+
+  pre_tasks:
+    - name: "Add private key to ssh-agent"
+      block:
+        - name: "Ensure state of ansible directory"
+          file:
+            path: "~/.ansible/tmp"
+            state: directory
+
+        - name: "Create file with the repository key"
+          copy:
+            content: "{{ backup_repo_private_key }}"
+            path: "~/.ansible/tmp/git_ssh_private_key"
+
+        - name: "Add key"
+          shell: "ssh-add ~/.ansible/tmp/git_ssh_private_key"
+
+      always:
+        - name: "Ensure absence of key's file"
+          file:
+            path: "~/.ansible/tmp/git_ssh_private_key"
+            state: absent
 
   tasks:
-
     - name: "create temporary directory to store configuration"
       changed_when: False
       tempfile:
@@ -20,28 +43,48 @@
       git:
         repo: "{{ backup_repo }}"
         dest: "{{ r_tempfile.path }}"
-        version: "{{ backup_branch }}"
         clone: yes
 
-    - name: "fetch network configuration"
+    - name: "Ensure branch"
+      block:
+        - name: "Checkout branch"
+          shell: git checkout -b {{ backup_branch }}
+          args:
+            chdir: "{{ r_tempfile.path }}"
+
+        - name: "Push branch"
+          shell: git push --force {{ backup_branch }}
+          args:
+            chdir: "{{ r_tempfile.path }}"
+
+      always:
+        - name: "Checkout branch"
+          changed_when: False
+          git:
+            repo: "{{ backup_repo }}"
+            dest: "{{ r_tempfile.path }}"
+            version: "{{ backup_branch }}"
+            clone: yes
+
+    - name: "Fetch network configuration"
       nxos_config:
         backup: yes
       register: r_nxos_config
 
-    - name: "ensure network os specific folder exist"
+    - name: "Ensure folder structure"
       file:
-        path: "{{ r_tempfile.path }}/{{ ansible_network_os}}"
+        path: "{{ r_tempfile.path }}/{{inventory_hostname}}"
         state: directory
 
-    - name: "copy network configuration to repo folder"
+    - name: "Save network configuration"
       copy:
         src: "{{ r_nxos_config.backup_path }}"
-        dest: "{{ r_tempfile.path }}/{{ ansible_network_os}}/{{ inventory_hostname }}"
+        dest: "{{ r_tempfile.path }}/{{inventory_hostname}}/config.cfg"
         force: "yes"
 
     - name: "git add (untracked files)"
       changed_when: False
-      shell: git add -A
+      shell: git add -A {{ backup_branch }}
       args:
         chdir: "{{ r_tempfile.path }}"
 

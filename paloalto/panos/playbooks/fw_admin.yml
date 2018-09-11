@@ -1,0 +1,20 @@
+- name: Set admin password
+  hosts: panos
+  connection: local
+  gather_facts: False
+  roles:
+    - role: PaloAltoNetworks.paloaltonetworks
+
+  vars:
+    admin_username: admin
+    admin_password: paloalto
+
+  tasks:
+  - name: Set admin password
+    panos_admin:
+      ip_address: "{{ provider.host }}"
+      username: "{{ provider.username }}"
+      password: "{{ provider.password }}"
+      admin_username: "{{ admin_username }}"
+      admin_password: "{{ admin_password }}"
+      commit: False

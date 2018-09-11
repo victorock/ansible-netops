@@ -3,11 +3,16 @@
   hosts: eu-central-fr1:&cloud_pod01:&panos
   connection: local
   gather_facts: False
+  roles:
+    - PaloAltoNetworks.paloaltonetworks
+
   tasks:
-    - name: wait for SSH prompt (timeout 10min)
-      wait_for:
-        port: 22
-        host: "{{ ansible_host }}"
+    - name: check if ready
+      changed_when: false
+      panos_check:
+        ip_address: "{{ provider.host }}"
+        username: "{{ provider.username }}"
+        password: "{{ provider.password }}"
         timeout: 600
 
     - name: "Ensure state of network interface"
@@ -20,6 +25,9 @@
         zone_name: "{{ panos_interface.zone | default('untrust') }}"
         create_default_route: "{{ panos_interface.default_route | default('no') }}"
         commit: False
+      register: command_result
+      failed_when: "'MODULE FAILURE' in command_result.msg"
+      changed_when: "'already present' not in command_result.msg"
       loop: "{{ panos_interfaces | default([]) }}"
       loop_control:
         loop_var: panos_interface
@@ -31,33 +39,40 @@
         username: "{{ provider.username }}"
         password: "{{ provider.password }}"
         operation: "{{ panos_object.operation | default('add') }}"
-        serviceobject: "{{ panos_object.serviceobject }}"
-        destination_port: "{{ panos_object.destination_port }}"
-        protocol: "{{ panos_object.protocol | default('tcp') }}"
+        addressobject: "{{ panos_object.addressobject | default(omit) }}"
+        address: "{{ panos_object.address | default(omit) }}"
+        serviceobject: "{{ panos_object.serviceobject | default(omit) }}"
+        destination_port: "{{ panos_object.destination_port | default(omit) }}"
+        protocol: "{{ panos_object.protocol | default(omit) }}"
         description: "{{ panos_object.description | default(omit) }}"
-      loop: "{{ panos_objects | default([]) }}"
+      register: command_result
+      failed_when: "'MODULE FAILURE' in command_result.msg"
+      changed_when: "'already exists' not in command_result.msg"
+      loop: "{{ panos_objects }}"
       loop_control:
         loop_var: panos_object
 
     - name: "Ensure state of NAT rules"
-    when: panos_nat_rules is defined
+      when: panos_nat_rules is defined
       panos_nat_rule:
         ip_address: "{{ provider.host }}"
         username: "{{ provider.username }}"
         password: "{{ provider.password }}"
-        operation: add
-        rule_name: "{{ item.rule_name }}"
-        source_zone: "{{ item.source_zone }}"
-        destination_zone: "{{ item.destination_zone }}"
-        source_ip: "{{ item.source_ip | default (omit) }}"
-        destination_ip: "{{ item.destination_ip | default (omit) }}"
-        service: "{{ item.service | default(omit) }}"
-        snat_type: "{{ item.snat_type | default (omit) }}"
-        snat_interface: "{{ item.snat_interface | default (omit) }}"
-        dnat_address: "{{ item.dnat_address | default(omit) }}"
-        dnat_port: "{{ item.dnat_port | default(omit) }}"
+        operation: "add"
+        rule_name: "{{ panos_nat_rule.rule_name }}"
+        source_zone: "{{ panos_nat_rule.source_zone }}"
+        destination_zone: "{{ panos_nat_rule.destination_zone }}"
+        source_ip: "{{ panos_nat_rule.source_ip | default (omit) }}"
+        destination_ip: "{{ panos_nat_rule.destination_ip | default (omit) }}"
+        service: "{{ panos_nat_rule.service | default(omit) }}"
+        snat_type: "{{ panos_nat_rule.snat_type | default (omit) }}"
+        snat_interface: "{{ panos_nat_rule.snat_interface | default (omit) }}"
+        dnat_address: "{{ panos_nat_rule.dnat_address | default(omit) }}"
+        dnat_port: "{{ panos_nat_rule.dnat_port | default(omit) }}"
         commit: "False"
-      with_items: "{{ panos_nat_rules | default ([]) }}"
+      loop: "{{ panos_nat_rules }}"
+      loop_control:
+        loop_var: panos_nat_rule
       register: command_result
       failed_when: "'MODULE FAILURE' in command_result.msg"
       changed_when: "'successfully added' in command_result.msg"
@@ -82,6 +97,7 @@
       changed_when: "'successfully added' in command_result.msg"
 
     - name: Commit the configure
+      when: changed is defined
       panos_commit:
         ip_address: "{{ provider.host }}"
         username: "{{ provider.username }}"

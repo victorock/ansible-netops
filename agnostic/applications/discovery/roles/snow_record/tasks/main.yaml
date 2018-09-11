@@ -1,0 +1,15 @@
+- name: "Record Discovery Data"
+  username: "{{ snow_provider.username }}"
+  password: "{{ snow_provider.password }}"
+  instance: "{{ snow_provider.instance }}"
+  table: cmdb_ci_netgear
+  data:
+    name: "mytest-entry"
+    serial_number: "{{ serial_number }}"
+    attributes: "{{ configuration }}"
+  register: snow_record
+
+- name: "Debug SNOW Record"
+  debug:
+    var: snow_record
+    verbosity: 3

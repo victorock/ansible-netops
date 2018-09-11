@@ -1,0 +1,27 @@
+- name: Delete a NAT rules on the firewall
+  hosts: panos
+  connection: local
+  gather_facts: False
+  roles:
+    - role: PaloAltoNetworks.paloaltonetworks
+
+  vars:
+    panos_object_serviceobject: "service-tcp-3389"
+    panos_nat_rule_name: "RDP Inbound"
+
+  tasks:
+  - name: Delete the NAT rule on the firewall
+    panos_nat_rule:
+      ip_address: "{{ provider.host }}"
+      username: "{{ provider.username }}"
+      password: "{{ provider.password }}"
+      rule_name: "{{ panos_nat_rule_name }}"
+      operation: 'delete'
+
+  - name: Clean up the service object on the firewall
+    panos_object:
+      ip_address: "{{ provider.host }}"
+      username: "{{ provider.username }}"
+      password: "{{ provider.password }}"
+      serviceobject: "{{ panos_object_serviceobject }}"
+      operation: 'delete'

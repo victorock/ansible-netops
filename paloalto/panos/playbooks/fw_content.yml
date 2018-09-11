@@ -1,0 +1,15 @@
+- name: Set admin password
+  hosts: panos
+  connection: local
+  gather_facts: False
+  roles:
+    - role: PaloAltoNetworks.paloaltonetworks
+
+  tasks:
+  - name: Upgrade anti-virus and wildfire
+    panos_content:
+      ip_address: "{{ provider.host }}"
+      username: "{{ provider.username }}"
+      password: "{{ provider.password }}"
+      anti_virus_update: yes
+      wildfire_update: yes

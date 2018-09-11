@@ -1,0 +1,15 @@
+- name: Panorama commit
+  hosts: panos
+  connection: local
+  gather_facts: False
+
+  roles:
+    - role: PaloAltoNetworks.paloaltonetworks
+
+  tasks:
+  - name: Commit pending Panorama changes
+    panos_commit:
+      ip_address: '{{ ip_address }}'
+      username: '{{ username }}'
+      password: '{{ password }}'
+      devicegroup: 'shared_services_11022'

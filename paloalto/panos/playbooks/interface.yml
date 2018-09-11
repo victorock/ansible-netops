@@ -10,7 +10,6 @@
     panos_interface_default_route: 'yes'
     panos_interface_commit: True
 
-
   tasks:
     - name: "Ensure configuration for {{ panos_interface_name }}"
       panos_interface:

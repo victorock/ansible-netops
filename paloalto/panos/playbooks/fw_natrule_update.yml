@@ -1,0 +1,41 @@
+- name: Update a NAT rule on the firewall
+  hosts: panos
+  connection: local
+  gather_facts: False
+  roles:
+    - role: PaloAltoNetworks.paloaltonetworks
+
+  vars:
+    panos_nat_rule_name: 'RDP Inbound'
+    panos_nat_source_zone: ['untrust']
+    panos_nat_destination_zone: 'untrust'
+    panos_nat_source_ip: ['any']
+    panos_nat_destination_ip: ['10.1.1.254']
+    panos_nat_service: 'service-tcp-3389'
+    # or 'static-ip'
+    panos_nat_snat_type: 'dynamic-ip-and-port'
+    panos_nat_snat_interface: ['ethernet1/1']
+    panos_snat_static_address: None
+    panos_snat_bidirectional: None
+    panos_nat_dnat_address: '10.1.2.11'
+    panos_nat_dnat_port: '3389'
+
+  tasks:
+    - name: Create NAT rule on the firewall
+      panos_nat_rule:
+        ip_address: "{{ provider.host }}"
+        username: "{{ provider.username }}"
+        password: "{{ provider.password }}"
+        rule_name: "{{panos_nat_rule_name | default(omit)}}"
+        source_zone: "{{panos_nat_source_zone | default(omit)}}"
+        destination_zone: "{{panos_nat_destination_zone | default(omit)}}"
+        source_ip: "{{panos_nat_source_ip | default(omit)}}"
+        destination_ip: "{{panos_nat_destination_ip | default(omit)}}"
+        service: "{{panos_nat_service | default(omit)}}"
+        snat_type: "{{panos_nat_snat_type| default(omit)}}"
+        snat_interface: "{{panos_nat_snat_interface | default(omit)}}"
+        snat_static_address: "{{panos_snat_static_address | default(omit)}}"
+        snat_bidirectional: "{{panos_snat_bidirectional | default(omit)}}"
+        dnat_address: "{{panos_nat_dnat_address| default(omit)}}"
+        dnat_port: "{{panos_nat_dnat_port | default(omit)}}"
+        operation: "update"

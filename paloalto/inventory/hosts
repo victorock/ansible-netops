@@ -1,7 +1,0 @@
-[all:children]
-panos
-
-[panos:children]
-tag_panos
-
-[tag_panos]

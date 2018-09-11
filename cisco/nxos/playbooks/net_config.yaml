@@ -26,7 +26,7 @@
         vlan_id: "{{ item.value.vlan_id | default(omit, true) }}"
         vlan_range: "{{ item.value.vlan_range | default(omit, true) }}"
         vlan_state: "{{ item.value.vlan_state | default(omit, true) }}"
-      loop: "{{ q('dict', cisco_nxos.config.vlan) | default({}) }}"
+      loop: "{{ q('dict', cisco_nxos.config.vlan | default({})) }}"
       when:
         - cisco_nxos|default({})
         - cisco_nxos.config|default({})

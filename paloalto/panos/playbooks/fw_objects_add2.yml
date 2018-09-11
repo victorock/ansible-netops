@@ -1,0 +1,29 @@
+- name: Add some objects to the firewall
+  hosts: panos
+  connection: local
+  gather_facts: False
+  roles:
+    - role: PaloAltoNetworks.paloaltonetworks
+
+  tasks:
+  - name: Add a tag to the firewall
+    panos_object:
+      ip_address: "{{ provider.host }}"
+      username: "{{ provider.username }}"
+      password: "{{ provider.password }}"
+      tag_name: 'Test'
+      color: 'orange'
+      description: 'This is test tag'
+      operation: 'add'
+
+  - name: Add an address object to the firewall
+    panos_object:
+      ip_address: "{{ provider.host }}"
+      username: "{{ provider.username }}"
+      password: "{{ provider.password }}"
+      addressobject: 'test-address'
+      address: '192.168.100.89/24'
+      address_type: 'ip-netmask'
+      tag_name: 'Test'
+      description: 'This is a test address object'
+      operation: 'add'

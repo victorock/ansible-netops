@@ -1,0 +1,18 @@
+- name: Find a NAT rule to the firewall
+  hosts: panos
+  connection: local
+  gather_facts: False
+  roles:
+    - role: PaloAltoNetworks.paloaltonetworks
+
+  vars:
+    panos_nat_rule_name: "RDP Inbound"
+
+  tasks:
+  - name: Find the NAT rule on the firewall
+    panos_nat_rule:
+      ip_address: "{{ provider.host }}"
+      username: "{{ provider.username }}"
+      password: "{{ provider.password }}"
+      rule_name: "{{ panos_nat_rule_name }}"
+      operation: 'find'

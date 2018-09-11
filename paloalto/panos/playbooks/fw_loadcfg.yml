@@ -1,0 +1,24 @@
+- name: Load named snapshot
+  hosts: panos
+  connection: local
+  gather_facts: False
+  roles:
+    - role: PaloAltoNetworks.paloaltonetworks
+
+  vars:
+    named_snapshot_url: "https://raw.githubusercontent.com/PaloAltoNetworks/ansible-pan/develop/samples/running-config_sample.xml"
+
+  tasks:
+  - name: download file
+    get_url:
+      url: "{{ named_snapshot_url }}"
+      dest: "running-config_sample.xml"
+      mode: 0440
+    register: get_url
+
+  - name: Load already imported named configuration {{ named_snapshot }} but do not commit
+    panos_loadcfg:
+      ip_address: "{{ provider.host }}"
+      username: "{{ provider.username }}"
+      password: "{{ provider.password }}"
+      file: "{{ get_url.dest }}"

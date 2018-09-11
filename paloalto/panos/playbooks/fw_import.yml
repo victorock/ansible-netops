@@ -1,0 +1,25 @@
+- name: Import configuration file into PAN-OS
+  hosts: panos
+  connection: local
+  gather_facts: False
+  roles:
+    - role: PaloAltoNetworks.paloaltonetworks
+
+  vars:
+    config_url: "https://raw.githubusercontent.com/PaloAltoNetworks/ansible-pan/develop/samples/running-config_sample.xml"
+
+  tasks:
+  - name: download file
+    get_url:
+      url: "{{ config_url }}"
+      dest: "running-config_sample.xml"
+      mode: 0440
+    register: get_url
+
+  - name: import configuration file into PAN-OS
+    panos_import:
+      ip_address: "{{ provider.host }}"
+      username: "{{ provider.username }}"
+      password: "{{ provider.password }}"
+      file: "{{ get_url.dest }}"
+      category: "configuration"

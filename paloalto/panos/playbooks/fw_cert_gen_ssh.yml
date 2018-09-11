@@ -1,0 +1,21 @@
+- name: Load already imported configuration
+  hosts: panos
+  connection: local
+  gather_facts: False
+  roles:
+    - role: PaloAltoNetworks.paloaltonetworks
+
+  vars:
+    cert_cn: "1.1.1.1"
+    cert_friendly_name: "test123"
+    cert_signed_by: "root-ca"
+
+  tasks:
+  - name: generate self signed certificate
+    panos_cert_gen_ssh:
+      ip_address: "{{ provider.host }}"
+      username: "{{ provider.username }}"
+      password: "{{ provider.password }}"
+      cert_cn: "{{ cert_cn }}"
+      cert_friendly_name: "{{ cert_friendly_name }}"
+      signed_by: "{{ cert_signed_by }}"

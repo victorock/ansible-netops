@@ -1,0 +1,128 @@
+- name: "Update CMDB"
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    snow_provider:
+      username: "admin"
+      password: "Foudase1!"
+      instance: "dev49544"
+
+#        "table": "cmdb_ci_netgear"
+#        "asset_tag": "",
+#        "assigned": "",
+#        "assigned_to": "",
+#        "assignment_group": "",
+#        "attributes": "myconfig",
+#        "bandwidth": "",
+#        "can_hub": "false",
+#        "can_partitionvlans": "false",
+#        "can_print": "false",
+#        "can_route": "false",
+#        "can_switch": "false",
+#        "category": "Hardware",
+#        "change_control": "",
+#        "channels": "",
+#        "checked_in": "",
+#        "checked_out": "",
+#        "comments": "",
+#        "company": "",
+#        "correlation_id": "",
+#        "cost": "",
+#        "cost_cc": "USD",
+#        "cost_center": "",
+#        "cpu_count": "1",
+#        "cpu_manufacturer": "",
+#        "cpu_speed": "",
+#        "cpu_type": "",
+#        "default_gateway": "",
+#        "delivery_date": "",
+#        "department": "",
+#        "device_type": "",
+#        "discovery_proto_id": "",
+#        "discovery_proto_type": "",
+#        "discovery_source": "",
+#        "disk_space": "",
+#        "dns_domain": "",
+#        "due": "",
+#        "due_in": "",
+#        "fault_count": "0",
+#        "firmware_manufacturer": "",
+#        "firmware_version": "",
+#        "first_discovered": "",
+#        "fqdn": "",
+#        "gl_account": "",
+#        "hardware_status": "installed",
+#        "hardware_substatus": "",
+#        "install_date": "",
+#        "install_status": "1",
+#        "invoice_number": "",
+#        "ip_address": "",
+#        "justification": "",
+#        "last_discovered": "",
+#        "lease_id": "",
+#        "location": "",
+#        "mac_address": "",
+#        "maintenance_schedule": "",
+#        "managed_by": "",
+#        "manufacturer": "",
+#        "model_id": {
+#            "link": "https://dev49544.service-now.com/api/now/table/cmdb_model/60c57dc54f5423001c9289dba310c785",
+#            "value": "60c57dc54f5423001c9289dba310c785"
+#        },
+#        "model_number": "",
+#        "monitor": "false",
+#        "name": "mytest-entry",
+#        "operational_status": "1",
+#        "order_date": "",
+#        "owned_by": "",
+#        "physical_interface_count": "",
+#        "po_number": "",
+#        "ports": "",
+#        "purchase_date": "",
+#        "ram": "",
+#        "range": "",
+#        "schedule": "",
+#        "serial_number": "myserialnumber",
+#        "short_description": "",
+#        "skip_sync": "false",
+#        "snmp_sys_location": "",
+#        "start_date": "",
+#        "subcategory": "Network",
+#        "support_group": "",
+#        "supported_by": "",
+#        "sys_class_name": "cmdb_ci_netgear",
+#        "sys_class_path": "/!!/!2/!!",
+#        "sys_created_by": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
+#        "sys_created_on": "2018-08-31 16:00:55",
+#        "sys_domain": {
+#            "link": "https://dev49544.service-now.com/api/now/table/sys_user_group/global",
+#            "value": "global"
+#        },
+#        "sys_domain_path": "/",
+#        "sys_id": "c6e5bdc54f5423001c9289dba310c7e5",
+#        "sys_mod_count": "0",
+#        "sys_tags": "",
+#        "sys_updated_by": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
+#        "sys_updated_on": "2018-08-31 16:00:55",
+#        "unverified": "false",
+#        "vendor": "",
+#        "warranty_expiration": ""
+
+  tasks:
+    - name: "Record Discovery Data"
+      snow_record:
+        username: "{{ snow_provider.username }}"
+        password: "{{ snow_provider.password }}"
+        instance: "{{ snow_provider.instance }}"
+        table: cmdb_ci_vm_vmware
+        data:
+          name: "{{ ansible_facts.}}"
+          attributes: "{{ configuration }}"
+        state: "present"
+      register: snow_record
+
+    - name: "Debug SNOW Record"
+      debug:
+        var: snow_record
+        verbosity: 1

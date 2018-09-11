@@ -1,0 +1,32 @@
+- name: "Trigger Network Discovery"
+  hosts: all
+  connection: local
+  gather_facts: no
+  roles:
+    - role: victorock.network_discovery
+      network_discovery: "probe"
+      autorun: true
+
+- name: "Gather Facts: arista_eos"
+  hosts: "eos"
+  gather_facts: no
+  connection: network_cli
+  roles:
+    - role: ansible-network.arista_eos
+      function: get_config
+
+- name: "Gather Facts: cisco_nxos"
+  hosts: "nxos"
+  gather_facts: no
+  connection: network_cli
+  roles:
+    - role: ansible-network.cisco_nxos
+      function: get_config
+
+- name: "Gather Facts: cisco_ios"
+  hosts: "ios"
+  gather_facts: no
+  connection: network_cli
+  roles:
+    - role: ansible-network.cisco_ios
+      function: get_config

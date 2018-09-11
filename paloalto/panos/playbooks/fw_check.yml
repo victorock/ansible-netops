@@ -1,0 +1,17 @@
+- name: Load already imported configuration
+  hosts: panos
+  connection: local
+  gather_facts: False
+  roles:
+    - role: PaloAltoNetworks.paloaltonetworks
+
+  tasks:
+  - name: Wait for FW reboot
+    panos_check:
+      ip_address: "{{ provider.host }}"
+      username: "{{ provider.username }}"
+      password: "{{ provider.password }}"
+    register: result
+    until: not result|failed
+    retries: 50
+    delay: 5

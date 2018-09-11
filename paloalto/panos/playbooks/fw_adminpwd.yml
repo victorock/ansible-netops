@@ -1,0 +1,18 @@
+- name: Set admin password
+  hosts: panos
+  connection: local
+  gather_facts: False
+  roles:
+    - role: PaloAltoNetworks.paloaltonetworks
+
+  vars:
+    new_password: 'paloalto'
+    key_filename: '~/.ssh/id_rsa'
+
+  tasks:
+  - name: Change user password using ssh protocol
+    panos_admpwd:
+      ip_address: '{{ ip_address }}'
+      password: '{{ password }}'
+      newpassword: '{{ new_password }}'
+      key_filename: '{{ key_filename }}'
