@@ -6,8 +6,8 @@
 
   vars:
     bigip_selfip_interfaces:
-      - { name: outside, vlan: app01, interface: 1.1, ip: 10.1.1.254/24 }
-      - { name: inside, vlan: app02, interface: 1.2, ip: 10.1.2.254/24 }
+      - { name: outside, vlan: app01, interface: 1.1, ip: 10.1.1.252/24 }
+      - { name: inside, vlan: app02, interface: 1.2, ip: 10.1.2.252/24 }
 
   tasks:
     - name: Ensure selfip address on interfaces

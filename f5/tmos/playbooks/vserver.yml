@@ -13,7 +13,7 @@
     bigip_vserver_node_port: 80
 
     bigip_vserver_name: "{{ pool_name }}"
-    bigip_vserver_destination: 10.1.1.254
+    bigip_vserver_destination: 10.1.1.252
     bigip_vserver_port: 80
 
   tasks:

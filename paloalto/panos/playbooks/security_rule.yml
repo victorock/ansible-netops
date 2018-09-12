@@ -5,7 +5,6 @@
   gather_facts: False
 
   vars:
-
       panos_security_rule_operation: 'add'
       panos_security_rule_name: 'Incoming SSH'
       panos_security_rule_service: 'service-ssh'

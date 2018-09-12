@@ -5,7 +5,6 @@
   gather_facts: False
 
   vars:
-
     panos_nat_operation: 'add'
     panos_nat_rule_name: 'NATAllOut'
     panos_nat_source_zone: ['trust']
@@ -17,7 +16,7 @@
     panos_nat_snat_interface: 'ethernet1/1'
     panos_nat_dnat_address: Null
     panos_nat_dnat_port: Null
-    panos_nat_commit: True
+    panos_nat_commit: Null
 
   tasks:
     - name: Create NAT rules
