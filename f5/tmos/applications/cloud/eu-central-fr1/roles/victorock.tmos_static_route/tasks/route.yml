@@ -8,6 +8,6 @@
     validate_certs: "{{ provider.validate_certs | default(omit) }}"
     name: "{{ static_route.name }}"
     destination: "{{ static_route.destination | ipaddr('address') }}"
-    netmask: "{{ static_route.netmask | ipaddr('netmask') }}"
+    netmask: "{{ static_route.netmask }}"
     gateway_address: "{{ static_route.gateway | ipaddr('address') }}"
     state: "{{ static_route.state | default(omit) }}"
