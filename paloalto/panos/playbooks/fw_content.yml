@@ -6,10 +6,10 @@
     - role: PaloAltoNetworks.paloaltonetworks
 
   tasks:
-  - name: Upgrade anti-virus and wildfire
-    panos_content:
-      ip_address: "{{ provider.host }}"
-      username: "{{ provider.username }}"
-      password: "{{ provider.password }}"
-      anti_virus_update: yes
-      wildfire_update: yes
+    - name: Upgrade anti-virus and wildfire
+      panos_content:
+        ip_address: "{{ provider.host }}"
+        username: "{{ provider.username }}"
+        password: "{{ provider.password }}"
+        anti_virus_update: yes
+        wildfire_update: yes
