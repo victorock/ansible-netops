@@ -14,6 +14,10 @@
         tasks_from: run
 
     - include_role:
+        name: "victorock.{{ network_os }}_static_route"
+        tasks_from: run
+
+    - include_role:
         name: "victorock.{{ network_os }}_loadbalance"
         tasks_from: run
 
