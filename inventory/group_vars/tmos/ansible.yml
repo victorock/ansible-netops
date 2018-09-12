@@ -3,5 +3,5 @@ provider:
   server: "{{ ansible_host }}"
   server_port: "{{ ansible_port | default('443') }}"
   user: "{{ ansible_user | default('admin') }}"
-  password: "{{ ansible_ssh_pass }}"
+  password: "{{ ansible_password }}"
   validate_certs: no
