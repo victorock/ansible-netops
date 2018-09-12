@@ -18,7 +18,7 @@ virtualservers:
     snat: automap
     state: present
     pools:
-      - name: http-pool
+      - name: http-pool-8080
         port: 8080
         state: present
         members:
