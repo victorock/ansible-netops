@@ -6,7 +6,7 @@
     user: "{{ provider.user | default(omit) }}"
     password: "{{ provider.password | default(omit) }}"
     validate_certs: "{{ provider.validate_certs | default(omit) }}"
-    destination: "{{ static_route.name }}"
+    name: "{{ static_route.name }}"
     destination: "{{ static_route.destination | ipaddr('address') }}"
     netmask: "{{ static_route.netmask | ipaddr('netmask') }}"
     gateway_address: "{{ static_route.gateway | ipaddr('address') }}"
