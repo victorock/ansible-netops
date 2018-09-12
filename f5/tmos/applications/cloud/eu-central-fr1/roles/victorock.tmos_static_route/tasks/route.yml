@@ -1,0 +1,12 @@
+---
+- name: Ensure state of static routes
+  bigip_static_route:
+    server: "{{ provider.server | default(omit) }}"
+    server_port: "{{ provider.server_port | default(omit) }}"
+    user: "{{ provider.user | default(omit) }}"
+    password: "{{ provider.password | default(omit) }}"
+    validate_certs: "{{ provider.validate_certs | default(omit) }}"
+    destination: "{{ static_route.destination | ipaddr('address') }}"
+    netmask: "{{ static_route.netmask | ipaddr('netmask') }}"
+    gateway_address: "{{ static_route.gateway | ipaddr('address') }}"
+    state: "{{ static_route.state | default(omit) }}"

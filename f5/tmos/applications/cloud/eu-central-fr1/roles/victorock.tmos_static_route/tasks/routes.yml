@@ -1,0 +1,4 @@
+- include_tasks: route.yml
+  with_items: "{{ static_routes | default([]) }}"
+  loop_control:
+    loop_var: static_route

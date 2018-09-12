@@ -1,0 +1,4 @@
+static_routes:
+  - destination: 0.0.0.0
+    netmask: 0.0.0.0
+    gateway: 10.1.1.1
