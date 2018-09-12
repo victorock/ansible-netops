@@ -12,7 +12,7 @@
     bigip_vserver_node_host: 10.1.2.10
     bigip_vserver_node_port: 80
 
-    bigip_vserver_name: "{{ pool_name }}"
+    bigip_vserver_name: "{{ bigip_vserver_pool_name }}"
     bigip_vserver_destination: 10.1.1.252
     bigip_vserver_port: 80
 
