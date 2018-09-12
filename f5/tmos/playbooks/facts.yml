@@ -12,7 +12,7 @@
         user: "{{ provider.user | default(omit) }}"
         password: "{{ provider.password | default(omit) }}"
         validate_certs: "{{ provider.validate_certs | default(omit) }}"
-        include: "system_info,software,self_ip"
+        include: "address_class,certificate,client_ssl_profile,device,device_group,interface,key,node,pool,provision,rule,self_ip,software,system_info,traffic_group,trunk,virtual_address,virtual_server,vlan"
       register: bigip_facts
 
     - debug: var=bigip_facts
