@@ -1,48 +1,20 @@
+- name: ansible-network.config_manager
+- name: ansible-network.cisco_nxos
+- name: ansible-network.cisco_ios
+- name: ansible-network.arista_eos
+- name: ansible-network.yang
 - name: victorock.net_config
   src: https://github.com/victorock/ansible-role-net_config.git
   scm: git
-
-- name: ansible-network.config_manager
-  src: https://github.com/ansible-network/config_manager.git
-  version: devel
-  scm: git
-
 - name: ansible-network.config_store
   src: https://github.com/ansible-network/config_store.git
   version: devel
   scm: git
-
-- name: ansible-network.cisco_nxos
-  src: https://github.com/ansible-network/cisco_nxos.git
-  version: devel
-  scm: git
-
-- name: ansible-network.cisco_ios
-  src: https://github.com/ansible-network/cisco_ios.git
-  version: devel
-  scm: git
-
 - name: ansible-network.cisco_iosxr
   src: https://github.com/ansible-network/cisco_iosxr.git
   version: devel
   scm: git
-
-- name: ansible-network.arista_eos
-  src: https://github.com/ansible-network/arista_eos.git
-  version: devel
-  scm: git
-
-- name: ansible-network.arista_eos
-  src: https://github.com/ansible-network/arista_eos.git
-  version: devel
-  scm: git
-
-- name: ansible-network.yang
-  src: https://github.com/ansible-network/yang.git
-  version: devel
-  scm: git
-
 - name: PaloAltoNetworks.paloaltonetworks
-  src: https://github.com/PaloAltoNetworks/ansible-role-paloaltonetworks.git
+  src: https://github.com/PaloAltoNetworks/ansible-pan.git
   version: master
   scm: git
