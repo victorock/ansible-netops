@@ -6,8 +6,8 @@
 - name: victorock.net_config
   src: https://github.com/victorock/ansible-role-net_config.git
   scm: git
-- name: ansible-network.config_store
-  src: https://github.com/ansible-network/config_store.git
+- name: ansible-network.content_store
+  src: https://github.com/ansible-network/content_store.git
   version: devel
   scm: git
 - name: ansible-network.cisco_iosxr
