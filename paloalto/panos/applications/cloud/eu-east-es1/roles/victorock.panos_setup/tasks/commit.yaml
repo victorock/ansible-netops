@@ -1,0 +1,5 @@
+- name: "commit: Save configuration"
+  panos_commit:
+    ip_address: "{{ provider.host }}"
+    username: "{{ provider.username }}"
+    password: "{{ provider.password }}"

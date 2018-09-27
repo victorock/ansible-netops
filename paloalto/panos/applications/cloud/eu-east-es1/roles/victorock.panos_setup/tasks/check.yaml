@@ -1,0 +1,7 @@
+- name: "panos_check: Validate API"
+  changed_when: false
+  panos_check:
+    ip_address: "{{ provider.host }}"
+    username: "{{ provider.username }}"
+    password: "{{ provider.password }}"
+    timeout: 600

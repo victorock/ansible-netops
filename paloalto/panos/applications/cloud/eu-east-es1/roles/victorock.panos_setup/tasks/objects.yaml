@@ -1,0 +1,35 @@
+- name: "objects: Validate entries spec"
+  delegate_to: localhost
+  validate_role_spec:
+    spec: object.yaml
+  loop: "{{ panos_objects }}"
+  loop_control:
+    loop_var: panos_object
+
+- name: "objects: Ensure state of a list of panos_object"
+  panos_object:
+    ip_address: "{{ provider.host }}"
+    username: "{{ provider.username }}"
+    password: "{{ provider.password }}"
+    addressobject: "{{ panos_object.addressobject | default(omit, true) }}"
+    address: "{{ panos_object.address | default(omit, true) }}"
+    address_type: "{{ panos_object.address_type | default(omit, true) }}"
+    addressgroup: "{{ panos_object.addressgroup | default(omit, true) }}"
+    static_value: "{{ panos_object.static_value | default(omit, true) }}"
+    dynamic_value: "{{ panos_object.dynamic_value | default(omit, true) }}"
+    serviceobject: "{{ panos_object.serviceobject | default(omit, true) }}"
+    source_port: "{{ panos_object.source_port | default(omit, true) }}"
+    destination_port: "{{ panos_object.destination_port | default(omit, true) }}"
+    protocol: "{{ panos_object.protocol | default(omit, true) }}"
+    servicegroup: "{{ panos_object.servicegroup | default(omit, true) }}"
+    services: "{{ panos_object.services | default(omit, true) }}"
+    description: "{{ panos_object.description | default(omit, true) }}"
+    tag_name: "{{ panos_object.tag_name | default(omit, true) }}"
+    color: "{{ panos_object.color | default(omit, true) }}"
+    vsys: "{{ panos_object.vsys | default(omit, true) }}"
+    devicegroup: "{{ panos_object.devicegroup | default(omit, true) }}"
+    operation: "{{ panos_object.operation }}"
+    commit: false
+  loop: "{{ panos_objects }}"
+  loop_control:
+    loop_var: panos_object

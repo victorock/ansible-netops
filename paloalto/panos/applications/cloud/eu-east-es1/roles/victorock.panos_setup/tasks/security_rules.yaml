@@ -1,0 +1,57 @@
+- name: "security_rules: Validate entries spec"
+  delegate_to: localhost
+  validate_role_spec:
+    spec: nat_rules_spec.yaml
+  loop: "{{ panos_security_rules }}"
+  loop_control:
+    loop_var: panos_security_rule
+
+- name: "security_rules: Ensure state of a list of panos_security_rule"
+  panos_security_rule:
+    ip_address: "{{ provider.host }}"
+    username: "{{ provider.username }}"
+    password: "{{ provider.password }}"
+    rule_name: "{{ panos_security_rule.rule_name | default(omit, true) }}"
+    source_zone: "{{ panos_security_rule.source_zone | default(omit, true) }}"
+    source_ip: "{{ panos_security_rule.source_ip | default(omit, true) }}"
+    source_user: "{{ panos_security_rule.source_user | default(omit, true) }}"
+    hip_profiles: "{{ panos_security_rule.hip_profiles | default(omit, true) }}"
+    destination_zone: "{{ panos_security_rule.destination_zone | default(omit, true) }}"
+    destination_ip: "{{ panos_security_rule.destination_ip | default(omit, true) }}"
+    application: "{{ panos_security_rule.application | default(omit, true) }}"
+    service: "{{ panos_security_rule.service | default(omit, true) }}"
+    category: "{{ panos_security_rule.category | default(omit, true) }}"
+    action: "{{ panos_security_rule.action | default(omit, true) }}"
+    log_setting: "{{ panos_security_rule.log_setting | default(omit, true) }}"
+    log_start: "{{ panos_security_rule.log_start | default(omit, true) }}"
+    log_end: "{{ panos_security_rule.log_end | default(omit, true) }}"
+    description: "{{ panos_security_rule.description | default(omit, true) }}"
+    rule_type: "{{ panos_security_rule.rule_type | default(omit, true) }}"
+    tag_name: "{{ panos_security_rule.tag_name | default(omit, true) }}"
+    negate_source: "{{ panos_security_rule.negate_source | default(omit, true) }}"
+    negate_destination: "{{ panos_security_rule.negate_destination | default(omit, true) }}"
+    disabled: "{{ panos_security_rule.disabled | default(omit, true) }}"
+    schedule: "{{ panos_security_rule.schedule | default(omit, true) }}"
+    icmp_unreachable: "{{ panos_security_rule.icmp_unreachable | default(omit, true) }}"
+    disable_server_response_inspection: "{{ panos_security_rule.disable_server_response_inspection | default(omit, true) }}"
+    group_profile: "{{ panos_security_rule.group_profile | default(omit, true) }}"
+    antivirus: "{{ panos_security_rule.antivirus | default(omit, true) }}"
+    spyware: "{{ panos_security_rule.spyware | default(omit, true) }}"
+    vulnerability: "{{ panos_security_rule.vulnerability | default(omit, true) }}"
+    url_filtering: "{{ panos_security_rule.url_filtering | default(omit, true) }}"
+    file_blocking: "{{ panos_security_rule.file_blocking | default(omit, true) }}"
+    wildfire_analysis: "{{ panos_security_rule.wildfire_analysis | default(omit, true) }}"
+    data_filtering: "{{ panos_security_rule.data_filtering | default(omit, true) }}"
+    target: "{{ panos_security_rule.target | default(omit, true) }}"
+    negate_target: "{{ panos_security_rule.negate_target | default(omit, true) }}"
+    location: "{{ panos_security_rule.location | default(omit, true) }}"
+    existing_rule: "{{ panos_security_rule.existing_rule | default(omit, true) }}"
+    devicegroup: "{{ panos_security_rule.devicegroup | default(omit, true) }}"
+    rulebase: "{{ panos_security_rule.rulebase | default(omit, true) }}"
+    vsys: "{{ panos_security_rule.vsys | default(omit, true) }}"
+    state: "{{ panos_security_rule.state | default(omit, true) }}"
+    operation: "{{ panos_security_rule.operation | default(omit, true) }}"
+    commit: false
+  loop: "{{ panos_security_rules }}"
+  loop_control:
+    loop_var: panos_security_rule
