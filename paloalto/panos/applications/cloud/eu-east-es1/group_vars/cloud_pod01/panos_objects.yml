@@ -1,0 +1,14 @@
+panos_objects:
+  - serviceobject: "service-ssh"
+    destination_port: "22"
+    protocol: "tcp"
+    description: "ssh on 22"
+    operation: add
+
+  - addressobject: "win01-win2016"
+    address: "10.1.0.11"
+    description: "server win01-win2016"
+
+  - addressobject: "lin01-win2016"
+    address: "10.1.0.12"
+    description: "server win01-win2016"

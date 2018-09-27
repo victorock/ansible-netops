@@ -5,6 +5,8 @@
   roles:
     - role: PaloAltoNetworks.paloaltonetworks
 
+  vars:
+  
   tasks:
   # Create ethernet1/1 as DHCP.
   - name: enable DHCP client on ethernet1/1 in zone external

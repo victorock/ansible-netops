@@ -16,14 +16,19 @@
         timeout: 600
 
     - name: "Ensure state of network interface"
-      when: panos_interfaces is defined
+      when: 
+        - panos_interfaces is defined
+        - panos_interfaces is iterable
       panos_interface:
         ip_address: "{{ provider.host }}"
         username: "{{ provider.username }}"
         password: "{{ provider.password }}"
+        mode: "{{ panos_interface.mode | default(omit, true) }}"
+        enable_dhcp: "{{ panos_interface.enable_dhcp | default(omit, true) }}"
         if_name: "{{ panos_interface.name }}"
         zone_name: "{{ panos_interface.zone | default('untrust') }}"
         create_default_route: "{{ panos_interface.default_route | default('no') }}"
+        operation: "update"
         commit: False
       register: command_result
       failed_when: "'MODULE FAILURE' in command_result.msg"
@@ -33,7 +38,9 @@
         loop_var: panos_interface
 
     - name: "Ensure state of objects"
-      when: panos_objects is defined
+      when: 
+        - panos_objects is defined
+        - panos_objects is iterable
       panos_object:
         ip_address: "{{ provider.host }}"
         username: "{{ provider.username }}"
@@ -53,7 +60,9 @@
         loop_var: panos_object
 
     - name: "Ensure state of NAT rules"
-      when: panos_nat_rules is defined
+      when: 
+        - panos_nat_rules is defined
+        - panos_nat_rules is iterable
       panos_nat_rule:
         ip_address: "{{ provider.host }}"
         username: "{{ provider.username }}"
@@ -78,7 +87,9 @@
       changed_when: "'successfully added' in command_result.msg"
 
     - name: "Ensure state of security rules"
-      when: panos_security_rules is defined
+      when: 
+        - panos_security_rules is defined
+        - panos_security_rules is iterable
       panos_security_rule:
         ip_address: "{{ provider.host }}"
         username: "{{ provider.username }}"
