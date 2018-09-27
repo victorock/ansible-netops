@@ -4,6 +4,9 @@
 - name: ansible-network.arista_eos
 - name: ansible-network.yang
 - name: paloaltonetworks.paloaltonetworks
+- name: victorock.panos_setup
+  src: https://github.com/victorock/ansible-role-panos-setup.git
+  scm: git
 - name: victorock.net_config
   src: https://github.com/victorock/ansible-role-net_config.git
   scm: git
