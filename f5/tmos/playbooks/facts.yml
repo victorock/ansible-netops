@@ -6,7 +6,7 @@
 
   tasks:
     - name: Gather BIG-IP facts
-      bigip_facts:
+      bigip_device_facts:
         server: "{{ provider.server | default(omit) }}"
         server_port: "{{ provider.server_port | default(omit) }}"
         user: "{{ provider.user | default(omit) }}"
