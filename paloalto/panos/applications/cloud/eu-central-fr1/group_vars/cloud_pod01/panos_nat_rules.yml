@@ -3,9 +3,9 @@ panos_nat_rules:
     snat_type: "dynamic-ip-and-port"
     snat_interface: "ethernet1/1"
     snat_address_type: "interface-address"
-    destination_zone: "EXTERNA"
+    destination_zone: "untrust"
     source_zone:
-      - "INTERNA"
+      - "trust"
     source_ip:
       - "any"
     destination_ip:
