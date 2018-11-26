@@ -1,7 +1,0 @@
----
-- name: Setup PaloAlto Devices
-  hosts: panos:&eu-east-es1:&cloud_pod01
-  connection: local
-  gather_facts: false
-  roles:
-    - role: victorock.panos_setup

@@ -1,5 +1,6 @@
 ansible_user: "admin"
 ansible_network_os: "panos"
+ansible_network_provider: "victorock.paloalto_panos"
 provider:
   host: "{{ ansible_host }}"
   username: "{{ ansible_user }}"

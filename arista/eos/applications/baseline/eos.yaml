@@ -1,0 +1,7 @@
+- name: "Apply baseline"
+  hosts: eos
+  connection: network_cli
+  gather_facts: no
+
+  roles:
+    - role: eos_baseline

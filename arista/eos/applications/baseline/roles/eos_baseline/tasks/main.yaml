@@ -1,0 +1,4 @@
+- name: "eos_baseline: Push baseline"
+  eos_config:
+    save: true
+    src: "templates/baseline.cfg.j2"

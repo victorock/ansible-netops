@@ -1,0 +1,4 @@
+---
+panos_system:
+  login_banner: "Automated by Ansible"
+  time_zone: "Europe/Madrid"

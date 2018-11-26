@@ -1,0 +1,26 @@
+- name: "VLAN Provisioning"
+  hosts: all
+  connection: network_cli
+  gather_facts: no
+
+  vars:
+    vlan_name: ansible_teste
+    vlan_id: 77
+    vlan_state: present
+    vlan_associated_interfaces: []
+
+  tasks:
+    - name: "VLAN Provisioning"
+      eos_vlan:
+        name: "{{ vlan_name }}"
+        state: "{{ vlan_state }}"
+        vlan_id: "{{ vlan_id }}"
+
+    - name: "VLAN Interface Association"
+      eos_vlan:
+        name: "{{ vlan_name }}"
+        vlan_id: "{{ vlan_id }}"
+        state: "{{ vlan_state }}"
+        associated_interfaces: "{{ vlan_associated_interfaces | default(omit, true) }}"
+      when: vlan_associated_interfaces | length > 0
+

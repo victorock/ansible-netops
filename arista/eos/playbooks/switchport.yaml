@@ -1,0 +1,22 @@
+- name: "Switchport Provisioning"
+  hosts: all
+  connection: network_cli
+  gather_facts: no
+
+  vars:
+    switchport_interface: Ethernet2
+    switchport_state: present
+    switchport_mode: access
+    switchport_access_vlan: 77
+    switchport_native_vlan: ""
+    switchport_trunk_allowed_vlans: ""
+
+  tasks:
+    - name: "Ensure switchport state"
+      eos_l2_interface:
+        name: "{{ switchport_name }}"
+        mode: "{{ switchport_mode }}"
+        access_vlan: "{{ switchport_access_vlan | default(omit, true) }}"
+        native_vlan: "{{ switchport_native_vlan | default(omit, true) }}"
+        trunk_allowed_vlans: "{{ switchport_trunk_allowed_vlans | default(omit, true) }}"
+        state: "{{ switchport_state }}"
