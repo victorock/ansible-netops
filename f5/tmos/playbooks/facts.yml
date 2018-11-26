@@ -12,11 +12,10 @@
         user: "{{ provider.user | default(omit) }}"
         password: "{{ provider.password | default(omit) }}"
         validate_certs: "{{ provider.validate_certs | default(omit) }}"
-        include:
-          - self_ip
-          - software
-          - system_info
-          - pool
-      register: bigip_facts
+        gather_subset:
+          - all
+      register: bigip_device_facts
 
-    - debug: var=bigip_facts
+    - debug:
+        var: bigip_device_facts
+        verbosity: 2
