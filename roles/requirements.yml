@@ -5,6 +5,7 @@
 - name: ansible-network.yang
 - name: paloaltonetworks.paloaltonetworks
 - name: victorock.paloalto_panos
+  version: devel
   src: https://github.com/victorock/paloalto_panos.git
   scm: git
 - name: victorock.net_config
