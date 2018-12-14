@@ -1,4 +1,4 @@
-underlay_role: spine
+underlay_role: spine-jinja2
 
 underlay_interfaces:
   control:
