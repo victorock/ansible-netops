@@ -5,7 +5,7 @@
   vars:
     snow_provider:
       username: "admin"
-      password: "Foudase1!"
+      password: "XXXXXXX"
       instance: "dev49544"
 
 #        "table": "cmdb_ci_netgear"
