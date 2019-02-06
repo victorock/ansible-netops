@@ -3,6 +3,11 @@
   gather_facts: no
 
   vars:
+    nios_provider:
+      host: "{{ lookup('ENV', 'INFOBLOX_HOST') }}"
+      username: "{{ lookup('ENV', 'INFOBLOX_USERNAME') }}"
+      password: "{{ lookup('ENV', 'INFOBLOX_PASSWORD') }}"
+
     nios_host_record_name: "ansible-test"
     nios_host_record_domain: "acme.com"
     nios_host_record_view: "Internal DNS"
@@ -18,6 +23,7 @@
 
     - name: "Ensure state of host record in NIOS"
       nios_host_record:
+        provider: "{{ nios_provider }}"
         name: "{{ nios_host_record_name }}.{{ nios_host_record_domain }}"
         view: "{{ nios_host_record_view | default(omit) }}"
         ipv4addrs:
