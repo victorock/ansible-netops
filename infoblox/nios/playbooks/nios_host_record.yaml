@@ -8,30 +8,31 @@
       username: "{{ lookup('ENV', 'INFOBLOX_USERNAME') }}"
       password: "{{ lookup('ENV', 'INFOBLOX_PASSWORD') }}"
 
-    nios_host_record_name: "ansible-test"
+    nios_host_record_host: "ansible-test"
     nios_host_record_domain: "acme.com"
+    nios_host_record_fqdn: "{{ nios_host_record_host }}.{{ nios_host_record_domain }}"
+    nios_host_record_exists: "{{ lookup('nios', 'record:host', filter={'name': nios_host_record_fqdn }) | default(omit, true) }}"
     nios_host_record_view: "Internal DNS"
     nios_host_record_subnet: "192.168.0.0/24"
     nios_host_record_ipv4addr: "{{ lookup('nios_next_ip', nios_host_record_subnet) }}"
     nios_host_record_state: "present"
 
-  tasks:
-    - name: "nios_next_ip data structure"
-      debug:
-        var: nios_host_record_ipv4addr
-        verbosity: 2
-
+  handlers:
     - name: "Ensure state of host record in NIOS"
-      nios_host_record:
-        provider: "{{ nios_provider }}"
-        name: "{{ nios_host_record_name }}.{{ nios_host_record_domain }}"
-        view: "{{ nios_host_record_view | default(omit) }}"
-        ipv4addrs:
-          - ipv4addr: "{{ nios_host_record_ipv4addr[0] }}"
-        state: "{{ nios_host_record_state }}"
-      register: r_nios_host_record
+    nios_host_record:
+      provider: "{{ nios_provider }}"
+      name: "{{ nios_host_record_fqdn }}"
+      view: "{{ nios_host_record_view | default(omit) }}"
+      ipv4addrs:
+        - ipv4addr: "{{ nios_host_record_ipv4addr[0] }}"
+      state: "{{ nios_host_record_state }}"
+    listen: nios_host_record
 
-    - name: "nios_host_record data structure"
+  tasks:
+    - debug:
+        var: nios_host_record_exists
+
+    - name: "Create only new host entries"
       debug:
-        var: r_nios_host_record
-        verbosity: 2
+        msg: "Calling handler to create new host entry in infoblox"
+      changed_when: nios_host_record_exists is not defined
