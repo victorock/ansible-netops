@@ -30,8 +30,11 @@
 
   tasks:
     - name: "Create only new host entries"
-      debug:
-        msg: "Calling handler to create new host entry in infoblox"
+      set_stats:
+        data:
+          nios_host_record_host: "{{ nios_host_record_host }}"
+          nios_host_record_ipv4addr: "{{ nios_host_record_ipv4addr }}"
+          nios_host_record_subnet: "{{ nios_host_record_subnet }}"
       notify: nios_host_record
       when: nios_host_record_state == 'present'
       changed_when: nios_host_record_exists.name is not defined
