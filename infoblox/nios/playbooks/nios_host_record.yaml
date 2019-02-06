@@ -7,13 +7,19 @@
     nios_host_record_domain: "acme.com"
     nios_host_record_view: "Internal DNS"
     nios_host_record_subnet: "10.36.200.0/24"
+    nios_host_record_ipv4addr: "{{ lookup('nios_next_ip', nios_host_record_subnet) }}"
     nios_host_record_state: "present"
 
   tasks:
+    - name: "nios_next_ip data structure"
+      debug:
+        var: nios_host_record_ipv4addr
+        verbosity: 2
+
     - name: "Ensure state of host record in NIOS"
       nios_host_record:
         name: "{{ nios_host_record_name }}.{{ nios_host_record_domain }}"
         view: "{{ nios_host_record_view | default(omit) }}"
         ipv4addrs:
-          ipv4addr: "{{ lookup('nios_next_ip', nios_host_record_subnet) }}"
+          ipv4addr: "{{ nios_host_record_ipv4addr }}"
         state: "{{ nios_host_record_state }}"
