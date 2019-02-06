@@ -37,11 +37,11 @@
         msg: "Calling handler to create new host entry in infoblox"
       notify: nios_host_record
       when: nios_host_record_state == 'present'
-      changed_when: nios_host_record_exists|length < 1
+      changed_when: nios_host_record_exists.name is not defined
 
     - name: "Delete only existing host entries"
       debug:
         msg: "Calling handler to delete existing host entry in infoblox"
       notify: nios_host_record
       when: nios_host_record_state == 'absent'
-      changed_when: nios_host_record_exists|length > 1
+      changed_when: nios_host_record_exists.name is defined
