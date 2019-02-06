@@ -6,7 +6,7 @@
     nios_host_record_name: "ansible-test"
     nios_host_record_domain: "acme.com"
     nios_host_record_view: "Internal DNS"
-    nios_host_record_subnet: "10.36.200.0/24"
+    nios_host_record_subnet: "192.168.0.0/24"
     nios_host_record_ipv4addr: "{{ lookup('nios_next_ip', nios_host_record_subnet) }}"
     nios_host_record_state: "present"
 
