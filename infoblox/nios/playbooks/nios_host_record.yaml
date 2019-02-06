@@ -19,14 +19,14 @@
 
   handlers:
     - name: "Ensure state of host record in NIOS"
-    nios_host_record:
-      provider: "{{ nios_provider }}"
-      name: "{{ nios_host_record_fqdn }}"
-      view: "{{ nios_host_record_view | default(omit) }}"
-      ipv4addrs:
-        - ipv4addr: "{{ nios_host_record_ipv4addr[0] }}"
-      state: "{{ nios_host_record_state }}"
-    listen: nios_host_record
+      nios_host_record:
+        provider: "{{ nios_provider }}"
+        name: "{{ nios_host_record_fqdn }}"
+        view: "{{ nios_host_record_view | default(omit) }}"
+        ipv4addrs:
+          - ipv4addr: "{{ nios_host_record_ipv4addr[0] }}"
+        state: "{{ nios_host_record_state }}"
+      listen: nios_host_record
 
   tasks:
     - debug:
@@ -35,4 +35,5 @@
     - name: "Create only new host entries"
       debug:
         msg: "Calling handler to create new host entry in infoblox"
+      notify: nios_host_record
       changed_when: nios_host_record_exists is not defined
