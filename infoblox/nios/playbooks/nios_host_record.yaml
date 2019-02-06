@@ -29,9 +29,6 @@
       listen: nios_host_record
 
   tasks:
-    - debug:
-        var: nios_host_record_exists
-
     - name: "Create only new host entries"
       debug:
         msg: "Calling handler to create new host entry in infoblox"
