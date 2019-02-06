@@ -11,7 +11,7 @@
     nios_host_record_host: "ansible-test"
     nios_host_record_domain: "acme.com"
     nios_host_record_fqdn: "{{ nios_host_record_host }}.{{ nios_host_record_domain }}"
-    nios_host_record_exists: "{{ lookup('nios', 'record:host', filter={'name': nios_host_record_fqdn }) | default(omit, true) }}"
+    nios_host_record_exists: "{{ lookup('nios', 'record:host', filter={'name': nios_host_record_fqdn }) }}"
     nios_host_record_view: "Internal DNS"
     nios_host_record_subnet: "192.168.0.0/24"
     nios_host_record_ipv4addr: "{{ lookup('nios_next_ip', nios_host_record_subnet) }}"
@@ -36,4 +36,14 @@
       debug:
         msg: "Calling handler to create new host entry in infoblox"
       notify: nios_host_record
-      changed_when: nios_host_record_exists is not defined
+      when: nios_host_record_state == 'present'
+      changed_when: 
+        - nios_host_record_exists is not defined
+
+    - name: "Delete only existing host entries"
+      debug:
+        msg: "Calling handler to delete existing host entry in infoblox"
+      notify: nios_host_record
+      when: nios_host_record_state == 'absent'
+      changed_when: 
+        - nios_host_record_exists is defined
