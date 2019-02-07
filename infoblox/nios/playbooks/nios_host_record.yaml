@@ -11,22 +11,30 @@
     nios_host_record_host: "ansible-test"
     nios_host_record_domain: "acme.com"
     nios_host_record_fqdn: "{{ nios_host_record_host }}.{{ nios_host_record_domain }}"
-    nios_host_record_ipv4addr: "{{ lookup('nios', 'record:host', filter={'name': nios_host_record_fqdn })['ipv4addrs'][0]['ipv4addr'] | default('') }}"
     nios_host_record_view: "Internal DNS"
     nios_host_record_subnet: "192.168.0.0/24"
     nios_host_record_next_ip: "{{ lookup('nios_next_ip', nios_host_record_subnet)[0] }}"
+    nios_host_record_lookup: "{{ lookup('nios', 'record:host', filter={'name': nios_host_record_fqdn }) }}"
     nios_host_record_state: "present"
 
-  handlers:
-
   tasks:
+    - name: "set_fact: nios_host_record_ipv4addr to nios_host_record_lookup"
+      set_fact:
+        nios_host_record_ipv4addr: "{{ nios_host_record_lookup['ipv4addrs'][0]['ipv4addr'] | default(nios_host_record_next_ip, true) }}"
+      when: nios_host_record_lookup['ipv4addrs'] is defined
+    
+    - name: "set_fact: nios_host_record_ipv4addr to nios_host_record_next_ip"
+      set_fact:
+        nios_host_record_ipv4addr: "{{ nios_host_record_next_ip }}"
+      when: nios_host_record_lookup['ipv4addrs'] is not defined
+
     - name: "Ensure state of host record in NIOS"
       nios_host_record:
         provider: "{{ nios_provider }}"
         name: "{{ nios_host_record_fqdn }}"
         view: "{{ nios_host_record_view | default(omit) }}"
         ipv4addrs:
-          - ipv4addr: "{{ nios_host_record_ipv4addr | default(nios_host_record_next_ip, true) }}"
+          - ipv4addr: "{{ nios_host_record_ipv4addr }}"
         state: "{{ nios_host_record_state }}"
 
     - name: "set_stats variables"
