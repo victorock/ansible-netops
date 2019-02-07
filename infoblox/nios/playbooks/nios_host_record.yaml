@@ -11,38 +11,30 @@
     nios_host_record_host: "ansible-test"
     nios_host_record_domain: "acme.com"
     nios_host_record_fqdn: "{{ nios_host_record_host }}.{{ nios_host_record_domain }}"
-    nios_host_record_exists: "{{ lookup('nios', 'record:host', filter={'name': nios_host_record_fqdn }) }}"
+    nios_host_record_ipv4addr: "{{ lookup('nios', 'record:host', filter={'name': nios_host_record_fqdn })['ipv4addrs'][0]['ipv4addr'] | default('') }}"
     nios_host_record_view: "Internal DNS"
     nios_host_record_subnet: "192.168.0.0/24"
-    nios_host_record_ipv4addr: "{{ lookup('nios_next_ip', nios_host_record_subnet) }}"
+    nios_host_record_next_ip: "{{ lookup('nios_next_ip', nios_host_record_subnet)[0] }}"
     nios_host_record_state: "present"
 
   handlers:
+
+  tasks:
     - name: "Ensure state of host record in NIOS"
       nios_host_record:
         provider: "{{ nios_provider }}"
         name: "{{ nios_host_record_fqdn }}"
         view: "{{ nios_host_record_view | default(omit) }}"
         ipv4addrs:
-          - ipv4addr: "{{ nios_host_record_ipv4addr[0] }}"
+          - ipv4addr: "{{ nios_host_record_ipv4addr | default(nios_host_record_next_ip, true) }}"
         state: "{{ nios_host_record_state }}"
-      listen: nios_host_record
 
-  tasks:
-    - name: "Create only new host entries"
+    - name: "set_stats variables"
       set_stats:
         data:
           nios_host_record_host: "{{ nios_host_record_host }}"
           nios_host_record_domain: "{{ nios_host_record_domain }}"
           nios_host_record_subnet: "{{ nios_host_record_subnet }}"
           nios_host_record_fqdn: "{{ nios_host_record_fqdn }}"
-      notify: nios_host_record
-      when: nios_host_record_state == 'present'
-      changed_when: nios_host_record_exists.name is not defined
-
-    - name: "Delete only existing host entries"
-      debug:
-        msg: "Calling handler to delete existing host entry in infoblox"
-      notify: nios_host_record
-      when: nios_host_record_state == 'absent'
-      changed_when: nios_host_record_exists.name is defined
+          nios_host_record_ipv4addr: "{{ nios_host_record_ipv4addr }}"
+          nios_host_record_view: "{{ nios_host_record_view }}"
