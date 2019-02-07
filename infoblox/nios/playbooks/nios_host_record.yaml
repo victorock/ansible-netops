@@ -20,7 +20,7 @@
   tasks:
     - name: "set_fact: nios_host_record_ipv4addr to nios_host_record_lookup"
       set_fact:
-        nios_host_record_ipv4addr: "{{ nios_host_record_lookup['ipv4addrs'][0]['ipv4addr'] | default(nios_host_record_next_ip, true) }}"
+        nios_host_record_ipv4addr: "{{ nios_host_record_lookup['ipv4addrs'][0]['ipv4addr'] }}"
       when: nios_host_record_lookup['ipv4addrs'] is defined
     
     - name: "set_fact: nios_host_record_ipv4addr to nios_host_record_next_ip"
