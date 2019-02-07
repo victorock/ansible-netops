@@ -33,8 +33,9 @@
       set_stats:
         data:
           nios_host_record_host: "{{ nios_host_record_host }}"
-          nios_host_record_ipv4addr: "{{ nios_host_record_ipv4addr }}"
+          nios_host_record_domain: "{{ nios_host_record_domain }}"
           nios_host_record_subnet: "{{ nios_host_record_subnet }}"
+          nios_host_record_fqdn: "{{ nios_host_record_fqdn }}"
       notify: nios_host_record
       when: nios_host_record_state == 'present'
       changed_when: nios_host_record_exists.name is not defined
