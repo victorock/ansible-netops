@@ -53,10 +53,7 @@
       "default": "website-pool-http",
       "required": true,
       "variable": "bigip_pool_name",
-      "choices": [
-        "website-pool-http"
-      ],
-      "type": "multiplechoice"
+      "type": "text"
     }
   ],
   "description": "bigip_virtual_server",

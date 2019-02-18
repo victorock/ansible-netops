@@ -25,10 +25,7 @@
       "default": "website-pool-http",
       "required": true,
       "variable": "bigip_pool_name",
-      "choices": [
-        "website-pool-http"
-      ],
-      "type": "multiplechoice"
+      "type": "text"
     },
     {
       "question_name": "Member Name",
