@@ -40,10 +40,10 @@
     },
     {
       "question_name": "Port",
-      "default": "80",
+      "default": 80,
       "required": true,
       "variable": "bigip_vserver_port",
-      "type": "text",
+      "type": "integer",
       "min": 1,
       "max": 65535
     },
@@ -58,5 +58,6 @@
       "type": "multiplechoice"
     }
   ],
+  "description": "bigip_virtual_server",
   "name": "bigip_virtual_server"
 }

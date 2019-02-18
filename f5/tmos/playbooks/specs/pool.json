@@ -40,7 +40,7 @@
       "max": 15
     },
     {
-      "question_name": "Member Address",
+      "question_name": "Member Address (IPv4)",
       "default": "",
       "required": true,
       "variable": "bigip_member_address",
@@ -50,7 +50,7 @@
     },
     {
       "question_name": "Member Port",
-      "default": "80",
+      "default": 80,
       "required": true,
       "variable": "bigip_member_port",
       "type": "integer",
@@ -58,5 +58,6 @@
       "max": 65535
     }
   ],
+  "description": "bigip_pool",
   "name": "bigip_pool"
 }

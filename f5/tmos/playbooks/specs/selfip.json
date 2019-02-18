@@ -49,13 +49,13 @@
     },
     {
       "question_name": "VLAN",
-      "default": "",
       "required": false,
       "variable": "bigip_selfip_vlan",
       "type": "integer",
       "min": 1,
       "max": 4096
-    },
+    }
   ],
+  "description": "bigip_selfip",
   "name": "bigip_selfip"
 }
