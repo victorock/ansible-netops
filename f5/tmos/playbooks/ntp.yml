@@ -1,29 +1,11 @@
 ---
 - name: "Configure F5: time settings"
-  hosts: tmos
+  hosts: tmos:&{{ bigip_server }}
   connection: local
   gather_facts: no
-
-  vars:
-    bigip_device_ntp_servers:
-      - 169.254.169.123
-    bigip_device_ntp_timezone: "America/New_York"
-
   tasks:
     - name: Ensure state of NTP settings
       bigip_device_ntp:
-        server: "{{ provider.server | default(omit) }}"
-        server_port: "{{ provider.server_port | default(omit) }}"
-        user: "{{ provider.user | default(omit) }}"
-        password: "{{ provider.password | default(omit) }}"
-        validate_certs: "{{ provider.validate_certs | default(omit) }}"
-        ntp_servers: "{{ bigip_device_ntp_servers }}"
-
-    - name: Ensure state of timezone settings
-      bigip_device_ntp:
-        server: "{{ provider.server | default(omit) }}"
-        server_port: "{{ provider.server_port | default(omit) }}"
-        user: "{{ provider.user | default(omit) }}"
-        password: "{{ provider.password | default(omit) }}"
-        validate_certs: "{{ provider.validate_certs | default(omit) }}"
-        timezone: "{{ bigip_device_ntp_timezone }}"
+        server: "{{ ansible_ssh_host | default(omit) }}"
+        ntp_servers: "{{ bigip_device_ntp_servers | default(omit) }}"
+        timezone: "{{ bigip_device_ntp_timezone | default(omit) }}"

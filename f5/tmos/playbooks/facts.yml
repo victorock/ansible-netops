@@ -1,21 +1,17 @@
 ---
 - name: "Collect F5: Facts"
-  hosts: tmos
+  hosts: tmos:&{{ bigip_server }}
   connection: local
   gather_facts: no
-
   tasks:
     - name: Gather BIG-IP facts
       bigip_device_facts:
-        server: "{{ provider.server | default(omit) }}"
-        server_port: "{{ provider.server_port | default(omit) }}"
-        user: "{{ provider.user | default(omit) }}"
-        password: "{{ provider.password | default(omit) }}"
-        validate_certs: "{{ provider.validate_certs | default(omit) }}"
+        server: "{{ inventory_hostname }}"
         gather_subset:
           - all
       register: bigip_device_facts
 
-    - debug:
+    - name: Debug bigip_device_facts
+      debug:
         var: bigip_device_facts
         verbosity: 2

@@ -1,0 +1,16 @@
+---
+- name: "Configure F5: vservers and members"
+  hosts: tmos:&{{ bigip_server }}
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Ensure state of VirtualServer
+      bigip_virtual_server:
+        server: "{{ ansible_ssh_host | default(omit) }}"
+        partition: "{{ bigip_partition | default(omit) }}"
+        name: "{{ bigip_vserver_name }}"
+        destination: "{{ bigip_vserver_destination }}"
+        port: "{{ bigip_vserver_port }}"
+        pool: "{{ bigip_pool_name }}"
+        snat: "{{ bigip_vserver_snat | default('Automap') }}"
+        state: "{{ bigip_vserver_state | default(omit) }}"

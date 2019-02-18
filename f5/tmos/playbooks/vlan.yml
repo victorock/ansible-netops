@@ -1,25 +1,12 @@
 ---
 - name: "Configure F5: VLANs and interfaces"
-  hosts: tmos
+  hosts: tmos:&{{ bigip_server }}
   connection: local
   gather_facts: no
-
-  vars:
-    bigip_vlans:
-      - { name: app01, vlan_id: 101, untagged_interfaces: [ '1.1' ] }
-      - { name: app02, vlan_id: 102, untagged_interfaces: [ '1.2' ] }
-
   tasks:
     - name: Ensure state of VLAN interfaces
       bigip_vlan:
-        server: "{{ provider.server | default(omit) }}"
-        server_port: "{{ provider.server_port | default(omit) }}"
-        user: "{{ provider.user | default(omit) }}"
-        password: "{{ provider.password | default(omit) }}"
-        validate_certs: "{{ provider.validate_certs | default(omit) }}"
-        name: "{{ bigip_vlan.name }}"
-        untagged_interfaces: "{{ bigip_vlan.untagged_interfaces | default(omit) }}"
-        tagged_interfaces: "{{ bigip_vlan.untagged_interfaces | default(omit) }}"
-      with_items: "{{ bigip_vlans | default([]) }}"
-      loop_control:
-        loop_var: bigip_vlan
+        server: "{{ ansible_ssh_host | default(omit) }}"
+        name: "{{ bigip_vlan_name }}"
+        untagged_interfaces: "{{ bigip_vlan_untagged_interfaces | default(omit) }}"
+        tagged_interfaces: "{{ bigip_vlan_tagged_interfaces | default(omit) }}"

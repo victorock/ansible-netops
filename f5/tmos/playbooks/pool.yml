@@ -1,0 +1,22 @@
+---
+- name: "Configure F5: pool and members"
+  hosts: tmos:&{{ bigip_server }}
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Ensure state of pool settings
+      bigip_pool:
+        server: "{{ ansible_ssh_host | default(omit) }}"
+        partition: "{{ bigip_partition | default(omit) }}"
+        name: "{{ bigip_pool_name }}"
+        state: "{{ bigip_pool_state | default(omit) }}"
+
+    - name: Ensure state of node and pool membership
+      bigip_pool_member:
+        server: "{{ ansible_ssh_host | default(omit) }}"
+        partition: "{{ bigip_partition | default(omit) }}"
+        pool: "{{ bigip_pool_name }}"
+        name: "{{ bigip_member_name }}"
+        address: "{{ bigip_member_address }}"
+        port: "{{ bigip_member_port | default(omit) }}"
+        state: "{{ bigip_member_state | default(omit) }}"

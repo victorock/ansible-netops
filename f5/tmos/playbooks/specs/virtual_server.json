@@ -1,0 +1,62 @@
+{
+  "spec": [
+    {
+      "question_name": "BigIP Appliance",
+      "default": "f5-bigip",
+      "required": true,
+      "variable": "bigip_server",
+      "choices": [
+        "f5-bigip"
+      ],
+      "type": "multiplechoice"
+    },
+    {
+      "question_name": "Application Partition",
+      "default": "AppX",
+      "required": true,
+      "variable": "bigip_partition",
+      "choices": [
+        "AppX"
+      ],
+      "type": "multiplechoice"
+    },
+    {
+      "question_name": "Virtual Server Name",
+      "default": "myvirtualserver",
+      "required": true,
+      "variable": "bigip_vserver_name",
+      "type": "text",
+      "min": 1,
+      "max": 15
+    },
+    {
+      "question_name": "Destination (IPv4)",
+      "default": "",
+      "required": true,
+      "variable": "bigip_vserver_destination",
+      "type": "text",
+      "min": 1,
+      "max": 15
+    },
+    {
+      "question_name": "Port",
+      "default": "80",
+      "required": true,
+      "variable": "bigip_vserver_port",
+      "type": "text",
+      "min": 1,
+      "max": 65535
+    },
+    {
+      "question_name": "Destination Pool",
+      "default": "website-pool-http",
+      "required": true,
+      "variable": "bigip_pool_name",
+      "choices": [
+        "website-pool-http"
+      ],
+      "type": "multiplechoice"
+    }
+  ],
+  "name": "bigip_virtual_server"
+}

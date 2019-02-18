@@ -1,16 +1,15 @@
 ---
 - name: Configure the F5s hosts
-  hosts: all
+  hosts: linux:&web
   become: yes
   gather_facts: no
-
   tasks:
-    - name: Ensure state of httpd
+    - name: Ensure state of httpd package
       yum:
         name: httpd
         state: present
 
-    - name: Ensure state of service
+    - name: Ensure state of httpd service
       service:
         name: httpd
         state: started

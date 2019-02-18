@@ -1,25 +1,12 @@
 ---
 - name: "Configure F5: DNS setting"
-  hosts: tmos
+  hosts: tmos:&{{ bigip_server }}
   connection: local
   gather_facts: no
-
-  vars:
-    bigip_device_dns_name_servers:
-      - 8.8.8.8
-      - 8.8.4.4
-    bigip_device_dns_search:
-      - localdomain
-      - lab.local
-
   tasks:
     - name: Ensure state of DNS settings on the BIG-IP
       bigip_device_dns:
-        server: "{{ provider.server | default(omit) }}"
-        server_port: "{{ provider.server_port | default(omit) }}"
-        user: "{{ provider.user | default(omit) }}"
-        password: "{{ provider.password | default(omit) }}"
-        validate_certs: "{{ provider.validate_certs | default(omit) }}"
+        server: "{{ ansible_ssh_host | default(omit) }}"
         hostname: "{{ inventory_hostname }}"
-        name_servers: "{{ bigip_device_dns_name_servers }}"
-        search: "{{ bigip_device_dns_search }}"
+        name_servers: "{{ bigip_device_dns_name_servers | default(omit) }}"
+        search: "{{ bigip_device_dns_searchs | default(omit) }}"

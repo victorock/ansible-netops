@@ -1,15 +1,10 @@
 ---
 - name: "Configure F5: hostname"
-  hosts: tmos
+  hosts: tmos:&{{ bigip_server }}
   connection: local
   gather_facts: no
-
   tasks:
     - name: Ensure state of hostname
       bigip_hostname:
-        server: "{{ provider.server | default(omit) }}"
-        server_port: "{{ provider.server_port | default(omit) }}"
-        user: "{{ provider.user | default(omit) }}"
-        password: "{{ provider.password | default(omit) }}"
-        validate_certs: "{{ provider.validate_certs | default(omit) }}"
+        server: "{{ inventory_hostname }}"
         hostname: "{{ inventory_hostname }}"
