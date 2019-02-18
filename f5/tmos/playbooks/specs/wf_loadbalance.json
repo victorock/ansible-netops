@@ -1,0 +1,81 @@
+{
+  "spec": [
+    {
+      "question_name": "BigIP Appliance",
+      "default": "f5-bigip",
+      "required": true,
+      "variable": "bigip_server",
+      "choices": [
+        "f5-bigip"
+      ],
+      "type": "multiplechoice"
+    },
+    {
+      "question_name": "Application Partition",
+      "default": "AppX",
+      "required": true,
+      "variable": "bigip_partition",
+      "choices": [
+        "AppX"
+      ],
+      "type": "multiplechoice"
+    },
+    {
+      "question_name": "Virtual Server Name",
+      "default": "myvirtualserver",
+      "required": true,
+      "variable": "bigip_vserver_name",
+      "type": "text",
+      "min": 1,
+      "max": 15
+    },
+    {
+      "question_name": "Port",
+      "default": 80,
+      "required": true,
+      "variable": "bigip_vserver_port",
+      "type": "integer",
+      "min": 1,
+      "max": 65535
+    },
+    {
+      "question_name": "Pool Name",
+      "default": "website-pool-http",
+      "required": true,
+      "variable": "bigip_pool_name",
+      "choices": [
+        "website-pool-http"
+      ],
+      "type": "multiplechoice"
+    },
+    {
+      "question_name": "Member Name",
+      "default": "",
+      "required": true,
+      "variable": "bigip_member_name",
+      "type": "text",
+      "min": 1,
+      "max": 15
+    },
+    {
+      "question_name": "Member Address (IPv4)",
+      "default": "",
+      "required": true,
+      "variable": "bigip_member_address",
+      "type": "text",
+      "min": 1,
+      "max": 15
+    },
+    {
+      "question_name": "Member Port",
+      "default": 80,
+      "required": true,
+      "variable": "bigip_member_port",
+      "type": "integer",
+      "min": 1,
+      "max": 65535
+    }
+  ],
+  "description": "wf_loadbalance",
+  "name": "wf_loadbalance"
+}
