@@ -6,7 +6,8 @@
   tasks:
     - name: Gather BIG-IP facts
       bigip_device_facts:
-        server: "{{ inventory_hostname }}"
+        server: "{{ ansible_host | default(omit) }}"
+        server_port: "{{ ansible_httpapi_port | default(omit) }}"
         gather_subset:
           - all
       register: bigip_device_facts

@@ -6,7 +6,8 @@
   tasks:
     - name: Ensure state of DNS settings on the BIG-IP
       bigip_device_dns:
-        server: "{{ ansible_ssh_host | default(omit) }}"
+        server: "{{ ansible_host | default(omit) }}"
+        server_port: "{{ ansible_httpapi_port | default(omit) }}"
         hostname: "{{ inventory_hostname }}"
         name_servers: "{{ bigip_device_dns_name_servers | default(omit) }}"
         search: "{{ bigip_device_dns_searchs | default(omit) }}"
