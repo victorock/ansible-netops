@@ -12,4 +12,4 @@
         name:  "{{ bigip_selfip_name }}"
         address: "{{ bigip_selfip_ipv4_address | ipaddr('address') }}"
         netmask: "{{ bigip_selfip_ipv4_netmask | ipaddr('netmask') }}"
-        vlan: "{{ bigip_selfip_vlan | default(omit) }}"
+        vlan: "{{ bigip_selfip_vlan }}"

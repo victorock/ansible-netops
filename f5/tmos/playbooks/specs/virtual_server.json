@@ -21,19 +21,20 @@
       "type": "multiplechoice"
     },
     {
+      "question_name": "Virtual IP (IPv4)",
+      "default": "10.132.0.3",
+      "required": true,
+      "variable": "bigip_vserver_destination",
+      "choices": [
+        "10.132.0.3"
+      ],
+      "type": "multiplechoice"
+    },
+    {
       "question_name": "Virtual Server Name",
       "default": "myvirtualserver",
       "required": true,
       "variable": "bigip_vserver_name",
-      "type": "text",
-      "min": 1,
-      "max": 15
-    },
-    {
-      "question_name": "Destination (IPv4)",
-      "default": "",
-      "required": true,
-      "variable": "bigip_vserver_destination",
       "type": "text",
       "min": 1,
       "max": 15
