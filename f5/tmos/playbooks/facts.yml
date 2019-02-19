@@ -3,6 +3,9 @@
   hosts: tmos
   connection: local
   gather_facts: no
+  roles:
+    - role: f5devcentral.f5ansible
+
   tasks:
     - name: Gather BIG-IP facts
       bigip_device_facts:

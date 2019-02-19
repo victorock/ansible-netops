@@ -19,3 +19,4 @@
   src: https://github.com/ansible-network/cisco_iosxr.git
   version: devel
   scm: git
+- name: f5devcentral.f5ansible
