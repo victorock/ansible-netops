@@ -74,8 +74,8 @@
       run_once: yes
       changed_when: False
       loop:
-        - { key: user.name, value: "{{ config_store_committer_name }}" }
-        - { key: user.email, value: "{{ config_store_committer_email }}" }
+        - { key: user.name, value: "Ansible Network" }
+        - { key: user.email, value: "ansible-network@ansible.com" }
         - { key: branch.autosetupmerge, value: "always" }
         - { key: push.default, value: "current" }
 
