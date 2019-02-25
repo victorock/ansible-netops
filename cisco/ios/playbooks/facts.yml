@@ -1,5 +1,5 @@
 - name: "IOS Facts"
-  hosts: all
+  hosts: ios
   connection: local
   gather_facts: no
 
