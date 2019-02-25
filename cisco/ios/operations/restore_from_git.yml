@@ -1,0 +1,41 @@
+- name: "IOS Restore"
+  hosts: ios
+  connection: network_cli
+  gather_facts: no
+
+  vars:
+    repo: ssh://git@github.com/victorock/network-configs
+    branch: "snapshot"
+
+  tasks:
+
+    - name: "create temporary directory to store configuration"
+      run_once: true
+      tempfile:
+        state: directory
+        suffix: ios_config
+      register: r_tempfile
+
+    - name: "clone the repository containing configurations"
+      run_once: true
+      changed_when: False
+      git:
+        accept_hostkey: true
+        repo: "{{ repo }}"
+        dest: "{{ r_tempfile.path }}"
+        version: "{{ branch }}"
+        clone: yes
+
+    - name: "Copy configuration to router"
+      command: "scp -o StrictHostKeyChecking=no {{ r_tempfile.path }}/{{ ansible_network_os }}/{{ inventory_hostname }} {{ ansible_user }}@{{ ansible_host }}:/{{ inventory_hostname }}.config"
+
+    - name: "Replace router's configuration"
+      ios_command:
+        commands:
+          - config replace flash:{{ inventory_hostname }}.config force
+
+    - name: "Cleanup generated files/directories"
+      run_once: true
+      file:
+        path: "{{ r_tempfile.path }}"
+        state: absent

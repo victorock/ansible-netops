@@ -1,6 +1,10 @@
 - name: "Network Configuration Snapshot"
-  hosts: all
+  hosts: nxos
   gather_facts: no
   connection: network_cli
-  roles:
-    - role: ansible-network.content_store
+
+  tasks:
+    - name: "ansible-network.content_store"
+      include_role:
+        name: "ansible-network.content_store"
+        tasks_from: "config"

@@ -3,6 +3,9 @@
   hosts: tmos:&{{ bigip_server }}
   connection: local
   gather_facts: no
+  roles:
+    - role: f5devcentral.f5ansible
+
   tasks:
     - name: Ensure state of DNS settings on the BIG-IP
       bigip_device_dns:

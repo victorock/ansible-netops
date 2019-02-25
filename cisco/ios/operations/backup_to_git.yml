@@ -1,69 +1,99 @@
 - name: "IOS Backup"
-  hosts: all
-  connection: local
+  hosts: ios
+  connection: network_cli
   gather_facts: no
 
   vars:
     repo: ssh://git@github.com/victorock/network-configs
-    branch: "europe-central-fr1"
+    branch: "snapshot"
 
   tasks:
-
     - name: "create temporary directory to store configuration"
+      run_once: true
       changed_when: False
       tempfile:
         state: directory
         suffix: ios_config
       register: r_tempfile
 
-    - name: "clone the repository containing configurations"
+    - name: "git clone"
+      run_once: true
       changed_when: False
       git:
+        accept_hostkey: true
         repo: "{{ repo }}"
         dest: "{{ r_tempfile.path }}"
-        version: "{{ branch }}"
         clone: yes
+
+    - name: "git checkout -b branch"
+      run_once: true
+      failed_when: false
+      changed_when: git_checkout.stdout.find("Switched to a new branch") != -1
+      register: git_checkout
+      shell: git checkout -b "{{ branch }}"
+      args:
+        chdir: "{{ r_tempfile.path }}"
+
+    - name: "git checkout branch"
+      run_once: true
+      failed_when: false
+      changed_when: git_checkout.stdout.find("Switched to branch") != -1
+      register: git_checkout
+      shell: git checkout "{{ branch }}"
+      args:
+        chdir: "{{ r_tempfile.path }}"
 
     - name: "fetch network configuration"
       ios_config:
         backup: yes
       register: r_ios_config
 
-    - name: "ensure network os specific folder exist"
+    - name: "remove non configuration lines"
+      lineinfile:
+        path: "{{ r_ios_config.backup_path }}"
+        regexp: "{{ item }}"
+        state: absent
+      loop:
+        - 'Building configuration.*'
+        - 'Current configuration.*'
+
+    - name: "create folder structure"
+      run_once: true
       file:
-        path: "{{ r_tempfile.path }}/{{ ansible_network_os}}"
+        path: "{{ r_tempfile.path }}/{{ ansible_network_os }}"
         state: directory
 
     - name: "copy network configuration to repo folder"
       copy:
         src: "{{ r_ios_config.backup_path }}"
-        dest: "{{ r_tempfile.path }}/{{ ansible_network_os}}/{{ inventory_hostname }}"
+        dest: "{{ r_tempfile.path }}/{{ ansible_network_os }}/{{ inventory_hostname }}"
         force: "yes"
 
-    - name: "git add (untracked files)"
-      changed_when: False
+    - name: "git add"
+      run_once: true
       shell: git add -A
       args:
         chdir: "{{ r_tempfile.path }}"
 
     - name: "git commit"
-      block:
-        - name: "Commit if there are any changes"
-          shell: git commit -am "Network Backup"
-          args:
-            chdir: "{{ r_tempfile.path }}"
-      rescue:
-        - debug:
-            msg: "Nothing to commit..."
+      run_once: true
+      changed_when: git_commit.stdout.find("files changed") != -1
+      register: git_commit
+      shell: git commit -am "Network Backup"
+      args:
+        chdir: "{{ r_tempfile.path }}"
 
     - name: "git push"
-      changed_when: False
-      shell: git push --force origin {{ branch|quote }}
+      run_once: true
+      failed_when: false
+      changed_when: git_push.stdout.find("completed") != -1
+      register: git_push
+      shell: git push origin {{ branch|quote }}
       args:
         chdir: "{{ r_tempfile.path }}"
 
     - name: "Cleanup generated files/directories"
-      changed_when: False
+      run_once: true
       file:
         path: "{{ cleanup }}"
         state: absent
