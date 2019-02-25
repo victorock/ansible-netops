@@ -26,13 +26,15 @@
         version: "{{ branch }}"
         clone: yes
 
-    - name: "Copy configuration to router"
-      command: "scp -o StrictHostKeyChecking=no {{ r_tempfile.path }}/{{ ansible_network_os }}/{{ inventory_hostname }} {{ ansible_user }}@{{ ansible_host }}:/{{ inventory_hostname }}.config"
+    - name: "Put configuration into router"
+      net_put:
+        src: "{{ r_tempfile.path }}/{{ ansible_network_os }}/{{ inventory_hostname }}"
+        dest: "flash:/{{ inventory_hostname }}.config"
 
     - name: "Replace router's configuration"
       ios_command:
         commands:
-          - config replace flash:{{ inventory_hostname }}.config force
+          - "config replace flash:{{ inventory_hostname }}.config list force ignorecase"
 
     - name: "Cleanup generated files/directories"
       run_once: true
