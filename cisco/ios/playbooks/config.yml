@@ -1,5 +1,5 @@
 - name: "IOS Config"
-  hosts: all
+  hosts: network_cli
   connection: local
   gather_facts: no
 

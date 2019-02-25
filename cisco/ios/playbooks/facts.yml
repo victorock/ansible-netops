@@ -1,6 +1,6 @@
 - name: "IOS Facts"
   hosts: ios
-  connection: local
+  connection: network_cli
   gather_facts: no
 
   tasks:

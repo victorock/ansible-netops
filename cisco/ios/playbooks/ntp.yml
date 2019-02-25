@@ -1,6 +1,6 @@
 - name: "NTP Provisioning"
-  hosts: all
-  connection: local
+  hosts: ios
+  connection: network_cli
   gather_facts: no
 
   vars:
