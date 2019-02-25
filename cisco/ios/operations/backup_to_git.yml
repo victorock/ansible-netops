@@ -69,6 +69,16 @@
         dest: "{{ r_tempfile.path }}/{{ ansible_network_os }}/{{ inventory_hostname }}"
         force: "yes"
 
+    - name: "Configure local git repository"
+      shell: git config --global "{{ item.key }}" "{{ item.value }}"
+      run_once: yes
+      changed_when: False
+      loop:
+        - { key: user.name, value: "{{ config_store_committer_name }}" }
+        - { key: user.email, value: "{{ config_store_committer_email }}" }
+        - { key: branch.autosetupmerge, value: "always" }
+        - { key: push.default, value: "current" }
+
     - name: "git add"
       run_once: true
       shell: git add -A
