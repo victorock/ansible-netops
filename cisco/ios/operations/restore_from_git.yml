@@ -29,7 +29,7 @@
 
     - name: "Put configuration into router"
       net_put:
-        src: "{{ r_tempfile.path }}/{{ ansible_network_os }}/{{ inventory_hostname }}"
+        src: "{{ r_tempfile.path }}/{{ inventory_hostname }}/config/running.cfg"
         dest: "flash:/{{ inventory_hostname }}.config"
 
     - name: "Replace router's configuration"

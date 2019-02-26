@@ -62,13 +62,13 @@
       run_once: true
       changed_when: false
       file:
-        path: "{{ r_tempfile.path }}/{{ ansible_network_os }}"
+        path: "{{ r_tempfile.path }}/{{ inventory_hostname }}/config"
         state: directory
 
     - name: "copy network configuration to repo folder"
       copy:
         src: "{{ r_ios_config.backup_path }}"
-        dest: "{{ r_tempfile.path }}/{{ ansible_network_os }}/{{ inventory_hostname }}"
+        dest: "{{ r_tempfile.path }}/{{ inventory_hostname }}/config/running.cfg"
         force: "yes"
 
     - name: "Configure local git repository"
