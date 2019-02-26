@@ -97,10 +97,10 @@
 
     - name: "git push"
       run_once: true
-      failed_when: false
-      changed_when: git_push.stdout.find("completed") != -1
+      failed_when: git_push.stdout.find("error:") != -1
+      changed_when: git_push.stdout.find("remote:") != -1
       register: git_push
-      shell: git push origin {{ branch|quote }}
+      shell: git push --force origin {{ branch|quote }}
       args:
         chdir: "{{ r_tempfile.path }}"
 
