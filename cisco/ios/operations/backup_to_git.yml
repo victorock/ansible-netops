@@ -72,7 +72,7 @@
         force: "yes"
 
     - name: "Configure local git repository"
-      shell: git config "{{ item.key }}" "{{ item.value }}"
+      shell: git config --global "{{ item.key }}" "{{ item.value }}"
       run_once: yes
       changed_when: false
       loop:
