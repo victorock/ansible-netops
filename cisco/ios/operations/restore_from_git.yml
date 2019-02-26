@@ -11,6 +11,7 @@
 
     - name: "create temporary directory to store configuration"
       run_once: true
+      changed_when: false
       tempfile:
         state: directory
         suffix: ios_config
@@ -18,7 +19,7 @@
 
     - name: "clone the repository containing configurations"
       run_once: true
-      changed_when: False
+      changed_when: false
       git:
         accept_hostkey: true
         repo: "{{ repo }}"
@@ -38,6 +39,7 @@
 
     - name: "Cleanup generated files/directories"
       run_once: true
+      changed_when: false
       file:
         path: "{{ r_tempfile.path }}"
         state: absent
