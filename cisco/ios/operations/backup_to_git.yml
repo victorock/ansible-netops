@@ -72,10 +72,9 @@
         force: "yes"
 
     - name: "Configure local git repository"
-      changed_when: false
       shell: git config --global "{{ item.key }}" "{{ item.value }}"
       run_once: yes
-      changed_when: False
+      changed_when: false
       loop:
         - { key: user.name, value: "Ansible Network" }
         - { key: user.email, value: "ansible-network@ansible.com" }
