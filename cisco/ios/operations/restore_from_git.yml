@@ -35,7 +35,7 @@
     - name: "Replace router's configuration"
       ios_command:
         commands:
-          - "config replace flash:{{ inventory_hostname }}.config list force ignorecase"
+          - "config replace flash:{{ inventory_hostname }}.config force ignorecase"
 
     - name: "Cleanup generated files/directories"
       run_once: true
