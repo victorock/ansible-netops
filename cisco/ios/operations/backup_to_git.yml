@@ -25,13 +25,13 @@
         dest: "{{ r_tempfile.path }}"
         clone: yes
 
-    - name: "git branch -a --list {{ branch }}"
+    - name: "git branch list"
       run_once: true
       changed_when: false
       register: git_branch_list
       shell: "git branch -a --list {{ branch }}"
 
-    - name: "git checkout -b {{ branch }} origin"
+    - name: "git checkout new branch"
       when: git_branch_list.stdout_lines|length < 1
       run_once: true
       register: git_checkout
@@ -39,7 +39,7 @@
       args:
         chdir: "{{ r_tempfile.path }}"
 
-    - name: "git checkout {{ branch }}"
+    - name: "git checkout existing branch"
       run_once: true
       register: git_checkout
       shell: "git checkout {{ branch | quote }}"
