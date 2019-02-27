@@ -29,7 +29,7 @@
       run_once: true
       changed_when: false
       register: git_branch_list
-      shell: "git branch -a --list {{ branch }}"
+      shell: "git branch -a --list origin/{{ branch }}"
 
     - name: "git checkout new branch"
       when: git_branch_list.stdout_lines|length < 1
@@ -40,9 +40,10 @@
         chdir: "{{ r_tempfile.path }}"
 
     - name: "git checkout existing branch"
+      when: git_branch_list.stdout_lines|length > 0
       run_once: true
       register: git_checkout
-      shell: "git checkout {{ branch | quote }}"
+      shell: "git checkout origin/{{ branch | quote }}"
       args:
         chdir: "{{ r_tempfile.path }}"
 
