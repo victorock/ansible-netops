@@ -6,19 +6,8 @@
   vars:
     arp_ipv4: "192.168.35.101"
     arp_vrf: "GS"
-    mac_address: "0800.2737.a2d8"
 
   tasks:
-
-    - name: "show mac address-table address {{ mac_address }}"
-      ios_command:
-        retries: 2
-        interval: 1
-        commands:
-          - show mac address-table address {{ mac_address }}
-        wait_for:
-          - result[0] contains {{ mac_address }}
-
     - name: "show ip arp {{ arp_ipv4 }} vrf {{ arp_vrf }}"
       ios_command:
         retries: 2
