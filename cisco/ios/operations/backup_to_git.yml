@@ -25,23 +25,23 @@
         dest: "{{ r_tempfile.path }}"
         clone: yes
 
-    - name: "git checkout -b branch"
-      run_once: true
-      failed_when: false
-      changed_when: git_checkout.stdout.find("Switched to a new branch") != -1
-      register: git_checkout
-      shell: git checkout -b "{{ branch }}"
-      args:
-        chdir: "{{ r_tempfile.path }}"
-
     - name: "git checkout branch"
-      run_once: true
-      failed_when: false
-      changed_when: git_checkout.stdout.find("Switched to branch") != -1
-      register: git_checkout
-      shell: git checkout "{{ branch }}"
-      args:
-        chdir: "{{ r_tempfile.path }}"
+      block:
+        - name: "checkout existing"
+          run_once: true
+          changed_when: git_checkout.stdout.find("Switched to branch") != -1
+          register: git_checkout
+          shell: git checkout "{{ branch }}"
+          args:
+            chdir: "{{ r_tempfile.path }}"
+      rescue:
+        - name: "create branch"
+          run_once: true
+          changed_when: git_checkout.stdout.find("Switched to a new branch") != -1
+          register: git_checkout
+          shell: git checkout -b "{{ branch }}"
+          args:
+            chdir: "{{ r_tempfile.path }}"
 
     - name: "save and fetch network configuration"
       ios_config:
@@ -52,11 +52,8 @@
     - name: "remove non configuration lines"
       lineinfile:
         path: "{{ r_ios_config.backup_path }}"
-        regexp: "{{ item }}"
+        regexp: '^(Current|Building) configuration.*'
         state: absent
-      loop:
-        - 'Building configuration.*'
-        - 'Current configuration.*'
 
     - name: "create folder structure"
       changed_when: false
@@ -96,8 +93,8 @@
 
     - name: "git push"
       run_once: true
-      failed_when: git_push.stdout.find("error:") != -1
-      changed_when: git_push.stdout.find("remote:") != -1
+#      failed_when: git_push.stdout.find("error:") != -1
+#      changed_when: git_push.stdout.find("remote:") != -1
       register: git_push
       shell: git push origin {{ branch|quote }}
       args:
