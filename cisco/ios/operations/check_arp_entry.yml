@@ -13,6 +13,6 @@
         retries: 2
         interval: 1
         commands:
-          - "show ip arp {{ arp_ipv4 }} vrf {{ arp_vrf | replace('\n', '') | replace('\r', '') }}"
+          - "show ip arp {{ arp_ipv4 }} vrf {{ arp_vrf | replace('\n', '') | replace('\r', '') | quote }}"
         wait_for:
           - result[0] contains {{ arp_ipv4 }}
