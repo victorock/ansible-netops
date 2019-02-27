@@ -15,4 +15,3 @@
         retries: 5
         interval: 5
         commands: "{{ commands }}"
-        timeout: 600
