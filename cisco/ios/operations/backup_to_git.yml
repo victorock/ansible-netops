@@ -118,7 +118,6 @@
         state: absent
 
     - name: "create folder structure"
-      changed_when: false
       file:
         path: "{{ r_tempfile.path }}/{{ inventory_hostname }}/config"
         state: directory
