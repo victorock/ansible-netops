@@ -59,7 +59,6 @@
         - 'Current configuration.*'
 
     - name: "create folder structure"
-      run_once: true
       changed_when: false
       file:
         path: "{{ r_tempfile.path }}/{{ inventory_hostname }}/config"
