@@ -8,6 +8,13 @@
     arp_vrf: "GS"
 
   tasks:
+
+    - name: debug
+      vars:
+        argh: "{{ arp_vrf | replace(‘\n’, ‘’) | replace(‘\r’, ‘’) | quote }}"
+      debug:
+        var: argh
+
     - name: "show ip arp {{ arp_ipv4 }} vrf {{ arp_vrf }}"
       ios_command:
         retries: 2
