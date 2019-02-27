@@ -79,6 +79,8 @@
       changed_when: false
       args:
         chdir: "{{ r_tempfile.path }}"
+      loop_control:
+        label: "{{ item.key }}: {{ item.value }}"
       loop:
         - { key: user.name, value: "Ansible Network" }
         - { key: user.email, value: "ansible-network@ansible.com" }
@@ -86,6 +88,7 @@
         - { key: push.default, value: "current" }
 
     - name: "git add"
+      changed_when: false
       shell: "git add {{ inventory_hostname }}/config/running.cfg"
       args:
         chdir: "{{ r_tempfile.path }}"
@@ -93,18 +96,18 @@
     - name: "git commit"
       run_once: true
       failed_when: false
-      changed_when: git_commit.stdout.find("files changed") != -1
+      changed_when: git_commit.stdout.find("Nothing") == -1
       register: git_commit
-      shell: git commit -m "Network Backup"
+      shell: git commit -am "Network Backup"
       args:
         chdir: "{{ r_tempfile.path }}"
 
     - name: "git push"
       run_once: true
 #      failed_when: git_push.stdout.find("error:") != -1
-#      changed_when: git_push.stdout.find("remote:") != -1
+      changed_when: git_push.stdout.find("Everything") == -1
       register: git_push
-      shell: git push origin {{ branch|quote }}
+      shell: git push
       args:
         chdir: "{{ r_tempfile.path }}"
 
