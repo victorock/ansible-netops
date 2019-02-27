@@ -9,17 +9,11 @@
 
   tasks:
 
-    - name: debug
-      vars:
-        argh: "{{ arp_vrf | replace(‘\n’, ‘’) | replace(‘\r’, ‘’) | quote }}"
-      debug:
-        var: argh
-
-    - name: "show ip arp {{ arp_ipv4 }} vrf {{ arp_vrf }}"
+    - name: "check for arp {{ arp_ipv4 }} entry in vrf {{ arp_vrf }}"
       ios_command:
         retries: 2
         interval: 1
         commands:
-          - "show ip arp {{ arp_ipv4 }} vrf {{ arp_vrf | replace('\n', '') | replace('\r', '') | quote }}"
+          - "show ip arp vrf {{ arp_vrf }}"
         wait_for:
           - result[0] contains {{ arp_ipv4 }}
