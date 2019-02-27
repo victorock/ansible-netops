@@ -3,6 +3,13 @@
   connection: network_cli
   gather_facts: no
 
+  handlers:
+    - name: "save network configuration"
+      listen: save_config
+      ios_config:
+        backup: yes
+      register: r_ios_config
+
   vars:
     repo: ssh://git@github.com/victorock/network-configs
     branch: "snapshot"
@@ -49,9 +56,8 @@
       args:
         chdir: "{{ r_tempfile.path }}"
 
-    - name: "save and fetch network configuration"
+    - name: "fetch network configuration"
       ios_config:
-        save_when: "always"
         backup: yes
       register: r_ios_config
 
@@ -95,6 +101,7 @@
       changed_when: git_commit.stdout.find("files changed") != -1
       register: git_commit
       shell: git commit -m "Network Backup"
+      notify: save_config
       args:
         chdir: "{{ r_tempfile.path }}"
 
