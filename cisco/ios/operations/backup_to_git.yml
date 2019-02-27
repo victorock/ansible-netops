@@ -10,7 +10,7 @@
   handlers:
     - name: "Configure local git repository"
       listen: git_sync
-      shell: git config "{{ item.key }}" "{{ item.value }}"
+      shell: "git config {{ item.key | quote }} {{ item.value | quote }}"
       run_once: yes
       changed_when: false
       args:
@@ -25,7 +25,6 @@
 
     - name: "git add"
       listen: git_sync
-      changed_when: false
       shell: "git add {{ inventory_hostname }}/config/running.cfg"
       args:
         chdir: "{{ r_tempfile.path }}"
@@ -52,7 +51,6 @@
 
     - name: "Cleanup generated files/directories"
       listen: git_sync
-      changed_when: false
       run_once: true
       file:
         path: "{{ cleanup }}"
