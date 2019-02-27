@@ -37,6 +37,10 @@
         commands:
           - "config replace flash:{{ inventory_hostname }}.config force ignorecase"
 
+    - name: "Save configuraiton"
+      ios_config:
+        save_when: "modified"
+
     - name: "Cleanup generated files/directories"
       run_once: true
       changed_when: false
