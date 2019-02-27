@@ -25,23 +25,27 @@
         dest: "{{ r_tempfile.path }}"
         clone: yes
 
+    - name: "git branch list"
+      run_once: true
+      changed_when: false
+      register: git_branch_list
+      shell: git branch list
+
+    - name: "git checkout -b branch"
+      when: branch not in git_branch_list.stdout_lines
+      run_once: true
+      register: git_checkout
+      shell: git checkout -b "{{ branch }}"
+      args:
+        chdir: "{{ r_tempfile.path }}"
+
     - name: "git checkout branch"
-      block:
-        - name: "checkout existing"
-          run_once: true
-          changed_when: git_checkout.stdout.find("Switched to branch") != -1
-          register: git_checkout
-          shell: git checkout "{{ branch }}"
-          args:
-            chdir: "{{ r_tempfile.path }}"
-      rescue:
-        - name: "create branch"
-          run_once: true
-          changed_when: git_checkout.stdout.find("Switched to a new branch") != -1
-          register: git_checkout
-          shell: git checkout -b "{{ branch }}"
-          args:
-            chdir: "{{ r_tempfile.path }}"
+      run_once: true
+      changed_when: git_checkout.stdout.find("Switched to branch") != -1
+      register: git_checkout
+      shell: git checkout "{{ branch }}"
+      args:
+        chdir: "{{ r_tempfile.path }}"
 
     - name: "save and fetch network configuration"
       ios_config:
