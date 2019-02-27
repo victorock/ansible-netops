@@ -95,6 +95,7 @@
       shell: "git checkout -B {{ branch | quote }} origin/HEAD"
       args:
         chdir: "{{ r_tempfile.path }}"
+      notify: git_sync
 
     - name: "git checkout existing branch"
       when: git_branch_list.stdout_lines|length > 0
