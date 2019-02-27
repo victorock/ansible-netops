@@ -30,6 +30,8 @@
       changed_when: false
       register: git_branch_list
       shell: "git branch -a --list origin/{{ branch }}"
+      args:
+        chdir: "{{ r_tempfile.path }}"
 
     - name: "git checkout new branch"
       when: git_branch_list.stdout_lines|length < 1
@@ -72,9 +74,11 @@
         force: "yes"
 
     - name: "Configure local git repository"
-      shell: git config --global "{{ item.key }}" "{{ item.value }}"
+      shell: git config "{{ item.key }}" "{{ item.value }}"
       run_once: yes
       changed_when: false
+      args:
+        chdir: "{{ r_tempfile.path }}"
       loop:
         - { key: user.name, value: "Ansible Network" }
         - { key: user.email, value: "ansible-network@ansible.com" }
