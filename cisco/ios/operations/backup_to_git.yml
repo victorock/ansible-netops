@@ -25,25 +25,24 @@
         dest: "{{ r_tempfile.path }}"
         clone: yes
 
-    - name: "git branch list"
+    - name: "git branch -a --list {{ branch }}"
       run_once: true
       changed_when: false
       register: git_branch_list
-      shell: git branch list
+      shell: "git branch -a --list {{ branch }}"
 
-    - name: "git checkout -b branch"
-      when: branch not in git_branch_list.stdout_lines
+    - name: "git checkout -b {{ branch }} origin"
+      when: git_branch_list.stdout_lines|lenght < 1
       run_once: true
       register: git_checkout
-      shell: git checkout -b "{{ branch }}"
+      shell: "git checkout -b {{ branch | quote }} origin"
       args:
         chdir: "{{ r_tempfile.path }}"
 
-    - name: "git checkout branch"
+    - name: "git checkout {{ branch }}"
       run_once: true
-      changed_when: git_checkout.stdout.find("Switched to branch") != -1
       register: git_checkout
-      shell: git checkout "{{ branch }}"
+      shell: "git checkout {{ branch | quote }}"
       args:
         chdir: "{{ r_tempfile.path }}"
 
@@ -82,8 +81,7 @@
         - { key: push.default, value: "current" }
 
     - name: "git add"
-      run_once: true
-      shell: git add -A
+      shell: "git add {{ inventory_hostname }}/config/running.cfg"
       args:
         chdir: "{{ r_tempfile.path }}"
 
@@ -91,7 +89,7 @@
       run_once: true
       changed_when: git_commit.stdout.find("files changed") != -1
       register: git_commit
-      shell: git commit -am "Network Backup"
+      shell: git commit -m "Network Backup"
       args:
         chdir: "{{ r_tempfile.path }}"
 
