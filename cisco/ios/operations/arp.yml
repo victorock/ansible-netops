@@ -6,15 +6,13 @@
   vars:
     commands:
       - terminal length 0
-      - show running-config arp
-      - show ip arp vrf all
-      - show ip arp static vrf all
-      - show ip arp summary vrf all
-      - show ip arp detail vrf all
-      - show ip arp statistics vrf all
+      - show ip arp
+      - show ip arp summary
 
   tasks:
     - name: "show ip arp"
       ios_command:
+        retries: 5
+        interval: 5
         commands: "{{ commands }}"
         timeout: 600
