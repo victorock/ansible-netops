@@ -50,9 +50,8 @@
       args:
         chdir: "{{ r_tempfile.path }}"
 
-    - name: "save and fetch network configuration"
+    - name: "fetch network configuration"
       ios_config:
-        save_when: "modified"
         backup: yes
       register: r_ios_config
 

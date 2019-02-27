@@ -39,7 +39,7 @@
 
     - name: "Save configuraiton"
       ios_config:
-        save_when: "modified"
+        save_when: "always"
 
     - name: "Cleanup generated files/directories"
       run_once: true
