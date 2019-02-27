@@ -99,7 +99,7 @@
       failed_when: git_push.stdout.find("error:") != -1
       changed_when: git_push.stdout.find("remote:") != -1
       register: git_push
-      shell: git push --force origin {{ branch|quote }}
+      shell: git push origin {{ branch|quote }}
       args:
         chdir: "{{ r_tempfile.path }}"
 
