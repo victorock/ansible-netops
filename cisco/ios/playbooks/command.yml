@@ -1,5 +1,5 @@
 - name: "IOS Command"
-  hosts: all
+  hosts: ios
   connection: network_cli
   gather_facts: no
 
