@@ -28,10 +28,9 @@
         clone: yes
 
     - name: "check diff against configuration from repo"
-      check_mode: true
       ios_config:
         diff_against: "intended"
-        intended_config: "{{ r_tempfile.path }}/{{ inventory_hostname }}/config/running.cfg"
+        intended_config: "{{ lookup('file', '{{ r_tempfile.path }}/{{ inventory_hostname }}/config/running.cfg') }}"
         diff_ignore_lines:
           - '^(Current|Building) configuration.*'
           - '^\!.*'
