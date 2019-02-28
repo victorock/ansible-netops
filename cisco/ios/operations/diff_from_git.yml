@@ -30,7 +30,7 @@
     - name: "check diff against configuration from repo"
       check_mode: true
       ios_config:
-        diff_against: "running-config"
+        diff_against: "running"
         intended_config: "{{ r_tempfile.path }}/{{ inventory_hostname }}/config/running.cfg"
         diff_ignore_lines:
           - '^(Current|Building) configuration.*'
