@@ -9,6 +9,7 @@
 
   handlers:
     - name: "Out-of-Sync"
+      listen: out_of_sync
       fail:
         msg: "/!\\ Configuration is out-of-sync /!\\"
 
