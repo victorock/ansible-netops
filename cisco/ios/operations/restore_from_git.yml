@@ -4,8 +4,8 @@
   gather_facts: no
 
   vars:
-    repo: ssh://git@github.com/victorock/network-configs
-    branch: "snapshot"
+    restore_repo: ssh://git@github.com/victorock/network-configs
+    restore_branch: "snapshot"
 
   tasks:
 
@@ -22,9 +22,9 @@
       changed_when: false
       git:
         accept_hostkey: true
-        repo: "{{ repo }}"
+        repo: "{{ restore_repo }}"
         dest: "{{ r_tempfile.path }}"
-        version: "{{ branch }}"
+        version: "{{ restore_branch }}"
         clone: yes
 
     - name: "Put configuration into router"
