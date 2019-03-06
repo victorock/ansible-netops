@@ -28,6 +28,11 @@
         version: "{{ merge_branch }}"
         clone: yes
 
+    - name: "configure revert timer"
+      ios_command:
+        commands:
+          - "configure terminal revert timer 10"
+
     - name: "load configuration from repo"
       ios_config:
         defaults: true
@@ -36,6 +41,11 @@
         diff_ignore_lines:
           - '^(Current|Building) configuration.*'
           - '^\!.*'
+
+    - name: "configure confirm"
+      ios_command:
+        commands:
+          - "configure confirm"
 
     - name: "Cleanup generated files/directories"
       run_once: true
