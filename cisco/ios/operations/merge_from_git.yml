@@ -36,7 +36,7 @@
     - name: "load configuration from repo"
       ios_config:
         defaults: true
-        diff_against: "running-config"
+        diff_against: "running"
         src: "{{ r_tempfile.path }}/{{ merge_config }}"
         diff_ignore_lines:
           - '^(Current|Building) configuration.*'
