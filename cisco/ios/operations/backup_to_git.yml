@@ -23,9 +23,11 @@
         - { key: branch.autosetupmerge, value: "always" }
         - { key: push.default, value: "current" }
 
-    - name: "git add"
+    - name: "git add --all"
       listen: git_sync
-      shell: "git add {{ inventory_hostname }}/config/running.cfg"
+      run_once: true
+      delegate_to: localhost
+      shell: "git add --all"
       args:
         chdir: "{{ r_tempfile.path }}"
 
