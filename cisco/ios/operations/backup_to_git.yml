@@ -26,7 +26,6 @@
     - name: "git add --all"
       listen: git_sync
       run_once: true
-      delegate_to: localhost
       shell: "git add --all"
       args:
         chdir: "{{ r_tempfile.path }}"
