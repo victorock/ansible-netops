@@ -1,0 +1,45 @@
+- name: "Merge config"
+  hosts: ios
+  connection: network_cli
+  gather_facts: no
+
+  vars:
+    merge_config: "ios/baseline.cfg"
+    merge_repo: ssh://git@github.com/victorock/golden-configs
+    merge_branch: "master"
+
+  tasks:
+
+    - name: "create temporary directory to store configuration"
+      run_once: true
+      changed_when: false
+      tempfile:
+        state: directory
+        suffix: ios_config
+      register: r_tempfile
+
+    - name: "clone the repository containing configurations"
+      run_once: true
+      changed_when: false
+      git:
+        accept_hostkey: true
+        repo: "{{ merge_repo }}"
+        dest: "{{ r_tempfile.path }}"
+        version: "{{ merge_branch }}"
+        clone: yes
+
+    - name: "load configuration from repo"
+      ios_config:
+        defaults: true
+        diff_against: "running-config"
+        src: "{{ r_tempfile.path }}/{{ merge_config }}"
+        diff_ignore_lines:
+          - '^(Current|Building) configuration.*'
+          - '^\!.*'
+
+    - name: "Cleanup generated files/directories"
+      run_once: true
+      changed_when: false
+      file:
+        path: "{{ r_tempfile.path }}"
+        state: absent
