@@ -4,7 +4,7 @@
   gather_facts: no
 
   vars:
-    merge_config: "ios/baseline.cfg"
+    merge_config: "ios/baseline.j2"
     merge_repo: ssh://git@github.com/victorock/golden-configs
     merge_branch: "master"
 
