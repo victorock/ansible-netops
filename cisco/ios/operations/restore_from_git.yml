@@ -28,6 +28,8 @@
         clone: yes
 
     - name: "Put configuration into router"
+      vars:
+        ansible_command_timeout: 650
       net_put:
         src: "{{ r_tempfile.path }}/{{ inventory_hostname }}/config/running.cfg"
         dest: "flash:/{{ inventory_hostname }}.config"
