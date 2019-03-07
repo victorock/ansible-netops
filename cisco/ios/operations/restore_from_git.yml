@@ -35,7 +35,12 @@
     - name: "Replace router's configuration"
       ios_command:
         commands:
-          - "config replace flash:{{ inventory_hostname }}.config force ignorecase"
+          - "config replace flash:{{ inventory_hostname }}.config force ignorecase time 10"
+
+    - name: "configure confirm"
+      ios_command:
+        commands:
+          - "configure confirm"
 
     - name: "Save configuraiton"
       ios_config:
