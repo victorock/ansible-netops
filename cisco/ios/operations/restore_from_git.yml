@@ -33,6 +33,8 @@
         dest: "flash:/{{ inventory_hostname }}.config"
 
     - name: "Replace router's configuration"
+      vars:
+        ansible_command_timeout: 650
       ios_command:
         commands:
           - "config replace flash:{{ inventory_hostname }}.config force ignorecase time 10"
