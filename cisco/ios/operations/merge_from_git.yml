@@ -35,6 +35,7 @@
 
     - name: "load configuration from repo"
       ios_config:
+        save_when: "modified"
         defaults: true
         diff_against: "running"
         src: "{{ r_tempfile.path }}/{{ merge_config }}"
