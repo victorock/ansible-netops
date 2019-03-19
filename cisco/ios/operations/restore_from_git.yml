@@ -38,7 +38,6 @@
       vars:
         ansible_command_timeout: 650
       ios_command:
-        save_when: "modified"
         commands:
           - "config replace flash:{{ inventory_hostname }}.config force ignorecase time 10"
 
