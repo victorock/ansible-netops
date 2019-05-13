@@ -39,7 +39,7 @@
         ansible_command_timeout: 650
       ios_command:
         commands:
-          - "config replace flash:{{ inventory_hostname }}.config force ignorecase time 10"
+          - "config replace flash:/{{ inventory_hostname }}.config force ignorecase time 10"
 
     - name: "configure confirm"
       ios_command:
