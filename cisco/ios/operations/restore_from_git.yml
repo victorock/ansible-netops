@@ -32,14 +32,14 @@
         ansible_command_timeout: 650
       net_put:
         src: "{{ r_tempfile.path }}/{{ inventory_hostname }}/config/running.cfg"
-        dest: "flash:/{{ inventory_hostname }}.config"
+        dest: "{{ inventory_hostname }}.config"
 
     - name: "Replace router's configuration"
       vars:
         ansible_command_timeout: 650
       ios_command:
         commands:
-          - "config replace flash:/{{ inventory_hostname }}.config force ignorecase time 10"
+          - "config replace {{ inventory_hostname }}.config force ignorecase time 10"
 
     - name: "configure confirm"
       ios_command:
