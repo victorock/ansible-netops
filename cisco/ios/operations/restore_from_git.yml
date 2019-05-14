@@ -5,7 +5,7 @@
 
   vars:
     restore_repo: ssh://git@github.com/victorock/network-configs
-    restore_branch: "snapshot"
+    restore_branch: "{{ backup_branch }}"
 
   tasks:
 
