@@ -5,14 +5,14 @@
 
   vars:
     banner: motd
-    text: |
+    banner_text: |
       Automated by Ansible
-    state: present
+    banner_state: present
 
   tasks:
 
     - name: "Ensure banner message state"
       ios_banner:
         banner: "{{ banner }}"
-        text: "{{ text }}"
-        state: "{{ state }}"
+        text: "{{ banner_text }}"
+        state: "{{ banner_state }}"
