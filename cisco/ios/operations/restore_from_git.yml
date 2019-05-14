@@ -32,14 +32,14 @@
         ansible_command_timeout: 650
       net_put:
         src: "{{ r_tempfile.path }}/{{ inventory_hostname }}/config/running.cfg"
-        dest: "restore.cfg"
+        dest: "{{ restore_branch }}.cfg"
 
     - name: "Replace router's configuration"
       vars:
         ansible_command_timeout: 650
       ios_command:
         commands:
-          - "config replace flash:/restore.cfg force revert trigger time 10"
+          - "config replace flash:/{{ restore_branch }}.cfg force revert trigger time 10"
 
     - name: "configure confirm"
       ios_command:
