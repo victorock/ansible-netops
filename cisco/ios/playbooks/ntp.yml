@@ -5,8 +5,8 @@
 
   vars:
 
-    source_interface: mgmt0
-    servers:
+    ntp_source_interface: mgmt0
+    ntp_servers:
       - 0.europe.pool.ntp.org
       - 1.europe.pool.ntp.org
       - 2.europe.pool.ntp.org
@@ -15,13 +15,13 @@
     - name: "Configure NTP source"
       ios_config:
         lines:
-          - ntp source {{ source_interface }}
+          - ntp source {{ ntp_source_interface }}
 
     - name: "Configure NTP server"
       ios_config:
         lines:
           - ntp server {{ ntp_server }}
-      with_items: "{{ servers | default([]) }}"
+      with_items: "{{ ntp_servers | default([]) }}"
       loop_control:
         loop_var: ntp_server
         label: "ntp_server {{ ntp_server }}"
