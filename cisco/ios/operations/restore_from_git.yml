@@ -27,10 +27,17 @@
         version: "{{ restore_branch }}"
         clone: yes
 
+    - name: "Enable scp server"
+      ios_config:
+        lines:
+          - "ip scp server enable"
+
     - name: "Put configuration into router"
       vars:
         ansible_command_timeout: 650
       net_put:
+        mode: "text"
+        protocol: "scp"
         src: "{{ r_tempfile.path }}/{{ inventory_hostname }}/config/running.cfg"
         dest: "{{ restore_branch }}.cfg"
 
