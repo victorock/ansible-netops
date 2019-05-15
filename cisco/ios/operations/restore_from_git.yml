@@ -32,14 +32,17 @@
         lines:
           - "ip scp server enable"
 
-    - name: "Put configuration into router"
-      vars:
-        ansible_command_timeout: 650
-      net_put:
-        mode: "text"
-        protocol: "scp"
-        src: "{{ r_tempfile.path }}/{{ inventory_hostname }}/config/running.cfg"
-        dest: "{{ restore_branch }}.cfg"
+#    - name: "Put configuration into router"
+#      vars:
+#        ansible_command_timeout: 650
+#      net_put:
+#        mode: "text"
+#        protocol: "scp"
+#        src: "{{ r_tempfile.path }}/{{ inventory_hostname }}/config/running.cfg"
+#        dest: "{{ restore_branch }}.cfg"
+
+    - name: "scp copy"
+      command: scp "{{ r_tempfile.path }}/{{ inventory_hostname }}/config/running.cfg {{ ansible_user }}@{{ ansible_host }}:/{{ restore_branch }}.cfg"
 
     - name: "Replace router's configuration"
       vars:
