@@ -42,7 +42,7 @@
 #        dest: "{{ restore_branch }}.cfg"
 
     - name: "scp copy"
-      command: scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no {{ r_tempfile.path }}/{{ inventory_hostname }}/config/running.cfg {{ ansible_host }}:/{{ restore_branch }}.cfg
+      command: scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no {{ r_tempfile.path }}/{{ inventory_hostname }}/config/running.cfg {{ ansible_user }}@{{ ansible_host }}:/{{ restore_branch }}.cfg
 
     - name: "Replace router's configuration"
       vars:
