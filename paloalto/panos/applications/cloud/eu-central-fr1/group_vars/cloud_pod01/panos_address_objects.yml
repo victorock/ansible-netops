@@ -1,8 +1,0 @@
-panos_address_objects:
-  - name: "win01-win2016"
-    value: "10.10.0.11"
-    description: "server win01-win2016"
-
-  - name: "lin01-win2016"
-    value: "10.10.0.12"
-    description: "server win01-win2016"

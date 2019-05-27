@@ -1,6 +1,6 @@
 virtualservers:
   - name: http-pool
-    destination: 10.1.1.252
+    destination: 10.1.1.200
     port: 80
     snat: automap
     state: present
@@ -9,11 +9,11 @@ virtualservers:
         port: 80
         state: present
         members:
-          - name: 10.1.2.11
+          - name: 10.1.2.99
             port: 80
             state: present
   - name: http-pool-8080
-    destination: 10.1.1.252
+    destination: 10.1.1.200
     port: 8080
     snat: automap
     state: present
@@ -22,6 +22,6 @@ virtualservers:
         port: 8080
         state: present
         members:
-          - name: 10.1.2.10
+          - name: 10.1.2.99
             port: 8080
             state: present

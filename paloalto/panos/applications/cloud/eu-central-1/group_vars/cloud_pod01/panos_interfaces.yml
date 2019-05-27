@@ -3,12 +3,12 @@ panos_interfaces:
     zone: "untrust"
     enable_dhcp: false
     mode: "layer3"
-    ip: "10.10.1.1/24"
+    ip: "10.1.1.254/24"
     default_route: true
 
   - name: "ethernet1/2"
     zone: "trust"
     enable_dhcp: false
     mode: "layer3"
-    ip: "10.10.0.1/24"
+    ip: "10.1.2.254/24"
     default_route: no

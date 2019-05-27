@@ -1,5 +1,5 @@
 - name: "Cloud Pod Configuration"
-  hosts: eu-central-fr1:&cloud_pod01:&tmos
+  hosts: eu-central-1:&cloud_pod01:&tmos
   connection: local
 
   roles:

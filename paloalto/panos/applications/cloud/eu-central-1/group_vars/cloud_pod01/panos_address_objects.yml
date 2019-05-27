@@ -1,0 +1,8 @@
+panos_address_objects:
+  - name: "host01-linux"
+    value: "10.1.2.99"
+    description: "server linux"
+
+  - name: "host01-windows"
+    value: "10.1.2.98"
+    description: "server windows"
