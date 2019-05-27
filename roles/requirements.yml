@@ -4,6 +4,9 @@
 - name: ansible-network.arista_eos
 - name: ansible-network.yang
 - name: paloaltonetworks.paloaltonetworks
+  src: https://github.com/PaloAltoNetworks/ansible-pan.git
+  version: 2.0.4
+  scm: git
 - name: victorock.paloalto_panos
   version: devel
   src: https://github.com/victorock/paloalto_panos.git
