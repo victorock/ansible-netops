@@ -36,6 +36,8 @@
       changed_when: "'successfully added' in command_result.msg"
 
     - name: Commit the configure
+      environment:
+        PYTHONHTTPSVERIFY: 0
       panos_commit:
         ip_address: "{{ provider.host }}"
         username: "{{ provider.username }}"
