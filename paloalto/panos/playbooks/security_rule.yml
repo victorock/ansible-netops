@@ -17,6 +17,8 @@
 
   tasks:
     - name: Create security rules
+      environment:
+        PYTHONHTTPSVERIFY: 0
       panos_security_rule:
         ip_address: "{{ provider.host }}"
         username: "{{ provider.username }}"
