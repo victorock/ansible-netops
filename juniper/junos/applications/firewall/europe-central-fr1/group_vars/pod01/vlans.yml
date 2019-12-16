@@ -1,4 +1,0 @@
-vlans:
-  - { name: pod01, vlan_id: 100, vlan_state: active, admin_state: up, state: present }
-  - { name: app01, vlan_id: 101, vlan_state: active, admin_state: up, state: present }
-  - { name: app02, vlan_id: 102, vlan_state: active, admin_state: up, state: present }

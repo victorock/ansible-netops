@@ -1,15 +1,29 @@
+---
 security_policies:
-  - name: app01_app02
-    from: app01
-    to: app02
+  - name: inside_outside
+    from: inside
+    to: outside
     source_addresses:
-      - name: server101
-    destination_addresses:
-      - name: server102
+      - name: host01-linux
+      - name: host01-windows
     applications:
-      - name: junos-telnet
       - name: junos-ping
+      - name: junos-dns
       - name: junos-http
+      - name: junos-https
+    actions:
+      - name: permit
+      - name: log session-init
+
+  - name: outside_inside
+    from: outside
+    to: inside
+    destination_addresses:
+      - name: host01-linux
+      - name: host01-windows
+    applications:
+      - name: junos-http
+      - name: junos-https
     actions:
       - name: permit
       - name: log session-init

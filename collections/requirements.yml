@@ -1,0 +1,6 @@
+---
+collections:
+  - name: f5networks.f5_modules
+    source: https://galaxy.ansible.com
+  - name: fortinet.fortios
+    source: https://galaxy.ansible.com

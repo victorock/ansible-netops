@@ -1,6 +1,6 @@
 ---
 - name: Setup PaloAlto Devices
-  hosts: eu-central-1:&panos:&cloud_pod01
+  hosts: eu_central_1:&panos:&cloud_pod01
   connection: local
   gather_facts: false
   roles:

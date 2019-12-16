@@ -1,23 +1,10 @@
 interfaces:
-#  - name: ge-0/0/0
-#    unit: 101
-#    vlan_id: 101
-#    type: route
-#    ipv4: 10.1.1.254/24
-#
-#  - name: ge-0/0/1
-#    unit: 0
-#    unit: 102
-#    vlan_id: 102
-#    type: route
-#    ipv4: 10.1.2.254/24
-
   - name: ge-0/0/0
     unit: 0
     type: route
-    ipv4: 10.1.1.254/24
+    ipv4: 10.1.1.251/24
 
   - name: ge-0/0/1
     unit: 0
     type: route
-    ipv4: 10.1.2.254/24
+    ipv4: 10.1.2.251/24
